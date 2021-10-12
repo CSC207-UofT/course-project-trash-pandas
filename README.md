@@ -1,6 +1,6 @@
-## Replace this README.md!
+## Divinity 3: Rise of the Trash Pandas
+*(TITLE IS A WIP)*
 
-This is a standard README.md file for you to replace. You'll want to include your own content here!
+The program is a text-based role-playing game, where the user will control a raccoon in an unnamed city.
 
-MD (Markdown) files use [Markdown formatting](https://guides.github.com/features/mastering-markdown/): 
-these look very much like .txt files, so you can write them in a very similar way.
+For more details, see the specifications.
