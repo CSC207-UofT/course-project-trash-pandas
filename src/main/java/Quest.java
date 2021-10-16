@@ -1,11 +1,9 @@
-package java;
-
 import java.util.*;
 
 public abstract class Quest {
 
     private String name;
-    private ArrayList<String> rewardItems;
+    private ArrayList<String> rewardItems = new ArrayList<>();
 
     private int completion;
 

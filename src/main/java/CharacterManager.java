@@ -1,5 +1,3 @@
-package java;
-
 public class CharacterManager {
 
     private InventoryChange changer;

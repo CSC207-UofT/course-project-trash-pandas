@@ -1,5 +1,3 @@
-package java;
-
 public class CompleteQuest {
 
     public void complete(Character player, Quest quest) {
