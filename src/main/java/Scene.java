@@ -2,7 +2,7 @@ package java;
 
 import java.util.ArrayList;
 
-public class Scene {
+public class Scene{
     private String name;
     private ArrayList<Character> npc;
     private String area_description;
