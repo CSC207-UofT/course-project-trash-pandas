@@ -6,10 +6,10 @@ public class Scene {
     private String name;
     private ArrayList<Character> npc;
     private String area_description;
-    private ArrayList<String> connected_areas;
+    private ArrayList<Scene> connected_areas;
 
 
-    Scene(String name, ArrayList<Character> npc, String area, ArrayList<String> connected_areas) {
+    Scene(String name, ArrayList<Character> npc, String area, ArrayList<Scene> connected_areas) {
         this.name = name;
         this.npc = npc;
         this.area_description = area;
@@ -18,5 +18,9 @@ public class Scene {
 
     public String getDescription() {
         return this.area_description;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
