@@ -1,5 +1,3 @@
-package java;
-
 import java.lang.reflect.Array;
 
 public class NonPlayerCharacter extends Character {

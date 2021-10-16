@@ -1,5 +1,3 @@
-package java;
-
 public class FetchQuest extends Quest {
 
     private String goalItem;

@@ -1,5 +1,3 @@
-package java;
-
 import java.util.ArrayList;
 
 public class Scene{
@@ -16,6 +14,7 @@ public class Scene{
         this.npc = npc;
         this.area_description = area;
         this.connected_areas = new ArrayList<>();
+        this.items = items;
     }
 
     public String getDescription() {

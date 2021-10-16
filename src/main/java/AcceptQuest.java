@@ -1,5 +1,3 @@
-package java;
-
 public class AcceptQuest {
 
     public void accept(Quest quest) {

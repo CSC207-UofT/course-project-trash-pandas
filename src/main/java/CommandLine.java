@@ -1,4 +1,3 @@
-package java;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -34,12 +33,12 @@ public class CommandLine {
         while (true) {
             ArrayList<Scene> locations = currentScene.getConnected_areas();
             System.out.println("where would you like to go. (enter the number)");
-            for (int i = 0; i <= locations.size(); i++) {
+            for (int i = 0; i < locations.size(); i++) {
                 System.out.println(String.valueOf(i + 1) +". " + ((Scene) locations.get(i)).getName());
 
             }
             String input = scanner.nextLine();
-            for (int i = 0; i<= locations.size(); i++){
+            for (int i = 0; i< locations.size(); i++){
                 if (i == Integer.parseInt(input)-1){
                     this.sceneUI(((Scene)locations.get(i)), player);
                     answer = true;
@@ -60,15 +59,16 @@ public class CommandLine {
             ArrayList<NonPlayerCharacter> npc = currentScene.getNpc();
             if(npc.size() == 0){
                 System.out.println("no one's here");
+                this.sceneUI(currentScene, player);
                 break;
             }
             System.out.println("Who would you like to talk to. (enter the number)");
-            for (int i = 0; i <= npc.size(); i++) {
-                System.out.println(String.valueOf(i + 1) + ". " + (npc.toString()));
+            for (int i = 0; i < npc.size(); i++) {
+                System.out.println(String.valueOf(i + 1) + ". " + (npc.get(i).getName()));
             }
 
             int input = Integer.parseInt(scanner.nextLine());
-            for (int i = 0; i <= npc.size(); i++) {
+            for (int i = 0; i < npc.size(); i++) {
                 if (i == input-1) {
                     System.out.println(dialogue.dialogue(npc.get(i), player));
                     this.sceneUI(currentScene, player);
@@ -95,12 +95,12 @@ public class CommandLine {
             }
 
             System.out.println("you found some objects, what would you like to pick up. (enter the number");
-            for (int i = 0; i <= items.size(); i++) {
+            for (int i = 0; i < items.size(); i++) {
                 System.out.println(String.valueOf(i + 1) + ". " + (items.toString()));
             }
 
             int input = Integer.parseInt(scanner.nextLine());
-            for (int i = 0; i <= items.size(); i++) {
+            for (int i = 0; i < items.size(); i++) {
                 if (i == input-1) {
                     player.addItem(items.get(i));
                     currentScene.removeItem(items.get(i));

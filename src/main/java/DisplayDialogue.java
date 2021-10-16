@@ -1,5 +1,3 @@
-package java;
-
 public class DisplayDialogue {
 
     public String dialogue(NonPlayerCharacter chara, PlayerCharacter player){
