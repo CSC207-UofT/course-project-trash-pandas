@@ -1,12 +1,10 @@
-package java;
-
 import java.util.ArrayList;
 
 public abstract class Character {
 
 
     private int health;
-    private ArrayList<String> inventory;
+    private ArrayList<String> inventory = new ArrayList<>();
     private String name;
 
     Character(int hp, String name){

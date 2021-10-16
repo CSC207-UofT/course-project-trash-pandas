@@ -1,8 +1,6 @@
-package java;
-
 public class SceneManager {
 
-    private DisplayScene displayer;
+    private DisplayScene displayer = new DisplayScene();
 
     SceneManager(){
         DisplayScene displayer = new DisplayScene();

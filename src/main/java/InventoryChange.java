@@ -1,5 +1,3 @@
-package java;
-
 public class InventoryChange {
 
     public void addItem(String item, Character chara){
