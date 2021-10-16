@@ -5,11 +5,13 @@ import java.util.ArrayList;
 public class Character {
 
 
-    protected int health;
-    protected ArrayList<String> inventory;
+    private int health;
+    private ArrayList<String> inventory;
+    private String name;
 
-    Character(int hp){
+    Character(int hp, String name){
         this.health = hp;
+        this.name = name;
     }
 
     public ArrayList<String> getInventory() {
