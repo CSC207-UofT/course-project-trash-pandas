@@ -10,12 +10,8 @@ public class CommandLine {
 
     public void sceneUI(Scene currentScene, PlayerCharacter player){
         System.out.println(scenes.displayScene(currentScene));
-        System.out.println("""
-
-                type in the number of what you want to do
-                1. travel\s
-                2. talk to people nearby\s
-                3. look around""".indent(1));
+        System.out.println("\n\ntype in the number of what you want to do\n1. travel\n2. talk to people nearby\n" +
+                "3. look around");
         String input = scanner.nextLine();
         switch (input){
             case "1":

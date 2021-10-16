@@ -10,17 +10,16 @@ public class DisplayDialogue {
             return "ew stinky";
         }
         switch (quest.getCompletion()) {
-            case 0 -> {
+            case 0:
                 acceptQuest.accept(quest);
                 return chara.getQuestDialogue(chara.BEGIN_QUEST);
-            }
-            case 1 -> {
+
+            case 1:
                 if (quest.checkDone(player)) {
                     completeQuest.complete(player, quest);
                     return chara.getQuestDialogue(chara.END_QUEST);
                 }
                 return chara.getQuestDialogue(chara.DURING_QUEST);
-            }
         }
         return "how";
 
