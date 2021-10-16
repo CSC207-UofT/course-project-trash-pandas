@@ -8,7 +8,7 @@ public class FetchQuest extends Quest {
         this.goalItem = goalItem;
     }
 
-    public boolean checkItems(Character player) {
+    public boolean checkDone(PlayerCharacter player) {
         return player.checkItem(this.goalItem);
     }
 

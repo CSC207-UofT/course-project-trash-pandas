@@ -9,7 +9,7 @@ public class CompleteQuest {
             player.addItem(item);
         }
 
-        quest.toggleComplete(true);
+        quest.toggleComplete();
 
 
     }

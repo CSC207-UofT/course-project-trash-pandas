@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 public class CharacterTest {
     @Test(timeout = 50)
     public void testCheckItem() {
-        Character bernie = new Character(10, "Bernie");
+        NonPlayerCharacter bernie = new NonPlayerCharacter(10, "Bernie");
         bernie.addItem("Foil");
         assertTrue(bernie.checkItem("Foil"));
     }
