@@ -29,7 +29,7 @@ public class CommandLine {
 
             default:
                 System.out.println("That's not an option, try again");
-                sceneUI(currentScene, player);
+                this.sceneUI(currentScene, player);
         }
     }
 
