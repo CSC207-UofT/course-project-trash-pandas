@@ -26,6 +26,10 @@ public class CommandLine {
 
             case "3":
                 this.itemUI(currentScene, player);
+
+            default:
+                System.out.println("That's not an option, try again");
+                sceneUI(currentScene, player);
         }
     }
 
