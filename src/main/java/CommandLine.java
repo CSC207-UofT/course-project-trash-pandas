@@ -8,7 +8,7 @@ public class CommandLine {
     private final DisplayDialogue dialogue = new DisplayDialogue();
 
     public void sceneUI(Scene currentScene, PlayerCharacter player){
-        System.out.println(scenes.displayScene(currentScene));
+        System.out.println('\n'+ scenes.displayScene(currentScene));
         System.out.println("\n\ntype in the number of what you want to do\n1. travel\n2. talk to people nearby\n" +
                 "3. look around");
         String input = scanner.nextLine();
@@ -94,7 +94,7 @@ public class CommandLine {
                 break;
             }
 
-            System.out.println("you found some objects, what would you like to pick up. (enter the number");
+            System.out.println("you found some objects, what would you like to pick up. (enter the number)");
             for (int i = 0; i < items.size(); i++) {
                 System.out.println(String.valueOf(i + 1) + ". " + (items.toString()));
             }
