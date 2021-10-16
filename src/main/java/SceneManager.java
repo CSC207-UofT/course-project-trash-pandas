@@ -7,6 +7,7 @@ public class SceneManager {
     SceneManager(){
         DisplayScene displayer = new DisplayScene();
     }
-
+    public String displayScene(Scene scene) {
+        return displayer.displayScene(scene);
     }
 }
