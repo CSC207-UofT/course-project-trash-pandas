@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Scene{
     private String name;
-    private ArrayList<Character> npc;
+    private ArrayList<NonPlayerCharacter> npc;
     private String area_description;
     private ArrayList<Scene> connected_areas;
     private ArrayList<String> items;
 
 
-    Scene(String name, ArrayList<Character> npc, String area,
+    Scene(String name, ArrayList<NonPlayerCharacter> npc, String area,
           ArrayList<String> items) {
         this.name = name;
         this.npc = npc;
@@ -26,16 +26,20 @@ public class Scene{
         return this.name;
     }
 
-    public Object[] getConnected_areas() {
-        return connected_areas.toArray();
+    public ArrayList<Scene> getConnected_areas() {
+        return connected_areas;
     }
 
-    public Object[] getItems(){
-        return items.toArray();
+    public ArrayList<String> getItems() {
+        return items;
     }
 
-    public Object[] getNpc(){
-        return npc.toArray();
+    public ArrayList<NonPlayerCharacter> getNpc() {
+        return npc;
+    }
+
+    public void removeItem(String item){
+        this.items.remove(item);
     }
 
     public void addScene(Scene scene){

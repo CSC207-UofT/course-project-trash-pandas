@@ -18,6 +18,10 @@ public abstract class Character {
         return inventory;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean checkItem(String item){
         return inventory.contains(item);
     }
