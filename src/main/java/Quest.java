@@ -7,8 +7,7 @@ public abstract class Quest {
     private String name;
     private ArrayList<String> rewardItems;
 
-    private boolean complete;
-    private boolean accepted;
+    private int completion;
 
     public String getName() {
         return this.name;
@@ -19,19 +18,25 @@ public abstract class Quest {
     }
 
     public boolean isComplete() {
-        return this.complete;
+        return this.completion == 2;
     }
 
-    public void toggleComplete(boolean newValue) {
-        this.complete = newValue;
+    public void toggleComplete() {
+        this.completion = 2;
     }
 
     public boolean isAccepted() {
-        return this.accepted;
+        return this.completion == 1;
     }
 
-    public void toggleAccepted(boolean newValue) {
-        this.accepted = newValue;
+    public void toggleAccepted() {
+        this.completion = 1;
     }
+
+    public int getCompletion(){
+        return completion;
+    }
+
+    public abstract boolean checkDone(PlayerCharacter player);
 
 }

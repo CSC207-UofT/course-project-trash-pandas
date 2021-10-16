@@ -2,7 +2,7 @@ package java;
 
 import java.util.ArrayList;
 
-public class Character {
+public abstract class Character {
 
 
     private int health;
