@@ -9,7 +9,7 @@ public class Scene{
     private ArrayList<Scene> connected_areas;
 
 
-    Scene(String name, ArrayList<Character> npc, String area, ArrayList<Scene> connected_areas) {
+    public Scene(String name, ArrayList<Character> npc, String area, ArrayList<Scene> connected_areas) {
         this.name = name;
         this.npc = npc;
         this.area_description = area;
@@ -23,4 +23,5 @@ public class Scene{
     public String getName() {
         return this.name;
     }
+
 }

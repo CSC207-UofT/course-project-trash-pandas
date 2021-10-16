@@ -4,9 +4,10 @@ public class SceneManager {
 
     private DisplayScene displayer;
 
-    SceneManager(){
+    public SceneManager(){
         DisplayScene displayer = new DisplayScene();
     }
+
     public String displayScene(Scene scene) {
         return displayer.displayScene(scene);
     }
