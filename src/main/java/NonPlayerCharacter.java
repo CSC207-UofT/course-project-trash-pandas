@@ -2,6 +2,8 @@ package java;
 
 import java.lang.reflect.Array;
 
+import java.util.HashMap;
+
 public class NonPlayerCharacter extends Character {
     final int BEGIN_QUEST = 0;
     final int END_QUEST = 2;
@@ -18,8 +20,10 @@ public class NonPlayerCharacter extends Character {
 
     }
 
-    NonPlayerCharacter(int hp, String name){
+
+    public NonPlayerCharacter(int hp, String name, HashMap<String, String> dialogue, FetchQuest npcQuest) {
         super(hp, name);
+
     }
 
     public Quest getQuest() {
