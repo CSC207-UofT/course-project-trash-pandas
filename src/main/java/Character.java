@@ -2,12 +2,11 @@ import java.util.ArrayList;
 
 public abstract class Character {
 
-
     private int health;
     private ArrayList<String> inventory = new ArrayList<>();
     private String name;
 
-    Character(int hp, String name){
+    public Character(int hp, String name){
         this.health = hp;
         this.name = name;
     }
