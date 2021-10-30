@@ -44,5 +44,5 @@ See src\main\java.
 - Tim: CRC edits, wrote quest classes, wrote dialogue, style adjustments
 
 #### Planned Tasks
-- Combat Package, Items, World State package, QuestJournal, better implementation of Quests, Scene Package, certain events occuring only if certain conditions are fufilled
+- Combat Package, items, World State package, QuestJournal, better implementation of Quests, Scene Package, certain events occuring only if certain conditions are fufilled
 - delegations have not been decided yet
