@@ -1,5 +1,8 @@
 import java.util.*;
 
+/**
+ * Starts the game.
+ */
 public class Run {
 
     public static void main(String[] args) {

@@ -1,10 +1,9 @@
 package items;
 
-
 /**
- * An class representing a healing consumable item.
+ * A class representing a healing consumable item.
  */
-public class ConsumableHealingItem extends Item implements Consumable{
+public class ConsumableHealingItem extends Item implements Consumable {
 
     private int healingAmount;
 
@@ -17,7 +16,7 @@ public class ConsumableHealingItem extends Item implements Consumable{
      * A method for increasing the character's currentHealth.
      * @param consumer the character consuming the item
      */
-    public void consume(Character consumer){
+    public void consume(GameCharacter consumer){
         if (this.healingAmount + consumer.getCurrentHealth() >= consumer.getMaxHealth()){
             consumer.setCurrentHealth(consumer.getMaxHealth());
         }
