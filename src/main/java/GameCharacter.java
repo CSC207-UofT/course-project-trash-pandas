@@ -1,24 +1,32 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import items.ArmourItem;
 import items.WeaponItem;
 
-import java.util.ArrayList;
+import constants.Constants;
 
-public abstract class Character {
+/**
+ * An abstract class representing a Character.
+ */
+public abstract class GameCharacter {
 
     private int maxHealth;
     private int currentHealth;
-    private String status;
+    private HashMap<String, Integer> statusEffects = new HashMap<String, Integer>();
     private ArrayList<String> inventory = new ArrayList<>();
     private String name;
     private WeaponItem weapon;
     private ArmourItem armor;
 
 
-    public Character(int hp, String name){
+    public GameCharacter(int hp, String name){
         this.maxHealth = hp;
         this.currentHealth = hp;
         this.name = name;
-        this.status = "normal";
+
+        this.weapon = Constants.DEFAULT_WEAPON;
+        this.armor = Constants.DEFAULT_ARMOR;
     }
 
     public ArrayList<String> getInventory() {
@@ -45,22 +53,30 @@ public abstract class Character {
         return this.currentHealth;
     }
 
-    public int getMaxHealth() {
-        return maxHealth;
-    }
-
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
     }
 
-    public String getStatus(){
-        return this.status;
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
-    // TODO: add equip and unequip methods for Character
+    public HashMap<String, Integer> getStatusEffects(){
+        return this.statusEffects;
+    }
+
+    public WeaponItem getWeapon() {
+        return weapon;
+    }
+
+    public ArmourItem getArmor() {
+        return armor;
+    }
+
+    // TODO: inventory manager implements equip/unequip armor and weapons
 
 }

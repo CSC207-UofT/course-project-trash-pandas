@@ -10,7 +10,7 @@ Certain things in the scene can be interacted with, including NPCs and objects.
 - run (main method)
 - basic command line UI
 - Quest Package (controllers/use cases(accept, fail, complete)/Quest superclass and different types of classes as subclasses)
-- Character Package (controller/ use case: InventoryChange / Character superclass with playable/non-playable chars as subclasses)
+- GameCharacter Package (controller/ use case: InventoryChange / GameCharacter superclass with playable/non-playable chars as subclasses)
 - Combat Package (controller/ use cases)
 - World State Package(controller/use case/ entity)
 - Scene Package (controller /use case/entity)
@@ -37,7 +37,7 @@ See src\main\java.
 
 #### Delegated Tasks
 - John: CRC planning and implementation, skeleton code for Scene, Scene Manager, DisplayScene
-- Bernie: CRC edits, DisplayDialogue, Character implementation, CommandLine, Scene getters
+- Bernie: CRC edits, DisplayDialogue, GameCharacter implementation, CommandLine, Scene getters
 - Edward: CRC planning/edits, scenario walkthourgh, specification, progress report,
 - George: consulation, specification/crc code planning, ideas
 - Eric: CRC card creation, wrote run function in skeleton code
