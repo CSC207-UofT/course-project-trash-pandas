@@ -28,7 +28,7 @@ public abstract class Quest {
     }
 
     /**
-     * Check whether the Quest has been completed by the player.
+     * Checks whether the Quest has been completed by the player.
      * @return whether the Quest has been completed
      */
     public boolean isComplete() {
@@ -36,14 +36,14 @@ public abstract class Quest {
     }
 
     /**
-     * Mark the Quest as completed by the player.
+     * Marks the Quest as completed by the player.
      */
     public void toggleComplete() {
         this.completion = 2;
     }
 
     /**
-     * Check whether the Quest has been accepted by the player.
+     * Checks whether the Quest has been accepted by the player.
      * @return whether the Quest has been accepted
      */
     public boolean isAccepted() {
@@ -51,14 +51,14 @@ public abstract class Quest {
     }
 
     /**
-     * Mark the Quest as accepted by the player.
+     * Marks the Quest as accepted by the player.
      */
     public void toggleAccepted() {
         this.completion = 1;
     }
 
     /**
-     * Get the completion state of the quest, represented as an integer.
+     * Gets the completion state of the quest, represented as an integer.
      * 0 = not accepted (default), 1 = accepted but not completed, 2 = completed.
      * @return int representing completion state
      */
@@ -67,7 +67,7 @@ public abstract class Quest {
     }
 
     /**
-     * Check if the conditions of the quest have been met by the player.
+     * Checks if the conditions of the quest have been met by the player.
      * @param player the player character
      * @return whether the quest conditions are fulfilled
      */

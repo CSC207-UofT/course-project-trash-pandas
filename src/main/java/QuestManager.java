@@ -28,8 +28,8 @@ public class QuestManager {
     }
 
     /**
-     * Mark a Quest as completed.
-     * @param player the Player character
+     * Mark a Quest as completed and issue rewards.
+     * @param player the player Character completing the Quest
      * @param name the name of the Quest to be completed
      */
     public void completeQuest(Character player, String name) {

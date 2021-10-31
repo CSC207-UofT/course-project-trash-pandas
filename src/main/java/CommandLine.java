@@ -31,7 +31,7 @@ public class CommandLine {
     public void travelUI(Scene currentScene, PlayerCharacter player) {
         boolean answer = false;
         while (true) {
-            ArrayList<Scene> locations = currentScene.getConnected_areas();
+            ArrayList<Scene> locations = currentScene.getConnectedAreas();
             System.out.println("where would you like to go. (enter the number)");
             for (int i = 0; i < locations.size(); i++) {
                 System.out.println(String.valueOf(i + 1) +". " + ((Scene) locations.get(i)).getName());
