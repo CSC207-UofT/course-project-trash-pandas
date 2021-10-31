@@ -1,6 +1,4 @@
-import java.lang.reflect.Array;
-
-public class NonPlayerCharacter extends Character {
+public class NonPlayerCharacter extends GameCharacter {
     final int BEGIN_QUEST = 0;
     final int END_QUEST = 2;
     final int DURING_QUEST = 1;

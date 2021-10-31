@@ -14,7 +14,7 @@ public class QuestManager {
         return quests.get(name);
     }
 
-    public void completeQuest(Character player, String name) {
+    public void completeQuest(GameCharacter player, String name) {
         c.complete(player, this.getQuest(name));
     }
 
