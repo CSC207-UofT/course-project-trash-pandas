@@ -39,8 +39,8 @@ public class Run {
         street.addScene(pizzaPlace);
         pizzaPlace.addScene(street);
 
-        CommandLine command = new CommandLine();
+        GameLogic logic = new GameLogic();
 
-        command.sceneUI(street, bernie);
+        logic.sceneLogic(street, bernie);
     }
 }
