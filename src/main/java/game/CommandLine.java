@@ -1,3 +1,11 @@
+package game;
+
+import characters.NonPlayerCharacter;
+import characters.PlayerCharacter;
+import scene_system.DisplayDialogue;
+import scene_system.Scene;
+import scene_system.SceneManager;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 

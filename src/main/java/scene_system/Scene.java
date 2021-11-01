@@ -1,3 +1,7 @@
+package scene_system;
+
+import characters.NonPlayerCharacter;
+
 import java.util.ArrayList;
 
 /**
@@ -12,11 +16,11 @@ public class Scene {
     private ArrayList<String> items;
 
     /**
-     * Constructor for the Scene class.
-     * @param name the name of the Scene
-     * @param npc the list of NPCs in the Scene
-     * @param area the text description of the location in the Scene
-     * @param items the items located in the Scene
+     * Constructor for the scene_system.Scene class.
+     * @param name the name of the scene_system.Scene
+     * @param npc the list of NPCs in the scene_system.Scene
+     * @param area the text description of the location in the scene_system.Scene
+     * @param items the items located in the scene_system.Scene
      */
     public Scene(String name, ArrayList<NonPlayerCharacter> npc, String area,
           ArrayList<String> items) {
@@ -28,16 +32,16 @@ public class Scene {
     }
 
     /**
-     * Gets the description of the Scene.
-     * @return the text description of the Scene
+     * Gets the description of the scene_system.Scene.
+     * @return the text description of the scene_system.Scene
      */
     public String getDescription() {
         return this.area_description;
     }
 
     /**
-     * Gets the name of the Scene.
-     * @return the name of the Scene
+     * Gets the name of the scene_system.Scene.
+     * @return the name of the scene_system.Scene
      */
     public String getName() {
         return this.name;
@@ -52,23 +56,23 @@ public class Scene {
     }
 
     /**
-     * Gets the list of items in the Scene.
-     * @return the list of items in the Scene
+     * Gets the list of items in the scene_system.Scene.
+     * @return the list of items in the scene_system.Scene
      */
     public ArrayList<String> getItems() {
         return items;
     }
 
     /**
-     * Gets the list of NPCs in the Scene.
-     * @return the list of NPCs in the Scene
+     * Gets the list of NPCs in the scene_system.Scene.
+     * @return the list of NPCs in the scene_system.Scene
      */
     public ArrayList<NonPlayerCharacter> getNpc() {
         return npc;
     }
 
     /**
-     * Removes an item from the Scene.
+     * Removes an item from the scene_system.Scene.
      * @param item the item to be removed
      */
     public void removeItem(String item){
@@ -77,8 +81,8 @@ public class Scene {
 
     /**
      * Adds a connection to another scene.
-     * Scene connections are unidirectional by default.
-     * @param scene the Scene to be connected
+     * scene_system.Scene connections are unidirectional by default.
+     * @param scene the scene_system.Scene to be connected
      */
     public void addScene(Scene scene){
         this.connectedAreas.add(scene);
