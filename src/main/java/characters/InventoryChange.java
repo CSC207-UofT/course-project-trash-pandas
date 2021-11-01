@@ -1,3 +1,7 @@
+package characters;
+
+import characters.GameCharacter;
+
 public class InventoryChange {
 
     public void addItem(String item, GameCharacter chara){

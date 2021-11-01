@@ -1,3 +1,8 @@
+package quest_system;
+
+import quest_system.Quest;
+import characters.PlayerCharacter;
+
 /**
  * Represents a fetch quest in the game.
  */
@@ -6,7 +11,7 @@ public class FetchQuest extends Quest {
     private String goalItem;
 
     /**
-     * Constructor for the FetchQuest class.
+     * Constructor for the quest_system.FetchQuest class.
      * @param goalItem the item to be fetched
      */
     public FetchQuest(String goalItem) {

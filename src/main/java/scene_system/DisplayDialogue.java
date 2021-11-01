@@ -1,3 +1,12 @@
+package scene_system;
+
+import characters.PlayerCharacter;
+import quest_system.AcceptQuest;
+import quest_system.CompleteQuest;
+import quest_system.Quest;
+import characters.*;
+
+
 public class DisplayDialogue {
 
     public String dialogue(NonPlayerCharacter chara, PlayerCharacter player){

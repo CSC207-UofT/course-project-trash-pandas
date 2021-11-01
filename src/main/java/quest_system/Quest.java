@@ -1,3 +1,7 @@
+package quest_system;
+
+import characters.PlayerCharacter;
+
 import java.util.*;
 
 /**
@@ -12,46 +16,46 @@ public abstract class Quest {
     private int completion;
 
     /**
-     * Gets the name of the Quest.
-     * @return the name of the Quest
+     * Gets the name of the quest_system.Quest.
+     * @return the name of the quest_system.Quest
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Gets the list of rewards of the Quest.
-     * @return an ArrayList containing the rewards of the Quest
+     * Gets the list of rewards of the quest_system.Quest.
+     * @return an ArrayList containing the rewards of the quest_system.Quest
      */
     public ArrayList<String> getRewards() {
         return this.rewardItems;
     }
 
     /**
-     * Checks whether the Quest has been completed by the player.
-     * @return whether the Quest has been completed
+     * Checks whether the quest_system.Quest has been completed by the player.
+     * @return whether the quest_system.Quest has been completed
      */
     public boolean isComplete() {
         return this.completion == 2;
     }
 
     /**
-     * Marks the Quest as completed by the player.
+     * Marks the quest_system.Quest as completed by the player.
      */
     public void toggleComplete() {
         this.completion = 2;
     }
 
     /**
-     * Checks whether the Quest has been accepted by the player.
-     * @return whether the Quest has been accepted
+     * Checks whether the quest_system.Quest has been accepted by the player.
+     * @return whether the quest_system.Quest has been accepted
      */
     public boolean isAccepted() {
         return this.completion == 1;
     }
 
     /**
-     * Marks the Quest as accepted by the player.
+     * Marks the quest_system.Quest as accepted by the player.
      */
     public void toggleAccepted() {
         this.completion = 1;

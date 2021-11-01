@@ -1,6 +1,8 @@
 
+import characters.NonPlayerCharacter;
 import org.junit.*;
 import static org.junit.Assert.*;
+import characters.NonPlayerCharacter;
 
 public class CharacterTest {
     @Test(timeout = 50)

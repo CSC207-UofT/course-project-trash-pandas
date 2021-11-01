@@ -1,3 +1,5 @@
+package characters;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,7 +16,7 @@ public abstract class GameCharacter {
 
     private int maxHealth;
     private int currentHealth;
-    private HashMap<String, Integer> statusEffects = new HashMap<String, Integer>();
+    private HashMap<String, Integer> statusEffects = new HashMap<>();
     private ArrayList<String> inventory = new ArrayList<>();
     private String name;
     private WeaponItem weapon;
@@ -30,23 +32,23 @@ public abstract class GameCharacter {
     }
 
     /**
-     * Gets the inventory of the GameCharacter.
-     * @return an ArrayList containing the inventory of the GameCharacter
+     * Gets the inventory of the characters.GameCharacter.
+     * @return an ArrayList containing the inventory of the characters.GameCharacter
      */
     public ArrayList<String> getInventory() {
         return inventory;
     }
 
     /**
-     * Gets the name of the GameCharacter.
-     * @return the name of the GameCharacter
+     * Gets the name of the characters.GameCharacter.
+     * @return the name of the characters.GameCharacter
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Checks if the GameCharacter owns an item.
+     * Checks if the characters.GameCharacter owns an item.
      * @param item the item to be checked
      * @return whether the item is owned
      */
@@ -55,7 +57,7 @@ public abstract class GameCharacter {
     }
 
     /**
-     * Adds an item to the GameCharacter's inventory.
+     * Adds an item to the characters.GameCharacter's inventory.
      * @param item the item to be added
      */
     public void addItem(String item){
@@ -63,7 +65,7 @@ public abstract class GameCharacter {
     }
 
     /**
-     * Removes an item from the GameCharacter's inventory.
+     * Removes an item from the characters.GameCharacter's inventory.
      * @param item the item to be removed
      * @return whether the item was successfully removed
      */
@@ -72,56 +74,56 @@ public abstract class GameCharacter {
     }
 
     /**
-     * Gets the current health of the GameCharacter.
-     * @return the current health of the GameCharacter
+     * Gets the current health of the characters.GameCharacter.
+     * @return the current health of the characters.GameCharacter
      */
     public int getCurrentHealth(){
         return this.currentHealth;
     }
 
     /**
-     * Sets the health of the GameCharacter.
-     * @param currentHealth the new health of the GameCharacter
+     * Sets the health of the characters.GameCharacter.
+     * @param currentHealth the new health of the characters.GameCharacter
      */
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
     }
 
     /**
-     * Gets the max health of the GameCharacter.
-     * @return the max health of the GameCharacter
+     * Gets the max health of the characters.GameCharacter.
+     * @return the max health of the characters.GameCharacter
      */
     public int getMaxHealth() {
         return maxHealth;
     }
 
     /**
-     * Sets the max health of the GameCharacter.
-     * @param maxHealth the new max health of the GameCharacter
+     * Sets the max health of the characters.GameCharacter.
+     * @param maxHealth the new max health of the characters.GameCharacter
      */
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
     }
 
     /**
-     * Gets status affects of the GameCharacter.
-     * @return the list of status affects affecting the GameCharacter
+     * Gets status affects of the characters.GameCharacter.
+     * @return the list of status effects affecting the characters.GameCharacter
      */
     public HashMap<String, Integer> getStatusEffects(){
         return this.statusEffects;
     }
 
     /**
-     * Gets the currently equipped weapon of the GameCharacter.
-     * @return the currently equipped weapon of the GameCharacter
+     * Gets the currently equipped weapon of the characters.GameCharacter.
+     * @return the currently equipped weapon of the characters.GameCharacter
      */
     public WeaponItem getWeapon() {
         return weapon;
     }
 
     /**
-     * Gets the currently equipped armour of the GameCharacter.
-     * @return the currently equipped armour of the GameCharacter
+     * Gets the currently equipped armour of the characters.GameCharacter.
+     * @return the currently equipped armour of the characters.GameCharacter
      */
     public ArmourItem getArmor() {
         return armor;

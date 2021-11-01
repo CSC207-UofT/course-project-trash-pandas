@@ -1,3 +1,10 @@
+package game;
+
+import characters.*;
+import game.GameLogic;
+import quest_system.*;
+import scene_system.Scene;
+
 import java.util.*;
 
 /**

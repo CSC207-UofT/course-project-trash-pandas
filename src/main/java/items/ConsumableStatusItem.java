@@ -1,12 +1,13 @@
 package items;
 
+import characters.GameCharacter;
 
 /**
  * An class representing a healing consumable item.
  */
 public class ConsumableStatusItem extends Item implements Consumable{
 
-    private String statusType;
+    private final String statusType;
 
     public ConsumableStatusItem(String name, String description, String statusType){
         super(name, description);
@@ -17,10 +18,11 @@ public class ConsumableStatusItem extends Item implements Consumable{
         return this.statusType;
     }
 
-    public void consume(Character consumer){
-        if (this.statusType == consumer.getStatus){
-            consumer.setStatus('normal');
-            // TODO: remove the item from the inventory here!
+    @Override
+    public void consume(GameCharacter consumer){
+        if (consumer.getStatusEffects().containsKey(this.statusType)){
+                consumer.getStatusEffects().remove(this.statusType);
+            // TODO: remove the item from the inventory here or from inventory manager!
         } else {
             System.out.println("This cannot be consumed!");
         }

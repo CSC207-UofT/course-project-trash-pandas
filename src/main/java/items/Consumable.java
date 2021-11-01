@@ -1,7 +1,9 @@
 package items;
 
+import characters.GameCharacter;
+
 public interface Consumable {
 
-    public void consume();
+    void consume(GameCharacter character);
 
 }
