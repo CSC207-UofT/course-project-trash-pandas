@@ -17,7 +17,7 @@ Certain things in the scene can be interacted with, including NPCs and objects.
 
 #### Scenario Walkthrough Summary:
 The program will print a basic description of the scene using scene_system.SceneManager and the user will be prompted to accept and complete the tutorial fetch quest with QuestManager. 
-The player will be required to traverse to the next scene and add the desired item to their inventory using scene_system.SceneManager. 
+The player will be required to traverse to the next scene and add the desired item to their inventory using SceneManager. 
 The user should traverse back to the original area and bring the NPC the item. 
 After some dialogue, the quest should be marked as completed.
 
@@ -44,5 +44,5 @@ See src\main\java.
 - Tim: CRC edits, wrote quest classes, wrote dialogue, style adjustments
 
 #### Planned Tasks
-- Combat Package, items, World State package, QuestJournal, better implementation of Quests, scene_system.Scene Package, certain events occuring only if certain conditions are fufilled
+- Combat Package, items, World State package, QuestJournal, better implementation of Quests, Scene Package, certain events occuring only if certain conditions are fufilled
 - delegations have not been decided yet
