@@ -33,13 +33,30 @@ public class QuestManager {
         return quests.get(name);
     }
 
+
+
     /**
-     * Mark a quest_system.Quest as completed and issue rewards.
-     * @param player the player Character completing the quest_system.Quest
-     * @param name the name of the quest_system.Quest to be completed
+     * Asserts that quest_system.Quest is not accepted yet and marks quest as accepted.
+     * @param quest the quest_system.Quest to be accepted
      */
-    public void completeQuest(GameCharacter player, String name) {
-        c.complete(player, this.getQuest(name));
+    public void accept(Quest quest) {
+        assert !quest.isAccepted();
+
+        quest.toggleAccepted();
     }
 
+    /**
+     * Asserts a quest_system.Quest is not yet completed, rewards the player and marks quest as completed.
+     * @param player the player Character completing the quest_system.Quest
+     * @param quest the quest_system.Quest to be completed
+     */
+    public void complete(GameCharacter player, Quest quest) {
+        assert !quest.isComplete();
+
+        for (String item : quest.getRewards()) {
+            player.addItem(item);
+        }
+
+        quest.toggleComplete();
+    }
 }
