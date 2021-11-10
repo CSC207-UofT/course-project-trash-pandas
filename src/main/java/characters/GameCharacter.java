@@ -6,6 +6,8 @@ import java.util.HashMap;
 import items.ArmourItem;
 import items.WeaponItem;
 
+import combat_system.StatusEffect;
+
 import constants.Constants;
 
 /**
@@ -16,7 +18,7 @@ public abstract class GameCharacter {
 
     private int maxHealth;
     private int currentHealth;
-    private HashMap<String, Integer> statusEffects = new HashMap<>();
+    private HashMap<StatusEffect, Integer> statusEffects = new HashMap<>();
     private ArrayList<String> inventory = new ArrayList<>();
     private String name;
     private WeaponItem weapon;
@@ -109,8 +111,22 @@ public abstract class GameCharacter {
      * Gets status affects of the characters.GameCharacter.
      * @return the list of status effects affecting the characters.GameCharacter
      */
-    public HashMap<String, Integer> getStatusEffects(){
+    public HashMap<StatusEffect, Integer> getStatusEffects(){
         return this.statusEffects;
+    }
+
+    /**
+     * Sets a new status effect for the characters.GameCharacter.statusEffects
+     * @param status the new status to add to characters.GameCharacter.statusEffects
+     * @param duration the duration that the status will last for in rounds
+     */
+    public void setStatusEffect(StatusEffect status, Integer duration){
+        if(duration > 0) {
+            this.statusEffects.put(status, duration);
+        }
+        else {
+            this.statusEffects.remove(status); //We could make this its own method
+        }
     }
 
     /**
