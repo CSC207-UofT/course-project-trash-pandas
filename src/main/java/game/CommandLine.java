@@ -67,6 +67,15 @@ public class CommandLine {
     public void fail(){
         System.out.println("That's not an option, try again");
     }
+
+    public void combat_damage(String damage_text) { //damage_text will be from CombatManager.damage(...)
+        System.out.println(damage_text);
+    }
+
+    public String combat_take_turn() {
+        System.out.println("It is your turn, what would you like to do?");
+        return scanner.nextLine();
+    }
 }
 
 
