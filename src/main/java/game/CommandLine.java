@@ -18,7 +18,7 @@ public class CommandLine {
     public String sceneUI(Scene currentScene){
         System.out.println('\n'+ scenes.displayScene(currentScene));
         System.out.println("\n\ntype in the number of what you want to do\n1. travel\n2. talk to people nearby\n" +
-                "3. look around");
+                "3. look around \n4. Start combat");
         return scanner.nextLine();
 
     }

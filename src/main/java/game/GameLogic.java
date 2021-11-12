@@ -29,6 +29,9 @@ public class GameLogic {
             case "3":
                 this.itemLogic(currentScene, player);
 
+            case "4":
+                currentScene.start_combat(player);
+
             default:
                 ui.fail();
                 this.sceneLogic(currentScene, player);

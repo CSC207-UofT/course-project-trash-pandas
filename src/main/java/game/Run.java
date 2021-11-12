@@ -23,7 +23,7 @@ public class Run {
         String endingDialogue = "\"Ah! I see you have returned with some coin! Now give it here.\"";
         FetchQuest coinQuest = new FetchQuest("coin");
 
-        NonPlayerCharacter tim = new NonPlayerCharacter(10, "Tim", beginDialogue,
+        NonPlayerCharacter tim = new NonPlayerCharacter(1, "Tim", beginDialogue,
                 duringDialogue, endingDialogue, coinQuest);
 
         String streetName = "Street";

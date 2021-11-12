@@ -10,11 +10,11 @@ import java.util.Scanner;
  * Creates an instance of combat that will run until completion. If the player dies, or the foes all die.
  */
 public class Combat {
-    private int round = 0;
+    private int round = 1;
     private int foes = 0;
     private boolean player_alive = true;
-    private ArrayList<GameCharacter> participants = new ArrayList<>();
-    private TreeMap<Double, GameCharacter> turnorder = new TreeMap<Double, GameCharacter>();
+    private ArrayList<GameCharacter> participants;
+    private TreeMap<Double, GameCharacter> turnorder = new TreeMap<>();
 
     public Combat(ArrayList<GameCharacter> participants) {
         this.participants = participants;
@@ -97,15 +97,17 @@ public class Combat {
                 System.out.println(participant.getName()+" makes an attack against you!");
                 System.out.println(damage(r.nextInt(20), target, participant));
             }
+            print_border();
         }
         else {
-            Scanner sc = new Scanner(System.in);
             boolean valid_input = false;
             while(!valid_input) {
+                Scanner sc = new Scanner(System.in);
                 System.out.println("It is your turn, what do you do?");
                 System.out.println("Attack");
                 System.out.println("Defend");
-                if(sc.nextLine().equals("Attack")) {
+                String user_input = sc.nextLine();
+                if(user_input.equals("Attack")) {
                     HashMap<String, NonPlayerCharacter> npc_names = new HashMap<>();
                     System.out.print("The remaining enemies are:");
                     for(NonPlayerCharacter npc : find_alive_npcs()) {
@@ -127,14 +129,14 @@ public class Combat {
                     }
                     valid_input = true;
                 }
-                if(sc.nextLine().equals("Defend")) {
+                else if(user_input.equals("Defend")) {
                     System.out.println("You enter a defensive stance");
                     valid_input = true;
                 }
                 else{
                     System.out.println("Not a valid input, try again");
                 }
-
+                print_border();
             }
         }
     }
@@ -167,6 +169,26 @@ public class Combat {
     }
 
     /**
+     * Prints a border that makes the console easier to read for the user
+     */
+    public void print_border() {
+        System.out.println("------------------------------------------------");
+    }
+
+    /**
+     * Prints the current turn order.
+     * In the future abilities may change people's place in the turn order
+     */
+    public void print_turn_order() {
+        int turn = 1;
+        System.out.println("Current Turn Order:");
+        for(Map.Entry<Double, GameCharacter> partcipant : this.turnorder.entrySet()) {
+            System.out.println(turn + ". " + partcipant.getValue().getName());
+            turn += 1;
+        }
+        print_border();
+    }
+    /**
      * Creates the combat loop, only ends when there is all foes are dead or if the player is dead
      * Turn order is determined randomly
      * Each round it calls the turn for each player
@@ -174,12 +196,20 @@ public class Combat {
      * At the end of the combat it will clear all statuses
      */
     public void combatLoop() {
-        boolean combat = true;
-        Random rand = new Random();
-        for (GameCharacter participant : this.participants) {
-            this.turnorder.put(rand.nextDouble(), participant);
+        boolean combat = false;
+        if(this.participants.size() > 1) {
+            combat = true;
+            Random rand = new Random();
+            for (GameCharacter participant : this.participants) {
+                this.turnorder.put(rand.nextDouble(), participant);
+            }
+            System.out.println("Combat begins");
+        }
+        else {
+            System.out.println("There is no one to attack here");
         }
         while (combat) {
+            print_turn_order();
             for (Map.Entry<Double, GameCharacter> partcipant : this.turnorder.entrySet()) {
                 if(this.foes == 0 || !this.player_alive) {
                     combat = false;
@@ -191,6 +221,7 @@ public class Combat {
                 }
             }
             endRound();
+            System.out.println("The round has ended, the next round is: " + this.round);
 
         }
         clearStatus();

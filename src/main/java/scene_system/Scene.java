@@ -93,15 +93,11 @@ public class Scene {
     }
 
     /**
-     * Checks which npcs are alive. If they are dead they are removed from the scene.
+     * Removes dead npcs
      * This should update world state as well
      */
-    public void check_alive() {
-        for(NonPlayerCharacter npc : getNpc()) {
-            if(npc.getCurrentHealth() < 0) {
-                this.npc.remove(npc);
-            }
-        }
+    public void remove_dead() {
+        this.npc.removeIf(npc -> npc.getCurrentHealth() <= 0);
     }
 
     /**
@@ -115,7 +111,7 @@ public class Scene {
         participants.add(player);
         Combat scene_combat = new Combat(participants);
         scene_combat.combatLoop();
-        check_alive();
+        remove_dead();
     }
 }
 
