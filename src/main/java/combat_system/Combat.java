@@ -68,10 +68,12 @@ public class Combat {
             target.setCurrentHealth(health_remaining);
             if(health_remaining <= 0) {
                 if(target instanceof NonPlayerCharacter) {
+                    System.out.println("You strike the killing blow against " + target.getName());
                     this.foes -= 1;
                 }
                 else {
                     this.player_alive = false;
+                    System.out.println("You are dead!");
                 }
             }
 
