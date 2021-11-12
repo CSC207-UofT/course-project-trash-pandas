@@ -16,7 +16,7 @@ public class Combat {
     private ArrayList<GameCharacter> participants = new ArrayList<>();
     private TreeMap<Double, GameCharacter> turnorder = new TreeMap<Double, GameCharacter>();
 
-    Combat(ArrayList<GameCharacter> participants) {
+    public Combat(ArrayList<GameCharacter> participants) {
         this.participants = participants;
         this.foes = participants.size()-1;
     }
@@ -153,7 +153,7 @@ public class Combat {
     }
 
     /**
-     * Finds all allive npcs. If there are none, it will return an empty arraylist
+     * Finds all alive npcs. If there are none, it will return an empty arraylist
      * @return an arraylist of all alive npcs.
      */
     public ArrayList<NonPlayerCharacter> find_alive_npcs() {
@@ -179,7 +179,6 @@ public class Combat {
         for (GameCharacter participant : this.participants) {
             this.turnorder.put(rand.nextDouble(), participant);
         }
-
         while (combat) {
             for (Map.Entry<Double, GameCharacter> partcipant : this.turnorder.entrySet()) {
                 if(this.foes == 0 || !this.player_alive) {

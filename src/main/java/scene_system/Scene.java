@@ -1,6 +1,10 @@
 package scene_system;
 
+import characters.GameCharacter;
 import characters.NonPlayerCharacter;
+
+import characters.PlayerCharacter;
+import combat_system.Combat;
 
 import java.util.ArrayList;
 
@@ -87,4 +91,31 @@ public class Scene {
     public void addScene(Scene scene){
         this.connectedAreas.add(scene);
     }
+
+    /**
+     * Checks which npcs are alive. If they are dead they are removed from the scene.
+     * This should update world state as well
+     */
+    public void check_alive() {
+        for(NonPlayerCharacter npc : getNpc()) {
+            if(npc.getCurrentHealth() < 0) {
+                this.npc.remove(npc);
+            }
+        }
+    }
+
+    /**
+     * This method is called when combat begins
+     * After combat is resolved, it checks the npcs that are alive since many probably died.
+     * This leaves room for expansion if there are non-lethal options in combat (check_alive can be expanded)
+     * @param player the player character must be combined with the npcs in an ArrayList to start combat
+     */
+    public void start_combat(PlayerCharacter player) {
+        ArrayList<GameCharacter> participants = new ArrayList<>(getNpc());
+        participants.add(player);
+        Combat scene_combat = new Combat(participants);
+        scene_combat.combatLoop();
+        check_alive();
+    }
 }
+
