@@ -99,12 +99,12 @@ public class Combat {
             }
         }
         else {
-            System.out.println("It is your turn, what do you do?");
-            System.out.println("Attack");
-            System.out.println("Defend");
             Scanner sc = new Scanner(System.in);
             boolean valid_input = false;
             while(!valid_input) {
+                System.out.println("It is your turn, what do you do?");
+                System.out.println("Attack");
+                System.out.println("Defend");
                 if(sc.nextLine().equals("Attack")) {
                     HashMap<String, NonPlayerCharacter> npc_names = new HashMap<>();
                     System.out.print("The remaining enemies are:");
