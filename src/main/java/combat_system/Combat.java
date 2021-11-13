@@ -149,7 +149,7 @@ public class Combat {
      */
     public PlayerCharacter find_player() {
         for(GameCharacter player : this.participants) {
-            if(player instanceof PlayerCharacter) { // Is this needed?
+            if(player instanceof PlayerCharacter) {
                 return (PlayerCharacter) player;
             }
         }
