@@ -190,6 +190,7 @@ public class Combat {
         }
         print_border();
     }
+
     /**
      * Creates the combat loop, only ends when there is all foes are dead or if the player is dead
      * Turn order is determined randomly
@@ -210,15 +211,14 @@ public class Combat {
         else {
             System.out.println("There is no one to attack here");
         }
+        outerloop:
         while (combat) {
             print_turn_order();
             for (Map.Entry<Double, GameCharacter> partcipant : this.turnorder.entrySet()) {
-                if(this.foes == 0 || !this.player_alive) {
-                    combat = false;
-                }
-                else {
-                    if (partcipant.getValue().getCurrentHealth() > 0) {
-                        take_turn(partcipant.getValue());
+                if (partcipant.getValue().getCurrentHealth() > 0) {
+                    take_turn(partcipant.getValue());
+                    if (!this.player_alive||this.foes==0) {
+                        break outerloop;
                     }
                 }
             }
