@@ -47,6 +47,10 @@ public class QuestManager {
 
     }
 
+    /**
+     * Mark a quest_system.Quest as accepted.
+     * @param quest the quest_system.Quest to be accepted
+     */
     public void acceptQuest(Quest quest) {
         assert !quest.isAccepted();
 
