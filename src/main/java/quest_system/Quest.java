@@ -1,5 +1,6 @@
 package quest_system;
 
+import characters.ItemCheckable;
 import characters.PlayerCharacter;
 
 import java.util.*;
@@ -75,6 +76,6 @@ public abstract class Quest {
      * @param player the player character
      * @return whether the quest conditions are fulfilled
      */
-    public abstract boolean checkDone(PlayerCharacter player);
+    public abstract boolean checkDone(ItemCheckable player);
 
 }
