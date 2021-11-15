@@ -26,7 +26,7 @@ public class Run {
         QuestItem coin = new QuestItem("coin", "a silver coin");
         FetchQuest coinQuest = new FetchQuest(coin);
 
-        NonPlayerCharacter tim = new NonPlayerCharacter(10, "Tim", beginDialogue,
+        NonPlayerCharacter tim = new NonPlayerCharacter(1, "Tim", beginDialogue,
                 duringDialogue, endingDialogue, coinQuest);
 
         String streetName = "Street";
