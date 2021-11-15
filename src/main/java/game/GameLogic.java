@@ -2,6 +2,7 @@ package game;
 
 import characters.CharacterInventoryFacade;
 import characters.NonPlayerCharacter;
+import items.Item;
 import scene_system.DisplayDialogue;
 import scene_system.Scene;
 import scene_system.SceneManager;
@@ -25,7 +26,7 @@ public class GameLogic {
                 this.itemLogic(currentScene, player);
 
             case "4":
-                currentScene.start_combat(player);
+                currentScene.start_combat(player.getCharacter());
 
             default:
                 ui.fail();
@@ -86,7 +87,7 @@ public class GameLogic {
     }
 
     public void itemLogic(Scene currentScene, CharacterInventoryFacade player){
-        ArrayList<String> items = currentScene.getItems();
+        ArrayList<Item> items = currentScene.getItems();
         outerLoop:
         while(true){
             String input = ui.itemUI(items);
@@ -98,7 +99,7 @@ public class GameLogic {
                 int inputInt = Integer.parseInt(input);
                 for (int i = 0; i < items.size(); i++) {
                     if (i == inputInt - 1) {
-                        player.addItem(items.get(i), 1);
+                        player.addItem(items.get(i).getName(), 1);
                         currentScene.removeItem(items.get(i));
                         this.sceneLogic(currentScene, player);
                         break outerLoop;
