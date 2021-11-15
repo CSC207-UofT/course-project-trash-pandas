@@ -1,23 +1,18 @@
 package game;
 
+import characters.CharacterInventoryFacade;
 import characters.NonPlayerCharacter;
-import characters.PlayerCharacter;
-import game.CommandLine;
 import scene_system.DisplayDialogue;
 import scene_system.Scene;
 import scene_system.SceneManager;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class GameLogic {
 
-    private final SceneManager scenes = new SceneManager();
-    private final Scanner scanner = new Scanner(System.in);
-    private final DisplayDialogue dialogue = new DisplayDialogue();
     private final CommandLine ui = new CommandLine();
 
-    public void sceneLogic(Scene currentScene, PlayerCharacter player){
+    public void sceneLogic(Scene currentScene, CharacterInventoryFacade player){
         String input = ui.sceneUI(currentScene);
         switch (input){
             case "1":
@@ -38,7 +33,7 @@ public class GameLogic {
         }
     }
 
-    public void travelLogic(Scene currentScene, PlayerCharacter player) {
+    public void travelLogic(Scene currentScene, CharacterInventoryFacade player) {
         ArrayList<Scene> locations = currentScene.getConnectedAreas();
         outerLoop:
         while (true) {
@@ -64,7 +59,7 @@ public class GameLogic {
 
     }
 
-    public void talkLogic(Scene currentScene, PlayerCharacter player){
+    public void talkLogic(Scene currentScene, CharacterInventoryFacade player){
         ArrayList<NonPlayerCharacter> npc = currentScene.getNpc();
         outerLoop:
         while(true) {
@@ -90,7 +85,7 @@ public class GameLogic {
         }
     }
 
-    public void itemLogic(Scene currentScene, PlayerCharacter player){
+    public void itemLogic(Scene currentScene, CharacterInventoryFacade player){
         ArrayList<String> items = currentScene.getItems();
         outerLoop:
         while(true){
@@ -103,7 +98,7 @@ public class GameLogic {
                 int inputInt = Integer.parseInt(input);
                 for (int i = 0; i < items.size(); i++) {
                     if (i == inputInt - 1) {
-                        player.addItem(items.get(i));
+                        player.addItem(items.get(i), 1);
                         currentScene.removeItem(items.get(i));
                         this.sceneLogic(currentScene, player);
                         break outerLoop;

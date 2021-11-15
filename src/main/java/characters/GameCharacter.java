@@ -3,26 +3,25 @@ package characters;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import items.ArmourItem;
-import items.WeaponItem;
-
 import combat_system.StatusEffect;
+import items.ArmorItem;
+import items.QuestItem;
+import items.WeaponItem;
 
 import constants.Constants;
 
 /**
  * An abstract class representing a character in the game.
- * Characters include both player and non-player characters.
+ * Characters include both player and non-player characters
  */
 public abstract class GameCharacter {
 
     private int maxHealth;
     private int currentHealth;
-    private HashMap<StatusEffect, Integer> statusEffects = new HashMap<>();
-    private ArrayList<String> inventory = new ArrayList<>();
-    private String name;
+    private final HashMap<StatusEffect, Integer> statusEffects = new HashMap<>();
+    private final String name;
     private WeaponItem weapon;
-    private ArmourItem armor;
+    private ArmorItem armor;
 
     public GameCharacter(int hp, String name){
         this.maxHealth = hp;
@@ -34,85 +33,61 @@ public abstract class GameCharacter {
     }
 
     /**
-     * Gets the inventory of the characters.GameCharacter.
-     * @return an ArrayList containing the inventory of the characters.GameCharacter
-     */
-    public ArrayList<String> getInventory() {
-        return inventory;
-    }
-
-    /**
-     * Gets the name of the characters.GameCharacter.
-     * @return the name of the characters.GameCharacter
+     * Gets the name of the GameCharacter.
+     * @return the name of the GameCharacter
      */
     public String getName() {
         return name;
     }
 
-    /**
-     * Checks if the characters.GameCharacter owns an item.
-     * @param item the item to be checked
-     * @return whether the item is owned
-     */
-    public boolean checkItem(String item){
-        return inventory.contains(item);
-    }
 
     /**
-     * Adds an item to the characters.GameCharacter's inventory.
-     * @param item the item to be added
-     */
-    public void addItem(String item){
-        inventory.add(item);
-    }
-
-    /**
-     * Removes an item from the characters.GameCharacter's inventory.
-     * @param item the item to be removed
-     * @return whether the item was successfully removed
-     */
-    public boolean removeItem(String item){
-        return inventory.remove(item);
-    }
-
-    /**
-     * Gets the current health of the characters.GameCharacter.
-     * @return the current health of the characters.GameCharacter
+     * Gets the current health of the GameCharacter.
+     * @return the current health of the GameCharacter
      */
     public int getCurrentHealth(){
         return this.currentHealth;
     }
 
     /**
-     * Sets the health of the characters.GameCharacter.
-     * @param currentHealth the new health of the characters.GameCharacter
+     * Sets the health of the GameCharacter.
+     * @param currentHealth the new health of the GameCharacter
      */
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
     }
 
     /**
-     * Gets the max health of the characters.GameCharacter.
-     * @return the max health of the characters.GameCharacter
+     * Gets the max health of the GameCharacter.
+     * @return the max health of the GameCharacter
      */
     public int getMaxHealth() {
         return maxHealth;
     }
 
     /**
-     * Sets the max health of the characters.GameCharacter.
-     * @param maxHealth the new max health of the characters.GameCharacter
+     * Sets the max health of the GameCharacter.
+     * @param maxHealth the new max health of the GameCharacter
      */
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
     }
 
     /**
-     * Gets status affects of the characters.GameCharacter.
-     * @return the list of status effects affecting the characters.GameCharacter
+     * Gets status affects of the GameCharacter.
+     * @return the list of status effects affecting the GameCharacter
      */
     public HashMap<StatusEffect, Integer> getStatusEffects(){
         return this.statusEffects;
+    }
+
+    /**
+     * Return if the character has the specified status effect in the list of current status effects.
+     * @param statusEffect the status effect to look for
+     * @return true if statusEffects has the key statusEffect
+     */
+    public boolean hasStatus(StatusEffect statusEffect){
+        return this.statusEffects.containsKey(statusEffect);
     }
 
     /**
@@ -121,30 +96,68 @@ public abstract class GameCharacter {
      * @param duration the duration that the status will last for in rounds
      */
     public void setStatusEffect(StatusEffect status, Integer duration){
-        if(duration > 0) {
-            this.statusEffects.put(status, duration);
-        }
-        else {
-            this.statusEffects.remove(status); //We could make this its own method
-        }
+        this.statusEffects.put(status, duration);
+    }
+
+    public void removeStatusEffect(StatusEffect status){
+        this.statusEffects.remove(status);
     }
 
     /**
-     * Gets the currently equipped weapon of the characters.GameCharacter.
-     * @return the currently equipped weapon of the characters.GameCharacter
+     * Gets the currently equipped weapon of the GameCharacter.
+     * @return the currently equipped weapon of the GameCharacter
      */
     public WeaponItem getWeapon() {
-        return weapon;
+        return this.weapon;
     }
 
     /**
-     * Gets the currently equipped armour of the characters.GameCharacter.
-     * @return the currently equipped armour of the characters.GameCharacter
+     * Set the weapon attribute to the specified weapon.
+     * @param newWeapon the new WeaponItem stored in the weapon attribute
      */
-    public ArmourItem getArmor() {
-        return armor;
+    public void setWeapon(WeaponItem newWeapon){
+        this.weapon = newWeapon;
     }
 
-    // TODO: inventory manager implements equip/unequip armor and weapons
+    /**
+     * Gets the currently equipped armor of the GameCharacter.
+     * @return the currently equipped armor of the GameCharacter
+     */
+    public ArmorItem getArmor() {
+        return this.armor;
+    }
 
+    /**
+     * Set the armor attribute to the specified armor.
+     * @param newArmor the new ArmorItem stored in the armor attribute
+     */
+    public void setArmor(ArmorItem newArmor){
+        this.armor = newArmor;
+    }
+
+    /**
+     * Return the equipped armor's defense value.
+     * @return the defense value
+     */
+    public int getArmorDefense(){
+        return this.armor.getDefense();
+    }
+
+    /**
+     * Return the equipped armor's bonus health value.
+     * @return the defense value
+     */
+    public int getArmorBonusHealth(){
+        return this.armor.getBonusHealth();
+    }
+
+    /**
+     * Return the equipped weapon's damage value.
+     * @return the defense value
+     */
+    public int getWeaponDamage(){
+        return this.weapon.getDamage();
+    }
+
+    //TODO: make a tostring for gamecharacter
 }

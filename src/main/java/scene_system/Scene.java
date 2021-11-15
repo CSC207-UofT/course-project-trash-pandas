@@ -2,6 +2,7 @@ package scene_system;
 
 import characters.GameCharacter;
 import characters.NonPlayerCharacter;
+import items.Item;
 
 import characters.PlayerCharacter;
 import combat_system.Combat;
@@ -17,7 +18,7 @@ public class Scene {
     private ArrayList<NonPlayerCharacter> npc;
     private String area_description;
     private ArrayList<Scene> connectedAreas;
-    private ArrayList<String> items;
+    private ArrayList<Item> items;
 
     /**
      * Constructor for the scene_system.Scene class.
@@ -27,7 +28,7 @@ public class Scene {
      * @param items the items located in the scene_system.Scene
      */
     public Scene(String name, ArrayList<NonPlayerCharacter> npc, String area,
-          ArrayList<String> items) {
+          ArrayList<Item> items) {
         this.name = name;
         this.npc = npc;
         this.area_description = area;
@@ -63,7 +64,7 @@ public class Scene {
      * Gets the list of items in the scene_system.Scene.
      * @return the list of items in the scene_system.Scene
      */
-    public ArrayList<String> getItems() {
+    public ArrayList<Item> getItems() {
         return items;
     }
 
@@ -79,7 +80,7 @@ public class Scene {
      * Removes an item from the scene_system.Scene.
      * @param item the item to be removed
      */
-    public void removeItem(String item){
+    public void removeItem(Item item){
         this.items.remove(item);
     }
 
