@@ -1,6 +1,7 @@
 package quest_system;
 
 import characters.GameCharacter;
+import org.json.simple.JSONObject;
 import quest_system.CompleteQuest;
 import quest_system.Quest;
 
@@ -10,7 +11,7 @@ import java.util.*;
  * Manages and tracks all quests in the game.
  */
 
-public class QuestManager {
+public class    QuestManager {
 
     CompleteQuest c = new CompleteQuest();
 
@@ -40,6 +41,10 @@ public class QuestManager {
      */
     public void completeQuest(GameCharacter player, String name) {
         c.complete(player, this.getQuest(name));
+    }
+
+    public Object getQuests() {
+        return new JSONObject(this.quests);
     }
 
 }

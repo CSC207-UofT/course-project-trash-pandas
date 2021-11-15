@@ -1,11 +1,16 @@
 package characters;
 
 import characters.GameCharacter;
+import org.json.simple.JSONObject;
+import quest_system.Quest;
+
+import java.util.HashMap;
 
 public class CharacterManager {
 
     private InventoryChange changer;
-
+    private HashMap<String, NonPlayerCharacter> npcs = new HashMap<>();
+    private PlayerCharacter player;
 
     public CharacterManager(){
         InventoryChange changer = new InventoryChange();
@@ -21,4 +26,7 @@ public class CharacterManager {
     public boolean removeItem(String item, GameCharacter chara){
         return changer.removeItem(item, chara);
     }
+
+    public Object getNpcs() {
+        return new JSONObject(this.npcs);
 }
