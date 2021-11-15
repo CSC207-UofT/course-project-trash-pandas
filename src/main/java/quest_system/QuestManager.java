@@ -1,9 +1,11 @@
 package quest_system;
 
+import characters.CharacterInventoryFacade;
 import characters.GameCharacter;
 import org.json.simple.JSONObject;
 import quest_system.CompleteQuest;
 import quest_system.Quest;
+
 
 import java.util.*;
 
@@ -13,7 +15,6 @@ import java.util.*;
 
 public class    QuestManager {
 
-    CompleteQuest c = new CompleteQuest();
 
     private HashMap<String, Quest> quests = new HashMap<>();
 
@@ -37,10 +38,28 @@ public class    QuestManager {
     /**
      * Mark a quest_system.Quest as completed and issue rewards.
      * @param player the player Character completing the quest_system.Quest
-     * @param name the name of the quest_system.Quest to be completed
+     * @param quest the quest_system.Quest to be completed
      */
-    public void completeQuest(GameCharacter player, String name) {
-        c.complete(player, this.getQuest(name));
+    public void completeQuest(CharacterInventoryFacade player, Quest quest) {
+        assert !quest.isComplete();
+
+        for (String item : quest.getRewards()) {
+            player.addItem(item, 1);
+        }
+
+        quest.toggleComplete();
+
+
+    }
+
+    /**
+     * Mark a quest_system.Quest as accepted.
+     * @param quest the quest_system.Quest to be accepted
+     */
+    public void acceptQuest(Quest quest) {
+        assert !quest.isAccepted();
+
+        quest.toggleAccepted();
     }
 
     public Object getQuests() {

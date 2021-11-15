@@ -4,12 +4,15 @@ import scene_system.Scene;
 
 public class SceneManager {
 
-    private DisplayScene displayer = new DisplayScene();
 
-    public SceneManager(){
-        DisplayScene displayer = new DisplayScene();
-    }
+    public SceneManager(){}
+
+    /**
+     * Return the description of the scene
+     * @param scene the scene_system.Scene to be returned
+     * @return a string description of the scene
+     */
     public String displayScene(Scene scene) {
-        return displayer.displayScene(scene);
+        return scene.getDescription();
     }
 }

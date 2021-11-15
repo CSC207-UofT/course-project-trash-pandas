@@ -3,12 +3,12 @@ package items;
 /**
  * A class representing equipable armour.
  */
-public class ArmourItem extends Item{
+public class ArmorItem extends Item{
 
-    private int defense;
-    private int bonusHealth;
+    private final int defense;
+    private final int bonusHealth;
 
-    public ArmourItem(String name, String description, int defense, int health){
+    public ArmorItem(String name, String description, int defense, int health){
         super(name, description);
         this.defense = defense;
         this.bonusHealth = health;
