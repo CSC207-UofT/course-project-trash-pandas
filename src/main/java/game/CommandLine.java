@@ -1,5 +1,6 @@
 package game;
 
+import characters.CharacterInventoryFacade;
 import characters.NonPlayerCharacter;
 import characters.PlayerCharacter;
 import scene_system.DisplayDialogue;
@@ -47,7 +48,7 @@ public class CommandLine {
         return scanner.nextLine();
     }
 
-    public void dialogue(NonPlayerCharacter npc, PlayerCharacter player){
+    public void dialogue(NonPlayerCharacter npc, CharacterInventoryFacade player){
         System.out.println(dialogue.dialogue(npc, player));
     }
 

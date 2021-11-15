@@ -3,6 +3,7 @@ package constants;
 import combat_system.StatusEffect;
 import items.Item;
 import items.ArmorItem;
+import items.QuestItem;
 import items.WeaponItem;
 
 import java.util.Map;
@@ -21,7 +22,8 @@ public class Constants {
 
     public static final Set<Item> CANNOT_BE_ADDED = Set.of(DEFAULT_ARMOR, DEFAULT_WEAPON);
 
-    public static final Map<String, Item> ITEMS = Map.ofEntries(
+    public static final Map<String, Item> ITEMS = Map.ofEntries(Map.entry("coin", new QuestItem("coin",
+            "a silver coin"))
 
     );
 

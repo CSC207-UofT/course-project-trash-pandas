@@ -1,5 +1,6 @@
 package quest_system;
 
+import characters.CharacterInventoryFacade;
 import characters.GameCharacter;
 
 import java.util.*;
@@ -35,11 +36,11 @@ public class QuestManager {
      * @param player the player Character completing the quest_system.Quest
      * @param quest the quest_system.Quest to be completed
      */
-    public void completeQuest(GameCharacter player, Quest quest) {
+    public void completeQuest(CharacterInventoryFacade player, Quest quest) {
         assert !quest.isComplete();
 
         for (String item : quest.getRewards()) {
-            player.addItem(item);
+            player.addItem(item, 1);
         }
 
         quest.toggleComplete();
