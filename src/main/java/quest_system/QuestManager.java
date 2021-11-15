@@ -2,7 +2,7 @@ package quest_system;
 
 import characters.CharacterInventoryFacade;
 import characters.GameCharacter;
-import org.json.simple.JSONObject;
+//import org.json.simple.JSONObject;
 import quest_system.CompleteQuest;
 import quest_system.Quest;
 
@@ -62,8 +62,8 @@ public class    QuestManager {
         quest.toggleAccepted();
     }
 
-    public Object getQuests() {
-        return new JSONObject(this.quests);
-    }
+//    public Object getQuests() {
+//        return new JSONObject(this.quests);
+//    }
 
 }
