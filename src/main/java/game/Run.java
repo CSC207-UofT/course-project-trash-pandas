@@ -2,6 +2,7 @@ package game;
 
 import characters.*;
 import game.GameLogic;
+import items.Item;
 import items.QuestItem;
 import quest_system.*;
 import scene_system.Scene;
@@ -33,7 +34,7 @@ public class Run {
         ArrayList<NonPlayerCharacter> streetNPCS = new ArrayList<>();
         streetNPCS.add(tim);
         String streetDescription = "You are in the city.";
-        ArrayList<String> streetItems = new ArrayList<>();
+        ArrayList<Item> streetItems = new ArrayList<>();
 
         Scene street = new Scene(streetName, streetNPCS, streetDescription, streetItems);
 
@@ -42,8 +43,8 @@ public class Run {
         ArrayList<NonPlayerCharacter> pizzaNPCS = new ArrayList<>();
         String pizzaPlaceDescription = "This pizza joint is squeaky clean aside from a scrunched up disc" +
                 " of aluminum foil dropped on one of the seats.";
-        ArrayList<String> pizzaPlaceItems = new ArrayList<>();
-        pizzaPlaceItems.add("coin");
+        ArrayList<Item> pizzaPlaceItems = new ArrayList<>();
+        pizzaPlaceItems.add(coin);
         Scene pizzaPlace = new Scene(pizzaPlaceName, pizzaNPCS, pizzaPlaceDescription, pizzaPlaceItems);
 
         street.addScene(pizzaPlace);
