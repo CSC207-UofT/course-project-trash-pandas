@@ -16,6 +16,7 @@ public class Run {
 
         PlayerCharacter bernie = new PlayerCharacter(10, "Bernie");
 
+
         String beginDialogue = "\"Hail, masked traveler! I am the wondering Nomad. Might I interest you in some of" +
                 " my wares? You may purchase any of them for one silver coin.\" Says the Frog. You don't have" +
                 " anything else to do, so you decide to buy from the frog. But where will you find a silver coin?";
