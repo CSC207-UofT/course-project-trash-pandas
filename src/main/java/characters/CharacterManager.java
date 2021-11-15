@@ -40,6 +40,10 @@ public class CharacterManager {
 
     }
 
+    public GameCharacter getCharacter(){
+        return this.character;
+    }
+
 
     /**
      * Reduce the maxHealth and currentHealth if it was modified by the previous armor.

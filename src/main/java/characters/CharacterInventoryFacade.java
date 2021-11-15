@@ -34,6 +34,13 @@ public class CharacterInventoryFacade implements ItemCheckable {
         }
     }
 
+    public PlayerCharacter getCharacter(){
+        if (this.character.getCharacter() instanceof PlayerCharacter) {
+            return (PlayerCharacter) this.character.getCharacter();
+        }
+        return null;
+    }
+
     /**
      * Add an WeaponItem or ArmorItem back to the inventory and modify character accordingly.
      * @param itemName the item being unequipped
