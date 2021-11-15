@@ -1,7 +1,7 @@
 package scene_system;
 
 import characters.NonPlayerCharacter;
-import items.ArmourItem;
+import items.ArmorItem;
 import items.Item;
 import org.junit.After;
 import org.junit.Assert;
@@ -19,7 +19,7 @@ public class SceneTest {
         ArrayList<NonPlayerCharacter> npcs = new ArrayList<>();
         npcs.add(npc);
         ArrayList<Item> items = new ArrayList<>();
-        items.add(new ArmourItem("helmet", "head", 1, 1));
+        items.add(new ArmorItem("helmet", "head", 1, 1));
         scene = new Scene("place", npcs, "test area", items);
     }
 
@@ -47,7 +47,7 @@ public class SceneTest {
     @Test
     public void testGetItems() {
         ArrayList<Item> items = new ArrayList<>();
-        items.add(new ArmourItem("helmet", "head", 1, 1));
+        items.add(new ArmorItem("helmet", "head", 1, 1));
         Assert.assertEquals(items, scene.getItems());
     }
 
@@ -60,7 +60,7 @@ public class SceneTest {
 
     @Test
     public void testRemoveItem() {
-        Item item = new ArmourItem("helmet", "head", 1, 1);
+        Item item = new ArmorItem("helmet", "head", 1, 1);
         scene.removeItem(item);
         ArrayList<Item> empty = new ArrayList<>();
         Assert.assertEquals(empty, scene.getItems());
