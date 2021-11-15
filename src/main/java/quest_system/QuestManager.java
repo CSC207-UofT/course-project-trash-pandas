@@ -2,6 +2,10 @@ package quest_system;
 
 import characters.CharacterInventoryFacade;
 import characters.GameCharacter;
+import org.json.simple.JSONObject;
+import quest_system.CompleteQuest;
+import quest_system.Quest;
+
 
 import java.util.*;
 
@@ -9,7 +13,7 @@ import java.util.*;
  * Manages and tracks all quests in the game.
  */
 
-public class QuestManager {
+public class    QuestManager {
 
 
     private HashMap<String, Quest> quests = new HashMap<>();
@@ -56,6 +60,10 @@ public class QuestManager {
         assert !quest.isAccepted();
 
         quest.toggleAccepted();
+    }
+
+    public Object getQuests() {
+        return new JSONObject(this.quests);
     }
 
 }

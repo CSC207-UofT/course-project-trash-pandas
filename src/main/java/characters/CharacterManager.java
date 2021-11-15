@@ -1,5 +1,10 @@
 package characters;
 
+import characters.GameCharacter;
+import org.json.simple.JSONObject;
+import quest_system.Quest;
+
+import java.util.HashMap;
 import combat_system.*;
 import items.*;
 import constants.*;
@@ -9,6 +14,9 @@ import constants.*;
  */
 public class CharacterManager {
 
+    private InventoryChange changer;
+    private HashMap<String, NonPlayerCharacter> npcs = new HashMap<>();
+    private PlayerCharacter player;
     private final GameCharacter character;
     private final ItemList itemList = new ItemList();
     private final StatusList statusList = new StatusList();
@@ -96,7 +104,7 @@ public class CharacterManager {
         }
 
     }
-
-
+    public Object getNpcs() {
+        return new JSONObject(this.npcs);
 
 }
