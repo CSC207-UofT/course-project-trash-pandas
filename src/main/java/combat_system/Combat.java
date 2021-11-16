@@ -88,10 +88,10 @@ public class Combat {
      * This method determines if a character is an NPC or a player and then proceeds to have them take a turn.
      * @param participant the GameCharacter who is taking the turn
      */
-    public void take_turn(GameCharacter participant) {
+    public void takeTurn(GameCharacter participant) {
         Random r = new Random();
         if(participant instanceof NonPlayerCharacter) {
-            PlayerCharacter target = find_player();
+            PlayerCharacter target = findPlayer();
             if(r.nextBoolean()) {
                 System.out.println(participant.getName()+" enters a defensive stance");
             }
@@ -99,7 +99,7 @@ public class Combat {
                 System.out.println(participant.getName()+" makes an attack against you!");
                 System.out.println(damage(r.nextInt(20), target, participant));
             }
-            print_border();
+            printBorder();
         }
         else {
             boolean valid_input = false;
@@ -112,7 +112,7 @@ public class Combat {
                 if(user_input.equals("Attack")) {
                     HashMap<String, NonPlayerCharacter> npc_names = new HashMap<>();
                     System.out.print("The remaining enemies are:");
-                    for(NonPlayerCharacter npc : find_alive_npcs()) {
+                    for(NonPlayerCharacter npc : findAliveNpcs()) {
                         System.out.println(npc.getName());
                         npc_names.put(npc.getName(), npc);
                     }
@@ -138,7 +138,7 @@ public class Combat {
                 else{
                     System.out.println("Not a valid input, try again");
                 }
-                print_border();
+                printBorder();
             }
         }
     }
@@ -147,7 +147,7 @@ public class Combat {
      * This method finds the player character and returns them from amongst participants
      * @return the player character
      */
-    public PlayerCharacter find_player() {
+    public PlayerCharacter findPlayer() {
         for(GameCharacter player : this.participants) {
             if(player instanceof PlayerCharacter) {
                 return (PlayerCharacter) player;
@@ -160,7 +160,7 @@ public class Combat {
      * Finds all alive npcs. If there are none, it will return an empty arraylist
      * @return an arraylist of all alive npcs.
      */
-    public ArrayList<NonPlayerCharacter> find_alive_npcs() {
+    public ArrayList<NonPlayerCharacter> findAliveNpcs() {
         ArrayList<NonPlayerCharacter> npc_list = new ArrayList<>();
         for(GameCharacter npc : this.participants) {
             if(npc instanceof NonPlayerCharacter) {
@@ -173,7 +173,7 @@ public class Combat {
     /**
      * Prints a border that makes the console easier to read for the user
      */
-    public void print_border() {
+    public void printBorder() {
         System.out.println("------------------------------------------------");
     }
 
@@ -181,14 +181,14 @@ public class Combat {
      * Prints the current turn order.
      * In the future abilities may change people's place in the turn order
      */
-    public void print_turn_order() {
+    public void printTurnOrder() {
         int turn = 1;
         System.out.println("Current Turn Order:");
         for(Map.Entry<Double, GameCharacter> partcipant : this.turnorder.entrySet()) {
             System.out.println(turn + ". " + partcipant.getValue().getName());
             turn += 1;
         }
-        print_border();
+        printBorder();
     }
 
     /**
@@ -213,10 +213,10 @@ public class Combat {
         }
         outerloop:
         while (combat) {
-            print_turn_order();
+            printTurnOrder();
             for (Map.Entry<Double, GameCharacter> partcipant : this.turnorder.entrySet()) {
                 if (partcipant.getValue().getCurrentHealth() > 0) {
-                    take_turn(partcipant.getValue());
+                    takeTurn(partcipant.getValue());
                     if (!this.player_alive||this.foes==0) {
                         break outerloop;
                     }
