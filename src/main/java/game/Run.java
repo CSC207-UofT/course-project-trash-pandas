@@ -1,11 +1,11 @@
 package game;
 
 import characters.*;
-import game.GameLogic;
 import items.Item;
 import items.QuestItem;
 import quest_system.*;
 import scene_system.Scene;
+import GUI.Frame;
 
 import java.util.*;
 
@@ -49,6 +49,9 @@ public class Run {
 
         street.addScene(pizzaPlace);
         pizzaPlace.addScene(street);
+
+        Frame frame = new Frame(street, bernie);
+        frame.titleFrame();
 
         GameLogic logic = new GameLogic();
         Inventory inventory = new Inventory();

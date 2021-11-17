@@ -1,10 +1,7 @@
 package quest_system;
 
 import characters.CharacterInventoryFacade;
-import characters.GameCharacter;
 //import org.json.simple.JSONObject;
-import quest_system.CompleteQuest;
-import quest_system.Quest;
 
 
 import java.util.*;
