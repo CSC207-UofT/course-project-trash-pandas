@@ -50,12 +50,14 @@ public class Run {
         street.addScene(pizzaPlace);
         pizzaPlace.addScene(street);
 
-        Frame frame = new Frame(street, bernie);
+        Inventory inventory = new Inventory();
+        CharacterInventoryFacade bernieFacade = new CharacterInventoryFacade(inventory,bernie);
+
+        Frame frame = new Frame(street, bernieFacade);
         frame.titleFrame();
 
         GameLogic logic = new GameLogic();
-        Inventory inventory = new Inventory();
-        CharacterInventoryFacade bernieFacade = new CharacterInventoryFacade(inventory,bernie);
+
         logic.sceneLogic(street, bernieFacade);
     }
 }

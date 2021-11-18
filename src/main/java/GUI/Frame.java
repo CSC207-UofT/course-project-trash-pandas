@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import Music.MusicHandler;
+import characters.CharacterInventoryFacade;
 import characters.NonPlayerCharacter;
-import characters.PlayerCharacter;
 import scene_system.Scene;
 
 public class Frame {
@@ -26,9 +26,9 @@ public class Frame {
     MusicHandler mu = new MusicHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
     Scene currentScene;
-    PlayerCharacter player;
+    CharacterInventoryFacade player;
 
-    public Frame(Scene firstScene, PlayerCharacter player) {
+    public Frame(Scene firstScene, CharacterInventoryFacade player) {
         this.currentScene = firstScene;
         this.player = player;
     }
@@ -73,7 +73,6 @@ public class Frame {
     }
 
     public void mainFrame () {
-        System.out.println("Button!");
         con.removeAll();
 
         mainTextPanel = new JPanel();
@@ -96,7 +95,7 @@ public class Frame {
         choiceButtonPanel.setLayout(new GridLayout(4,1)); //Makes the buttons go 4 vertical and 1 horizontal
         con.add(choiceButtonPanel);
 
-        choice1 = new JButton("Choice 1");
+        choice1 = new JButton("Travel");
         choice1.setBackground(Color.black);
         choice1.setForeground(Color.white);
         choice1.setFont(normalFont);
@@ -105,7 +104,7 @@ public class Frame {
         choice1.addActionListener(choiceHandler);
         choice1.setActionCommand("c1");
 
-        choice2 = new JButton("Choice 2");
+        choice2 = new JButton("Talk to people nearby");
         choice2.setBackground(Color.black);
         choice2.setForeground(Color.white);
         choice2.setFont(normalFont);
@@ -114,7 +113,7 @@ public class Frame {
         choice2.addActionListener(choiceHandler);
         choice2.setActionCommand("c2");
 
-        choice3 = new JButton("Choice 3");
+        choice3 = new JButton("Look around");
         choice3.setBackground(Color.black);
         choice3.setForeground(Color.white);
         choice3.setFont(normalFont);
@@ -123,7 +122,7 @@ public class Frame {
         choice3.addActionListener(choiceHandler);
         choice3.setActionCommand("c3");
 
-        choice4 = new JButton("Choice 4");
+        choice4 = new JButton("Start Combat");
         choice4.setBackground(Color.black);
         choice4.setForeground(Color.white);
         choice4.setFont(normalFont);
@@ -132,13 +131,12 @@ public class Frame {
         choice4.addActionListener(choiceHandler);
         choice4.setActionCommand("c4");
 
-
         playerPanel = new JPanel();
         playerPanel.setBounds(210, 15, 1500, 160);
         playerPanel.setBackground(Color.black);
         playerPanel.setLayout(new GridLayout(1,4));
         con.add(playerPanel);
-        hpLabel = new JLabel("HP:");
+        hpLabel = new JLabel("HP: " + player.getCharacter().getCurrentHealth()); // add observer of health to update this
         hpLabel.setFont(normalFont);
         hpLabel.setForeground(Color.white);
         playerPanel.add(hpLabel);
@@ -148,7 +146,7 @@ public class Frame {
         hpLabelNumber.setForeground(Color.red);
         playerPanel.add(hpLabelNumber);
 
-        areaLabel = new JLabel("Area:");
+        areaLabel = new JLabel();
         areaLabel.setFont(normalFont);
         areaLabel.setForeground(Color.white);
         playerPanel.add(areaLabel);
@@ -163,6 +161,7 @@ public class Frame {
     }
 
     public void displayScene(Scene sc) {
+        areaLabel.setText("Area: " + sc.getName());
         this.currentScene = sc;
         mainTextArea.setText(sc.getDescription());
         SwingUtilities.updateComponentTreeUI(window);
@@ -186,8 +185,24 @@ public class Frame {
     }
 
     public void displayDialogue(ArrayList<NonPlayerCharacter> characters) {
-
-
+        StringBuilder npcText = new StringBuilder();
+        if(characters.isEmpty()) {
+            npcText.append("There is no one here to talk to");
+        }
+        else {
+            boolean first = true;
+            npcText.append("Who would you like to talk to? \n");
+            for(NonPlayerCharacter npcs: characters) {
+                if (!first) {
+                    npcText.append(", ").append(npcs.getName());
+                }
+                else {
+                    npcText.append(npcs.getName());
+                    first = false;
+                }
+            }
+        }
+        mainTextArea.setText(npcText.toString());
     }
 
     class TitleFrameActionListener implements ActionListener {
@@ -202,10 +217,10 @@ public class Frame {
         public void actionPerformed(ActionEvent event) {
             String yourChoice = event.getActionCommand();
             switch(yourChoice) {
-                case "c1": displayTravelOptions(currentScene.getConnectedAreas());
-                case "c2": break;
+                case "c1": displayTravelOptions(currentScene.getConnectedAreas()); break;
+                case "c2": displayDialogue(currentScene.getNpc()); break;
                 case "c3": break;
-                case "c4": currentScene.start_combat(player);
+                case "c4": currentScene.start_combat(player.getCharacter()); break;
             }
         }
     }
