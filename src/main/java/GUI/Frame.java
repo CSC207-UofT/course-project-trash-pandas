@@ -10,21 +10,26 @@ import javax.swing.*;
 import Music.MusicHandler;
 import characters.CharacterInventoryFacade;
 import characters.NonPlayerCharacter;
+import items.Item;
 import scene_system.Scene;
 
 public class Frame {
     JFrame window;
     Container con;
-    JPanel titleNamePanel, startButtonPanel,  mainTextPanel, choiceButtonPanel, playerPanel;;
+    JPanel titleNamePanel, startButtonPanel,  mainTextPanel, choiceButtonPanel, playerPanel, textInputPanel;;
     JLabel titleNameLabel, hpLabel, hpLabelNumber, areaLabel, codeLabelName, endGame;
     JTextArea mainTextArea;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 128);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 42);
     JButton startButton, choice1, choice2, choice3, choice4;
     ImageIcon imageIcon = new ImageIcon("racoon icon.png");
+    JTextField entryField;
+
+    boolean travel, search, talk;
 
     MusicHandler mu = new MusicHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
+    InputActionListener textActionListener = new InputActionListener();
     Scene currentScene;
     CharacterInventoryFacade player;
 
@@ -151,16 +156,25 @@ public class Frame {
         areaLabel.setForeground(Color.white);
         playerPanel.add(areaLabel);
 
-        codeLabelName = new JLabel();
-        codeLabelName.setFont(normalFont);
-        codeLabelName.setForeground(Color.white);
-        playerPanel.add(codeLabelName);
+        textInputPanel = new JPanel();
+        textInputPanel.setBounds(100, 800, 250, 290);
+        textInputPanel.setBackground(Color.black);
+        textInputPanel.setLayout(new GridLayout(4,1)); //Makes the buttons go 4 vertical and 1 horizontal
+        con.add(textInputPanel);
+
+        entryField = new JTextField("Enter here");
+        entryField.setVisible(true);
+        entryField.addActionListener(textActionListener);
+        textInputPanel.add(entryField);
 
         displayScene(currentScene);
         SwingUtilities.updateComponentTreeUI(window);
     }
 
     public void displayScene(Scene sc) {
+        search = false;
+        talk = false;
+        travel = false;
         areaLabel.setText("Area: " + sc.getName());
         this.currentScene = sc;
         mainTextArea.setText(sc.getDescription());
@@ -168,6 +182,9 @@ public class Frame {
     }
 
     public void displayTravelOptions(ArrayList<Scene> travelOptions) {
+        travel = true;
+        search = false;
+        talk = false;
         StringBuilder travelText = new StringBuilder();
         boolean first = true;
         travelText.append("Where would you like to travel? \n");
@@ -185,6 +202,9 @@ public class Frame {
     }
 
     public void displayDialogue(ArrayList<NonPlayerCharacter> characters) {
+        talk = true;
+        search = false;
+        travel = false;
         StringBuilder npcText = new StringBuilder();
         if(characters.isEmpty()) {
             npcText.append("There is no one here to talk to");
@@ -192,12 +212,12 @@ public class Frame {
         else {
             boolean first = true;
             npcText.append("Who would you like to talk to? \n");
-            for(NonPlayerCharacter npcs: characters) {
+            for(NonPlayerCharacter npc: characters) {
                 if (!first) {
-                    npcText.append(", ").append(npcs.getName());
+                    npcText.append(", ").append(npc.getName());
                 }
                 else {
-                    npcText.append(npcs.getName());
+                    npcText.append(npc.getName());
                     first = false;
                 }
             }
@@ -205,10 +225,75 @@ public class Frame {
         mainTextArea.setText(npcText.toString());
     }
 
+    public void displayItems(ArrayList<Item> items) {
+        search = true;
+        talk = false;
+        travel = false;
+        StringBuilder itemText = new StringBuilder();
+        if(items.isEmpty()) {
+            itemText.append("There are no items around that you can see");
+        }
+        else {
+            boolean first = true;
+            itemText.append("Which item would you like to pick up? \n");
+            for(Item item: items) {
+                if (!first) {
+                    itemText.append(", ").append(item.getName());
+                }
+                else {
+                    itemText.append(item.getName());
+                    first = false;
+                }
+            }
+        }
+        mainTextArea.setText(itemText.toString());
+    }
+
     class TitleFrameActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
             mainFrame();
+        }
+    }
+
+    class InputActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            String input = entryField.getText();
+
+            if(input.equalsIgnoreCase("Back")) {
+                displayScene(currentScene);
+            }
+            else if(search) {
+                for (Item item : currentScene.getItems()) {
+                    if (input.equalsIgnoreCase(item.getName())) {
+                        entryField.setText("You pick up " + item.getName());
+                        player.addItem(item.getName(), 1);
+                        currentScene.removeItem(item);
+                    }
+                    search = false;
+                }
+            }
+            else if(travel) {
+                for(Scene sc: currentScene.getConnectedAreas()) {
+                    if(input.equalsIgnoreCase(sc.getName())) {
+                        entryField.setText("You traveled to " + sc.getName());
+                        displayScene(sc);
+                        travel = false;
+                    }
+                }
+            }
+            else if(talk) {
+                for(NonPlayerCharacter npc: currentScene.getNpc()) {
+                    if(input.equalsIgnoreCase(npc.getName())) {
+                        mainTextArea.setText(npc.getQuestDialogue(0));
+                        talk = false;
+                    }
+                }
+            }
+            else {
+                entryField.setText("Not a valid entry, please select an option first");
+            }
         }
     }
 
@@ -219,7 +304,7 @@ public class Frame {
             switch(yourChoice) {
                 case "c1": displayTravelOptions(currentScene.getConnectedAreas()); break;
                 case "c2": displayDialogue(currentScene.getNpc()); break;
-                case "c3": break;
+                case "c3": displayItems(currentScene.getItems()); break;
                 case "c4": currentScene.start_combat(player.getCharacter()); break;
             }
         }
