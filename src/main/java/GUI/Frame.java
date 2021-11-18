@@ -11,6 +11,7 @@ import Music.MusicHandler;
 import characters.CharacterInventoryFacade;
 import characters.NonPlayerCharacter;
 import items.Item;
+import scene_system.DisplayDialogue;
 import scene_system.Scene;
 
 public class Frame {
@@ -265,13 +266,17 @@ public class Frame {
                 displayScene(currentScene);
             }
             else if(search) {
+                Item i = null;
                 for (Item item : currentScene.getItems()) {
                     if (input.equalsIgnoreCase(item.getName())) {
                         entryField.setText("You pick up " + item.getName());
                         player.addItem(item.getName(), 1);
-                        currentScene.removeItem(item);
+                        i = item;
+                        search = false;
                     }
-                    search = false;
+                }
+                if(i != null) {
+                    currentScene.removeItem(i);
                 }
             }
             else if(travel) {
@@ -286,7 +291,8 @@ public class Frame {
             else if(talk) {
                 for(NonPlayerCharacter npc: currentScene.getNpc()) {
                     if(input.equalsIgnoreCase(npc.getName())) {
-                        mainTextArea.setText(npc.getQuestDialogue(0));
+                        DisplayDialogue disp = new DisplayDialogue();
+                        mainTextArea.setText(disp.dialogue(npc, player));
                         talk = false;
                     }
                 }
