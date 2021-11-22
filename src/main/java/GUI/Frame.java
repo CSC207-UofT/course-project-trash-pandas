@@ -29,8 +29,8 @@ public class Frame {
     boolean travel, search, talk;
 
     MusicHandler mu = new MusicHandler();
-    ChoiceHandler choiceHandler = new ChoiceHandler();
-    InputActionListener textActionListener = new InputActionListener();
+    ChoiceHandler choiceHandler = new ChoiceHandler(this);
+    InputActionListener textActionListener = new InputActionListener(this);
     Scene currentScene;
     CharacterInventoryFacade player;
 
@@ -67,7 +67,7 @@ public class Frame {
         startButton.setBackground(Color.black); //Color of button (invisible)
         startButton.setForeground(Color.white); //Color of text
         startButton.setFont(normalFont);
-        TitleFrameActionListener tsHandler = new TitleFrameActionListener();
+        TitleFrameActionListener tsHandler = new TitleFrameActionListener(this);
         startButton.addActionListener(tsHandler); //mouse support for button, calls method
         startButton.setFocusPainted(false);
 
@@ -91,7 +91,8 @@ public class Frame {
         mainTextArea.setBackground(Color.black);
         mainTextArea.setForeground(Color.white);
         mainTextArea.setFont(normalFont);
-        mainTextArea.setLineWrap(true); //If text is too long it will go down a line
+        mainTextArea.setLineWrap(true);
+        mainTextArea.setWrapStyleWord(true);
         mainTextArea.setEditable(false);
         mainTextPanel.add(mainTextArea);
 
@@ -176,6 +177,7 @@ public class Frame {
         search = false;
         talk = false;
         travel = false;
+        entryField.setText("");
         areaLabel.setText("Area: " + sc.getName());
         this.currentScene = sc;
         mainTextArea.setText(sc.getDescription());
@@ -188,6 +190,7 @@ public class Frame {
         talk = false;
         StringBuilder travelText = new StringBuilder();
         boolean first = true;
+        entryField.setText("Write Destination Here");
         travelText.append("Where would you like to travel? \n");
         for(Scene sc: travelOptions) {
             if (!first) {
@@ -209,9 +212,11 @@ public class Frame {
         StringBuilder npcText = new StringBuilder();
         if(characters.isEmpty()) {
             npcText.append("There is no one here to talk to");
+            entryField.setText("There is no one here");
         }
         else {
             boolean first = true;
+            entryField.setText("Write NPC Here");
             npcText.append("Who would you like to talk to? \n");
             for(NonPlayerCharacter npc: characters) {
                 if (!first) {
@@ -233,9 +238,11 @@ public class Frame {
         StringBuilder itemText = new StringBuilder();
         if(items.isEmpty()) {
             itemText.append("There are no items around that you can see");
+            entryField.setText("There are no items");
         }
         else {
             boolean first = true;
+            entryField.setText("Write Item Here");
             itemText.append("Which item would you like to pick up? \n");
             for(Item item: items) {
                 if (!first) {
@@ -248,72 +255,6 @@ public class Frame {
             }
         }
         mainTextArea.setText(itemText.toString());
-    }
-
-    class TitleFrameActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            mainFrame();
-        }
-    }
-
-    class InputActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            String input = entryField.getText();
-
-            if(input.equalsIgnoreCase("Back")) {
-                displayScene(currentScene);
-            }
-            else if(search) {
-                Item i = null;
-                for (Item item : currentScene.getItems()) {
-                    if (input.equalsIgnoreCase(item.getName())) {
-                        entryField.setText("You pick up " + item.getName());
-                        player.addItem(item.getName(), 1);
-                        i = item;
-                        search = false;
-                    }
-                }
-                if(i != null) {
-                    currentScene.removeItem(i);
-                }
-            }
-            else if(travel) {
-                for(Scene sc: currentScene.getConnectedAreas()) {
-                    if(input.equalsIgnoreCase(sc.getName())) {
-                        entryField.setText("You traveled to " + sc.getName());
-                        displayScene(sc);
-                        travel = false;
-                    }
-                }
-            }
-            else if(talk) {
-                for(NonPlayerCharacter npc: currentScene.getNpc()) {
-                    if(input.equalsIgnoreCase(npc.getName())) {
-                        DisplayDialogue disp = new DisplayDialogue();
-                        mainTextArea.setText(disp.dialogue(npc, player));
-                        talk = false;
-                    }
-                }
-            }
-            else {
-                entryField.setText("Not a valid entry, please select an option first");
-            }
-        }
-    }
-
-    class ChoiceHandler implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            String yourChoice = event.getActionCommand();
-            switch(yourChoice) {
-                case "c1": displayTravelOptions(currentScene.getConnectedAreas()); break;
-                case "c2": displayDialogue(currentScene.getNpc()); break;
-                case "c3": displayItems(currentScene.getItems()); break;
-                case "c4": currentScene.start_combat(player.getCharacter()); break;
-            }
-        }
     }
 }
 
