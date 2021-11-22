@@ -14,15 +14,15 @@ import items.Item;
 import scene_system.DisplayDialogue;
 import scene_system.Scene;
 
-public class Frame {
+public class MainFrame {
     JFrame window;
     Container con;
-    JPanel titleNamePanel, startButtonPanel,  mainTextPanel, choiceButtonPanel, playerPanel, textInputPanel;;
+    JPanel titleNamePanel, startButtonPanel,  mainTextPanel, choiceButtonPanel, playerPanel, textInputPanel, combatPanel;
     JLabel titleNameLabel, hpLabel, hpLabelNumber, areaLabel, codeLabelName, endGame;
     JTextArea mainTextArea;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 128);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 42);
-    JButton startButton, choice1, choice2, choice3, choice4;
+    JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability;
     ImageIcon imageIcon = new ImageIcon("racoon icon.png");
     JTextField entryField;
 
@@ -34,7 +34,7 @@ public class Frame {
     Scene currentScene;
     CharacterInventoryFacade player;
 
-    public Frame(Scene firstScene, CharacterInventoryFacade player) {
+    public MainFrame(Scene firstScene, CharacterInventoryFacade player) {
         this.currentScene = firstScene;
         this.player = player;
     }
@@ -78,7 +78,7 @@ public class Frame {
         SwingUtilities.updateComponentTreeUI(window);
     }
 
-    public void mainFrame () {
+    public void gameFrame() {
         con.removeAll();
 
         mainTextPanel = new JPanel();
@@ -170,6 +170,48 @@ public class Frame {
         textInputPanel.add(entryField);
 
         displayScene(currentScene);
+        SwingUtilities.updateComponentTreeUI(window);
+    }
+
+    public void combatFrame() {
+        con.remove(choiceButtonPanel);
+
+        attack = new JButton("Travel");
+        attack.setBackground(Color.black);
+        attack.setForeground(Color.white);
+        attack.setFont(normalFont);
+        choiceButtonPanel.add(attack);
+        attack.setFocusPainted(false); //gets rid of annoying lines on choices
+        attack.addActionListener(choiceHandler);
+        attack.setActionCommand("c1");
+
+        defend = new JButton("Talk to people nearby");
+        defend.setBackground(Color.black);
+        defend.setForeground(Color.white);
+        defend.setFont(normalFont);
+        choiceButtonPanel.add(defend);
+        defend.setFocusPainted(false);
+        defend.addActionListener(choiceHandler);
+        defend.setActionCommand("c2");
+
+        ability = new JButton("Look around");
+        ability.setBackground(Color.black);
+        ability.setForeground(Color.white);
+        ability.setFont(normalFont);
+        choiceButtonPanel.add(ability);
+        ability.setFocusPainted(false);
+        ability.addActionListener(choiceHandler);
+        ability.setActionCommand("c3");
+
+        inventory = new JButton("Start Combat");
+        inventory.setBackground(Color.black);
+        inventory.setForeground(Color.white);
+        inventory.setFont(normalFont);
+        choiceButtonPanel.add(inventory);
+        inventory.setFocusPainted(false);
+        inventory.addActionListener(choiceHandler);
+        inventory.setActionCommand("c4");
+
         SwingUtilities.updateComponentTreeUI(window);
     }
 

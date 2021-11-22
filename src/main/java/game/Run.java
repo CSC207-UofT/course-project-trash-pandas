@@ -5,7 +5,7 @@ import items.Item;
 import items.QuestItem;
 import quest_system.*;
 import scene_system.Scene;
-import GUI.Frame;
+import GUI.MainFrame;
 
 import java.util.*;
 
@@ -53,11 +53,7 @@ public class Run {
         Inventory inventory = new Inventory();
         CharacterInventoryFacade bernieFacade = new CharacterInventoryFacade(inventory,bernie);
 
-        Frame frame = new Frame(street, bernieFacade);
+        MainFrame frame = new MainFrame(street, bernieFacade);
         frame.titleFrame();
-
-        GameLogic logic = new GameLogic();
-
-        logic.sceneLogic(street, bernieFacade);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class Combat {
     private int round = 1;
-    private int foes = 0;
+    private int foes;
     private boolean player_alive = true;
     private ArrayList<GameCharacter> participants;
     private TreeMap<Double, GameCharacter> turnorder = new TreeMap<>();

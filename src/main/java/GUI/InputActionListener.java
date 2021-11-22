@@ -9,8 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class InputActionListener implements ActionListener {
-    Frame frame;
-    public InputActionListener(Frame frame) {
+    MainFrame frame;
+    public InputActionListener(MainFrame frame) {
         this.frame = frame;
     }
     @Override
