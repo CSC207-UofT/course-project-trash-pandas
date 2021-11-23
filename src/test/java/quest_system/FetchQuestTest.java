@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class FetchQuestTest extends TestCase {
     FetchQuest quest;
@@ -14,7 +15,7 @@ public class FetchQuestTest extends TestCase {
     @Before
     public void before() throws Exception {
         QuestItem coin = new QuestItem("coin", "shiny");
-        this.quest = new FetchQuest(coin);
+        this.quest = new FetchQuest(Set.of(coin));
     }
 
     @After

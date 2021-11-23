@@ -2,16 +2,23 @@ package game;
 
 import characters.CharacterInventoryFacade;
 import characters.NonPlayerCharacter;
+import constants.Observer;
 import items.Item;
 import scene_system.DisplayDialogue;
 import scene_system.Scene;
 import scene_system.SceneManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameLogic {
 
     private final CommandLine ui = new CommandLine();
+    private final List<Observer> observers;
+
+    GameLogic(List<Observer> observers){
+        this.observers = observers;
+    }
 
     public void sceneLogic(Scene currentScene, CharacterInventoryFacade player){
         String input = ui.sceneUI(currentScene);
@@ -26,7 +33,7 @@ public class GameLogic {
                 this.itemLogic(currentScene, player);
 
             case "4":
-                currentScene.start_combat(player.getCharacter());
+                currentScene.start_combat(player.getCharacter(), observers);
 
             default:
                 ui.fail();
