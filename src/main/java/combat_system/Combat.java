@@ -68,12 +68,12 @@ public class Combat {
             target.setCurrentHealth(health_remaining);
             if(health_remaining <= 0) {
                 if(target instanceof NonPlayerCharacter) {
-                    System.out.println("You strike the killing blow against " + target.getName());
                     this.foes -= 1;
+                    return "You strike the killing blow against " + target.getName();
                 }
                 else {
                     this.player_alive = false;
-                    System.out.println("You are dead!");
+                    return "You are dead!";
                 }
             }
 
@@ -88,18 +88,17 @@ public class Combat {
      * This method determines if a character is an NPC or a player and then proceeds to have them take a turn.
      * @param participant the GameCharacter who is taking the turn
      */
-    public void takeTurn(GameCharacter participant) {
+    public String takeTurn(GameCharacter participant) {
         Random r = new Random();
         if(participant instanceof NonPlayerCharacter) {
             PlayerCharacter target = findPlayer();
             if(r.nextBoolean()) {
-                System.out.println(participant.getName()+" enters a defensive stance");
+               return participant.getName()+" enters a defensive stance" + printBorder();
             }
             else {
-                System.out.println(participant.getName()+" makes an attack against you!");
-                System.out.println(damage(r.nextInt(20), target, participant));
+                return participant.getName()+" makes an attack against you!" + "\n" +
+                        "It deals:" + damage(r.nextInt(20), target, participant) + printBorder();
             }
-            printBorder();
         }
         else {
             boolean valid_input = false;
@@ -141,6 +140,7 @@ public class Combat {
                 printBorder();
             }
         }
+        return "nothing";
     }
 
     /**
@@ -173,22 +173,23 @@ public class Combat {
     /**
      * Prints a border that makes the console easier to read for the user
      */
-    public void printBorder() {
-        System.out.println("------------------------------------------------");
+    public String printBorder() {
+        return "------------------------------------------------";
     }
 
     /**
      * Prints the current turn order.
      * In the future abilities may change people's place in the turn order
      */
-    public void printTurnOrder() {
+    public String printTurnOrder() {
         int turn = 1;
-        System.out.println("Current Turn Order:");
+        StringBuilder turnOrder = new StringBuilder("Current Turn Order:");
         for(Map.Entry<Double, GameCharacter> partcipant : this.turnorder.entrySet()) {
-            System.out.println(turn + ". " + partcipant.getValue().getName());
+            turnOrder.append("\n").append(turn).append(". ").append(partcipant.getValue().getName());
             turn += 1;
         }
-        printBorder();
+        turnOrder.append(printBorder());
+        return turnOrder.toString();
     }
 
     /**

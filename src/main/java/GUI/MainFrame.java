@@ -30,7 +30,9 @@ public class MainFrame {
 
     MusicHandler mu = new MusicHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler(this);
+    CombatChoiceHandler combatHandler = new CombatChoiceHandler(this);
     InputActionListener textActionListener = new InputActionListener(this);
+
     Scene currentScene;
     CharacterInventoryFacade player;
 
@@ -159,7 +161,7 @@ public class MainFrame {
         playerPanel.add(areaLabel);
 
         textInputPanel = new JPanel();
-        textInputPanel.setBounds(100, 800, 250, 290);
+        textInputPanel.setBounds(300, 800, 250, 290);
         textInputPanel.setBackground(Color.black);
         textInputPanel.setLayout(new GridLayout(4,1)); //Makes the buttons go 4 vertical and 1 horizontal
         con.add(textInputPanel);
@@ -175,41 +177,48 @@ public class MainFrame {
 
     public void combatFrame() {
         con.remove(choiceButtonPanel);
+        con.remove(textInputPanel);
 
-        attack = new JButton("Travel");
+        combatPanel = new JPanel();
+        combatPanel.setBounds(560, 700, 750, 290);
+        combatPanel.setBackground(Color.black);
+        combatPanel.setLayout(new GridLayout(4,1)); //Makes the buttons go 4 vertical and 1 horizontal
+        con.add(combatPanel);
+
+        attack = new JButton("Attack");
         attack.setBackground(Color.black);
         attack.setForeground(Color.white);
         attack.setFont(normalFont);
-        choiceButtonPanel.add(attack);
+        combatPanel.add(attack);
         attack.setFocusPainted(false); //gets rid of annoying lines on choices
-        attack.addActionListener(choiceHandler);
+        attack.addActionListener(combatHandler);
         attack.setActionCommand("c1");
 
-        defend = new JButton("Talk to people nearby");
+        defend = new JButton("Defend");
         defend.setBackground(Color.black);
         defend.setForeground(Color.white);
         defend.setFont(normalFont);
-        choiceButtonPanel.add(defend);
+        combatPanel.add(defend);
         defend.setFocusPainted(false);
-        defend.addActionListener(choiceHandler);
+        defend.addActionListener(combatHandler);
         defend.setActionCommand("c2");
 
-        ability = new JButton("Look around");
+        ability = new JButton("Use Ability");
         ability.setBackground(Color.black);
         ability.setForeground(Color.white);
         ability.setFont(normalFont);
-        choiceButtonPanel.add(ability);
+        combatPanel.add(ability);
         ability.setFocusPainted(false);
-        ability.addActionListener(choiceHandler);
+        ability.addActionListener(combatHandler);
         ability.setActionCommand("c3");
 
-        inventory = new JButton("Start Combat");
+        inventory = new JButton("View Inventory");
         inventory.setBackground(Color.black);
         inventory.setForeground(Color.white);
         inventory.setFont(normalFont);
-        choiceButtonPanel.add(inventory);
+        combatPanel.add(inventory);
         inventory.setFocusPainted(false);
-        inventory.addActionListener(choiceHandler);
+        inventory.addActionListener(combatHandler);
         inventory.setActionCommand("c4");
 
         SwingUtilities.updateComponentTreeUI(window);
@@ -262,10 +271,10 @@ public class MainFrame {
             npcText.append("Who would you like to talk to? \n");
             for(NonPlayerCharacter npc: characters) {
                 if (!first) {
-                    npcText.append(", ").append(npc.getName());
+                    npcText.append(npc.getName());
                 }
                 else {
-                    npcText.append(npc.getName());
+                    npcText.append("\n").append(npc.getName());
                     first = false;
                 }
             }
@@ -297,6 +306,10 @@ public class MainFrame {
             }
         }
         mainTextArea.setText(itemText.toString());
+    }
+
+    public void displayCombatText(String text) {
+
     }
 }
 
