@@ -10,6 +10,7 @@ import javax.swing.*;
 import Music.MusicHandler;
 import characters.CharacterInventoryFacade;
 import characters.NonPlayerCharacter;
+import combat_system.Combat;
 import items.Item;
 import scene_system.DisplayDialogue;
 import scene_system.Scene;
@@ -18,20 +19,21 @@ public class MainFrame {
     JFrame window;
     Container con;
     JPanel titleNamePanel, startButtonPanel,  mainTextPanel, choiceButtonPanel, playerPanel, textInputPanel, combatPanel;
-    JLabel titleNameLabel, hpLabel, hpLabelNumber, areaLabel, codeLabelName, endGame;
+    JLabel titleNameLabel, hpLabel, hpLabelNumber, areaLabel;
     JTextArea mainTextArea;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 128);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 42);
     JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability;
     ImageIcon imageIcon = new ImageIcon("racoon icon.png");
-    JTextField entryField;
+    JTextField entryField, combatField;
 
     boolean travel, search, talk;
 
     MusicHandler mu = new MusicHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler(this);
-    CombatChoiceHandler combatHandler = new CombatChoiceHandler(this);
+    CombatChoiceHandler combatHandler;
     InputActionListener textActionListener = new InputActionListener(this);
+    CombatInputListener combatInputListener;
 
     Scene currentScene;
     CharacterInventoryFacade player;
@@ -39,6 +41,8 @@ public class MainFrame {
     public MainFrame(Scene firstScene, CharacterInventoryFacade player) {
         this.currentScene = firstScene;
         this.player = player;
+        this.combatHandler = new CombatChoiceHandler(this);
+        this.combatInputListener = new CombatInputListener(this);
     }
 
     public void titleFrame() {
@@ -145,7 +149,7 @@ public class MainFrame {
         playerPanel.setBackground(Color.black);
         playerPanel.setLayout(new GridLayout(1,4));
         con.add(playerPanel);
-        hpLabel = new JLabel("HP: " + player.getCharacter().getCurrentHealth()); // add observer of health to update this
+        hpLabel = new JLabel("HP: " + player.getCharacter().getCharacter().getCurrentHealth()); // add observer of health to update this
         hpLabel.setFont(normalFont);
         hpLabel.setForeground(Color.white);
         playerPanel.add(hpLabel);
@@ -177,7 +181,12 @@ public class MainFrame {
 
     public void combatFrame() {
         con.remove(choiceButtonPanel);
-        con.remove(textInputPanel);
+        textInputPanel.remove(entryField);
+        combatField = new JTextField("Enter here");
+        combatField.setVisible(true);
+        combatField.addActionListener(combatInputListener);
+        textInputPanel.add(combatField);
+        mainTextArea.setText("Combat begins:");
 
         combatPanel = new JPanel();
         combatPanel.setBounds(560, 700, 750, 290);
@@ -256,7 +265,7 @@ public class MainFrame {
 
     }
 
-    public void displayDialogue(ArrayList<NonPlayerCharacter> characters) {
+    public void displayDialogue(ArrayList<CharacterInventoryFacade> characters) {
         talk = true;
         search = false;
         travel = false;
@@ -269,12 +278,12 @@ public class MainFrame {
             boolean first = true;
             entryField.setText("Write NPC Here");
             npcText.append("Who would you like to talk to? \n");
-            for(NonPlayerCharacter npc: characters) {
+            for(CharacterInventoryFacade npc: characters) {
                 if (!first) {
-                    npcText.append(npc.getName());
+                    npcText.append(npc.getCharacter().getCharacter().getName());
                 }
                 else {
-                    npcText.append("\n").append(npc.getName());
+                    npcText.append("\n").append(npc.getCharacter().getCharacter().getName());
                     first = false;
                 }
             }
@@ -309,7 +318,11 @@ public class MainFrame {
     }
 
     public void displayCombatText(String text) {
+        mainTextArea.append("\n" + text);
+    }
 
+    public void displayCombatInput(String text) {
+        combatField.setText(text);
     }
 }
 

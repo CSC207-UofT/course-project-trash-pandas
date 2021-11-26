@@ -34,11 +34,12 @@ public class CharacterInventoryFacade implements ItemCheckable {
         }
     }
 
-    public PlayerCharacter getCharacter(){
-        if (this.character.getCharacter() instanceof PlayerCharacter) {
-            return (PlayerCharacter) this.character.getCharacter();
-        }
-        return null;
+    public CharacterManager getCharacter() {
+        return character;
+    }
+
+    public String getInventory() {
+        return this.inventory.getInventory();
     }
 
     /**

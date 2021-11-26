@@ -27,11 +27,13 @@ public class Run {
         QuestItem coin = new QuestItem("coin", "a silver coin");
         FetchQuest coinQuest = new FetchQuest(coin);
 
-        NonPlayerCharacter tim = new NonPlayerCharacter(1, "Tim", beginDialogue,
+        NonPlayerCharacter timC = new NonPlayerCharacter(1, "Tim", beginDialogue,
                 duringDialogue, endingDialogue, coinQuest);
+        Inventory timInventory = new Inventory();
+        CharacterInventoryFacade tim = new CharacterInventoryFacade(timInventory, timC);
 
         String streetName = "Street";
-        ArrayList<NonPlayerCharacter> streetNPCS = new ArrayList<>();
+        ArrayList<CharacterInventoryFacade> streetNPCS = new ArrayList<>();
         streetNPCS.add(tim);
         String streetDescription = "You are in the city.";
         ArrayList<Item> streetItems = new ArrayList<>();
@@ -40,7 +42,7 @@ public class Run {
 
 
         String pizzaPlaceName = "Pizza Place";
-        ArrayList<NonPlayerCharacter> pizzaNPCS = new ArrayList<>();
+        ArrayList<CharacterInventoryFacade> pizzaNPCS = new ArrayList<>();
         String pizzaPlaceDescription = "This pizza joint is squeaky clean aside from a scrunched up disc" +
                 " of aluminum foil dropped on one of the seats.";
         ArrayList<Item> pizzaPlaceItems = new ArrayList<>();

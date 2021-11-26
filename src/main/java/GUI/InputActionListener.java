@@ -1,5 +1,6 @@
 package GUI;
 
+import characters.CharacterInventoryFacade;
 import characters.NonPlayerCharacter;
 import items.Item;
 import scene_system.DisplayDialogue;
@@ -49,12 +50,12 @@ class InputActionListener implements ActionListener {
             }
         }
         else if(frame.talk) {
-            for(NonPlayerCharacter npc: frame.currentScene.getNpc()) {
-                if(input.equalsIgnoreCase(npc.getName())) {
+            for(CharacterInventoryFacade npc: frame.currentScene.getNpc()) {
+                if(input.equalsIgnoreCase(npc.getCharacter().getCharacter().getName())) {
                     valid = true;
                     DisplayDialogue disp = new DisplayDialogue();
-                    frame.mainTextArea.setText(disp.dialogue(npc, frame.player));
-                    frame.entryField.setText("You talked to " + npc.getName());
+                    frame.mainTextArea.setText(disp.dialogue((NonPlayerCharacter) npc.getCharacter().getCharacter(), frame.player));
+                    frame.entryField.setText("You talked to " + npc.getCharacter().getCharacter().getName());
                     frame.talk = false;
                 }
             }

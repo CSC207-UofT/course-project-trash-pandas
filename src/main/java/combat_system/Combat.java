@@ -1,7 +1,7 @@
 package combat_system;
-import characters.GameCharacter;
-import characters.NonPlayerCharacter;
-import characters.PlayerCharacter;
+import GUI.MainFrame;
+import characters.*;
+import com.sun.tools.javac.Main;
 
 import java.util.*;
 import java.util.Scanner;
@@ -14,10 +14,16 @@ public class Combat {
     private int foes;
     private boolean player_alive = true;
     private ArrayList<GameCharacter> participants;
+    private ArrayList<CharacterInventoryFacade> people;
     private TreeMap<Double, GameCharacter> turnorder = new TreeMap<>();
+    public boolean attack, ability, inventory, secondStage;
 
-    public Combat(ArrayList<GameCharacter> participants) {
-        this.participants = participants;
+    public Combat(ArrayList<CharacterInventoryFacade> people) {
+        this.participants = new ArrayList<GameCharacter>();
+        for (CharacterInventoryFacade person: people) {
+            this.participants.add(person.getCharacter().getCharacter());
+        }
+        this.people = people;
         this.foes = participants.size()-1;
     }
     /**
@@ -84,6 +90,68 @@ public class Combat {
         }
     }
 
+    public void attack(MainFrame frame) {
+        if(!secondStage) {
+            ability = inventory = false;
+            attack = true;
+            StringBuilder targets = new StringBuilder("Who would you like to attack?");
+            frame.displayCombatInput("Select Target");
+            for (GameCharacter participant: participants) {
+                if (participant instanceof NonPlayerCharacter) {
+                    targets.append("\n").append(participant.getName());
+                }
+            }
+            frame.displayCombatText(targets.toString());
+            //end turn
+        }
+        else {
+            frame.displayCombatText("Please select a target for your ability");
+        }
+    }
+
+    public void defend(MainFrame frame) {
+        if(!secondStage) {
+            attack = ability = inventory = false;
+            frame.displayCombatText("You enter a defensive stance");
+            //end turn
+        }
+        else {
+            frame.displayCombatText("Please select a target for your ability");
+        }
+    }
+
+    public void ability(MainFrame frame) {
+        if(!secondStage) {
+            attack = inventory = false;
+            ability = true;
+            StringBuilder abilities = new StringBuilder("What ability would you like to use?");
+            for(Ability ability: findPlayer().getCharacter().getCharacter().getAbilities()) {
+                abilities.append("\n").append(ability.getName());
+            }
+            frame.displayCombatText(abilities.toString());
+            frame.displayCombatInput("Select Ability");
+        }
+        else {
+            frame.displayCombatText("Please select a target for your ability");
+        }
+    }
+
+    public void inventory(MainFrame frame) {
+        if(!secondStage) {
+            ability = attack = false;
+            inventory = true;
+            frame.displayCombatText(findPlayer().getInventory());
+            frame.displayCombatInput("Select Item");
+        }
+        else {
+            frame.displayCombatText("Please select a target for your ability");
+        }
+    }
+
+    public int rollAttack() {
+        Random r = new Random();
+        return r.nextInt(20);
+    }
     /**
      * This method determines if a character is an NPC or a player and then proceeds to have them take a turn.
      * @param participant the GameCharacter who is taking the turn
@@ -91,7 +159,7 @@ public class Combat {
     public String takeTurn(GameCharacter participant) {
         Random r = new Random();
         if(participant instanceof NonPlayerCharacter) {
-            PlayerCharacter target = findPlayer();
+            GameCharacter target = findPlayer().getCharacter().getCharacter();
             if(r.nextBoolean()) {
                return participant.getName()+" enters a defensive stance" + printBorder();
             }
@@ -147,10 +215,10 @@ public class Combat {
      * This method finds the player character and returns them from amongst participants
      * @return the player character
      */
-    public PlayerCharacter findPlayer() {
-        for(GameCharacter player : this.participants) {
-            if(player instanceof PlayerCharacter) {
-                return (PlayerCharacter) player;
+    public CharacterInventoryFacade findPlayer() {
+        for(CharacterInventoryFacade player : this.people) {
+            if(player.getCharacter().getCharacter() instanceof PlayerCharacter) {
+                return player;
             }
         }
         return null; // this should never happen
