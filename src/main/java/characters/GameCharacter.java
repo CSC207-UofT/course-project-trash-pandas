@@ -1,5 +1,6 @@
 package characters;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,6 +23,7 @@ public abstract class GameCharacter {
     private final String name;
     private WeaponItem weapon;
     private ArmorItem armor;
+    private ArrayList<Ability> abilities = new ArrayList<>();
 
     public GameCharacter(int hp, String name){
         this.maxHealth = hp;
@@ -39,6 +41,10 @@ public abstract class GameCharacter {
     public String getName() {
         return name;
     }
+
+    public ArrayList<Ability> getAbilities() {return this.abilities;}
+
+    public void addAbility(Ability ability) {this.abilities.add(ability);}
 
 
     /**

@@ -1,24 +1,30 @@
 package combat_system;
-import characters.GameCharacter;
-import characters.NonPlayerCharacter;
-import characters.PlayerCharacter;
+import GUI.MainFrame;
+import characters.*;
 
+import javax.swing.*;
 import java.util.*;
-import java.util.Scanner;
 
 /**
  * Creates an instance of combat that will run until completion. If the player dies, or the foes all die.
  */
 public class Combat {
     private int round = 1;
-    private int foes = 0;
+    private int foes, currentTurn;
     private boolean player_alive = true;
     private ArrayList<GameCharacter> participants;
+    private ArrayList<CharacterInventoryFacade> people;
     private TreeMap<Double, GameCharacter> turnorder = new TreeMap<>();
+    public boolean attack, ability, inventory, secondStage, endTurn;
 
-    public Combat(ArrayList<GameCharacter> participants) {
-        this.participants = participants;
+    public Combat(ArrayList<CharacterInventoryFacade> people) {
+        this.participants = new ArrayList<GameCharacter>();
+        for (CharacterInventoryFacade person: people) {
+            this.participants.add(person.getCharacter().getCharacter());
+        }
+        this.people = people;
         this.foes = participants.size()-1;
+        this.endTurn = false;
     }
     /**
      * Applies a status effect if there is currently no status effect of that name applied or if there is a status
@@ -68,15 +74,14 @@ public class Combat {
             target.setCurrentHealth(health_remaining);
             if(health_remaining <= 0) {
                 if(target instanceof NonPlayerCharacter) {
-                    System.out.println("You strike the killing blow against " + target.getName());
                     this.foes -= 1;
+                    return "You strike the killing blow against " + target.getName();
                 }
                 else {
                     this.player_alive = false;
-                    System.out.println("You are dead!");
+                    return "You are dead!";
                 }
             }
-
             return "The attack hits, dealing " + attacker.getWeapon().getDamage() + " damage!";
         }
         else {
@@ -84,62 +89,89 @@ public class Combat {
         }
     }
 
-    /**
-     * This method determines if a character is an NPC or a player and then proceeds to have them take a turn.
-     * @param participant the GameCharacter who is taking the turn
-     */
-    public void takeTurn(GameCharacter participant) {
-        Random r = new Random();
-        if(participant instanceof NonPlayerCharacter) {
-            PlayerCharacter target = findPlayer();
-            if(r.nextBoolean()) {
-                System.out.println(participant.getName()+" enters a defensive stance");
+    public void attack(MainFrame frame) {
+        if(!secondStage) {
+            ability = inventory = false;
+            attack = true;
+            StringBuilder targets = new StringBuilder("Who would you like to attack?");
+            frame.displayCombatInput("Select Target");
+            for (GameCharacter participant: participants) {
+                if (participant instanceof NonPlayerCharacter) {
+                    targets.append("\n").append(participant.getName());
+                }
             }
-            else {
-                System.out.println(participant.getName()+" makes an attack against you!");
-                System.out.println(damage(r.nextInt(20), target, participant));
-            }
-            printBorder();
+            frame.displayCombatText(targets.toString());
         }
         else {
-            boolean valid_input = false;
-            while(!valid_input) {
-                Scanner sc = new Scanner(System.in);
-                System.out.println("It is your turn, what do you do?");
-                System.out.println("Attack");
-                System.out.println("Defend");
-                String user_input = sc.nextLine();
-                if(user_input.equals("Attack")) {
-                    HashMap<String, NonPlayerCharacter> npc_names = new HashMap<>();
-                    System.out.print("The remaining enemies are:");
-                    for(NonPlayerCharacter npc : findAliveNpcs()) {
-                        System.out.println(npc.getName());
-                        npc_names.put(npc.getName(), npc);
-                    }
-                    System.out.println("Which will you attack?");
-                    boolean valid_attack = false;
-                    while(!valid_attack) {
-                        String attack_input = sc.nextLine();
-                        if(npc_names.containsKey(attack_input)) {
-                            System.out.println(damage(r.nextInt(20), npc_names.get(attack_input), participant));
-                            valid_attack = true;
-                        }
-                        else {
-                            System.out.println("Please enter a valid name for the attack");
-                        }
+            frame.displayCombatText("Please select a target for your ability");
+        }
+    }
 
-                    }
-                    valid_input = true;
-                }
-                else if(user_input.equals("Defend")) {
-                    System.out.println("You enter a defensive stance");
-                    valid_input = true;
-                }
-                else{
-                    System.out.println("Not a valid input, try again");
-                }
-                printBorder();
+    public void defend(MainFrame frame) {
+        if(!secondStage) {
+            attack = ability = inventory = false;
+            frame.displayCombatText("You enter a defensive stance");
+            endTurn = true;
+        }
+        else {
+            frame.displayCombatText("Please select a target for your ability");
+        }
+    }
+
+    public void ability(MainFrame frame) {
+        if(findPlayer().getCharacter().getCharacter().getAbilities().size() == 0) {
+            frame.displayCombatText("You have no abilities");
+        }
+        else if(!secondStage) {
+            attack = inventory = false;
+            ability = true;
+            StringBuilder abilities = new StringBuilder("What ability would you like to use?");
+            for(Ability ability: findPlayer().getCharacter().getCharacter().getAbilities()) {
+                abilities.append("\n").append(ability.getName());
             }
+            frame.displayCombatText(abilities.toString());
+            frame.displayCombatInput("Select Ability");
+        }
+        else {
+            frame.displayCombatText("Please select a target for your ability");
+        }
+    }
+
+    public void inventory(MainFrame frame) {
+        if(!secondStage) {
+            ability = attack = false;
+            if(findPlayer().getInventory().equals("")) {
+                frame.displayCombatText("You have no items");
+            }
+            else {
+                inventory = true;
+                frame.displayCombatText(findPlayer().getInventory());
+                frame.displayCombatText("Which item would you like to use?");
+                frame.displayCombatInput("Select Item");
+            }
+        }
+        else {
+            frame.displayCombatText("Please select a target for your ability");
+        }
+    }
+
+    public int rollAttack() {
+        Random r = new Random();
+        return r.nextInt(20);
+    }
+    /**
+     * This method takes a turn for a npc
+     * want to add percents for character behavior to attack or use abilities or defend
+     * @param npc the GameCharacter who is taking the turn
+     */
+    public String takeTurn(NonPlayerCharacter npc) {
+        Random r = new Random();
+        GameCharacter target = findPlayer().getCharacter().getCharacter();
+        if(r.nextBoolean()) {
+            return npc.getName()+" enters a defensive stance";
+        }
+        else {
+            return npc.getName()+" makes an attack against you!" + "\n" + damage(rollAttack(), target, npc);
         }
     }
 
@@ -147,10 +179,10 @@ public class Combat {
      * This method finds the player character and returns them from amongst participants
      * @return the player character
      */
-    public PlayerCharacter findPlayer() {
-        for(GameCharacter player : this.participants) {
-            if(player instanceof PlayerCharacter) {
-                return (PlayerCharacter) player;
+    public CharacterInventoryFacade findPlayer() {
+        for(CharacterInventoryFacade player : this.people) {
+            if(player.getCharacter().getCharacter() instanceof PlayerCharacter) {
+                return player;
             }
         }
         return null; // this should never happen
@@ -173,22 +205,50 @@ public class Combat {
     /**
      * Prints a border that makes the console easier to read for the user
      */
-    public void printBorder() {
-        System.out.println("------------------------------------------------");
+    public String printBorder() {
+        return "-------------------";
     }
 
     /**
      * Prints the current turn order.
      * In the future abilities may change people's place in the turn order
      */
-    public void printTurnOrder() {
+    public String turnOrder() {
         int turn = 1;
-        System.out.println("Current Turn Order:");
+        StringBuilder turnOrder = new StringBuilder("Current Turn Order:");
         for(Map.Entry<Double, GameCharacter> partcipant : this.turnorder.entrySet()) {
-            System.out.println(turn + ". " + partcipant.getValue().getName());
+            turnOrder.append("\n").append(turn).append(". ").append(partcipant.getValue().getName());
             turn += 1;
         }
-        printBorder();
+        return turnOrder.toString();
+    }
+
+    public void nextTurn(MainFrame frame) {
+        frame.setHpLabel();
+        frame.displayCombatText(printBorder());
+        if(foes==0) {
+            frame.getCurrentScene().remove_dead();
+            clearStatus();
+            frame.exitCombatFrame();
+        }
+        if(!player_alive) {
+            frame.gameOver();
+        }
+        if(currentTurn == turnorder.size()) {
+            frame.displayCombatText("End of round " + round);
+            frame.displayCombatText(printBorder());
+            endRound();
+            currentTurn = 0;
+        }
+        GameCharacter person = (GameCharacter) turnorder.values().toArray()[currentTurn];
+        currentTurn += 1;
+        if(person instanceof NonPlayerCharacter) {
+            frame.displayCombatText(takeTurn((NonPlayerCharacter) person));
+            nextTurn(frame);
+        }
+        else if(foes>0) {
+            frame.displayCombatText("It is your turn");
+        }
     }
 
     /**
@@ -198,34 +258,18 @@ public class Combat {
      * At the end of each round (which is determined by one iteration through the while loop) all statuses decrement
      * At the end of the combat it will clear all statuses
      */
-    public void combatLoop() {
-        boolean combat = false;
-        if(this.participants.size() > 1) {
-            combat = true;
-            Random rand = new Random();
-            for (GameCharacter participant : this.participants) {
-                this.turnorder.put(rand.nextDouble(), participant);
-            }
-            System.out.println("Combat begins");
+    public void startCombat(MainFrame frame) {
+        Random rand = new Random();
+        for (GameCharacter participant : this.participants) {
+            this.turnorder.put(rand.nextDouble(), participant);
+        }
+        frame.displayCombatText(turnOrder());
+        GameCharacter person = (GameCharacter) turnorder.values().toArray()[0];
+        if(person instanceof NonPlayerCharacter) {
+            nextTurn(frame);
         }
         else {
-            System.out.println("There is no one to attack here");
+            frame.displayCombatText("It is your turn");
         }
-        outerloop:
-        while (combat) {
-            printTurnOrder();
-            for (Map.Entry<Double, GameCharacter> partcipant : this.turnorder.entrySet()) {
-                if (partcipant.getValue().getCurrentHealth() > 0) {
-                    takeTurn(partcipant.getValue());
-                    if (!this.player_alive||this.foes==0) {
-                        break outerloop;
-                    }
-                }
-            }
-            endRound();
-            System.out.println("The round has ended, the next round is: " + this.round);
-
-        }
-        clearStatus();
     }
 }

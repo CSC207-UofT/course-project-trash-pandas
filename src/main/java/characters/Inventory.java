@@ -71,11 +71,11 @@ public class Inventory {
     // TODO: fix this stringbuilder style error which i am too lazy to do right now
     @Override
     public String toString(){
-        String toReturn = "";
+        StringBuilder toReturn = new StringBuilder();
         for (Item i: this.inventory.keySet()){
-            toReturn += (i + ". " + i.getName() + "\t" + this.inventory.get(i) + "\n");
+            toReturn.append(i).append(". ").append(i.getName()).append("\t").append(this.inventory.get(i)).append("\n");
         }
-        return toReturn;
+        return toReturn.toString();
     }
 
 }
