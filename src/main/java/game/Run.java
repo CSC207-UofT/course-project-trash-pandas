@@ -26,9 +26,10 @@ public class Run {
         String endingDialogue = "\"Ah! I see you have returned with some coin! Now give it here.\"";
         QuestItem coin = new QuestItem("coin", "a silver coin");
         FetchQuest coinQuest = new FetchQuest(coin);
+        String combatDialogue = "Tim: You wish to fight? So be it.";
 
         NonPlayerCharacter timC = new NonPlayerCharacter(1, "Tim", beginDialogue,
-                duringDialogue, endingDialogue, coinQuest);
+                duringDialogue, endingDialogue, coinQuest, combatDialogue);
         Inventory timInventory = new Inventory();
         CharacterInventoryFacade tim = new CharacterInventoryFacade(timInventory, timC);
 

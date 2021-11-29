@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import Music.MusicHandler;
 import characters.CharacterInventoryFacade;
+import characters.NonPlayerCharacter;
 import items.Item;
 import scene_system.Scene;
 
@@ -191,7 +192,11 @@ public class MainFrame {
         combatField.setVisible(true);
         combatField.addActionListener(combatInputListener);
         textInputPanel.add(combatField);
-        mainTextArea.setText("Combat begins:");
+        mainTextArea.setText("");
+        for(CharacterInventoryFacade npc: currentScene.getNpc()) {
+            displayCombatText(((NonPlayerCharacter) npc.getCharacter().getCharacter()).getCombatDialogue());
+        }
+        displayCombatText("Combat begins");
 
         combatPanel = new JPanel();
         combatPanel.setBounds(560, 700, 750, 290);
