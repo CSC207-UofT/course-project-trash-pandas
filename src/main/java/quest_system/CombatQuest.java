@@ -25,6 +25,5 @@ public class CombatQuest extends Quest{
         if (args != null && this.npcs.contains(((NonPlayerCharacter) args))){
             this.npcs.remove((NonPlayerCharacter)args);
         }
-        this.checkDone();
     }
 }

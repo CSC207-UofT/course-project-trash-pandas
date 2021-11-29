@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SceneTest {
     private Scene scene;
@@ -19,7 +20,7 @@ public class SceneTest {
     public void before() throws Exception {
         NonPlayerCharacter npc = new NonPlayerCharacter(5, "tim");
         Inventory inventory = new Inventory();
-        CharacterInventoryFacade tim = new CharacterInventoryFacade(inventory, npc);
+        CharacterInventoryFacade tim = new CharacterInventoryFacade(inventory, npc, List.of());
         ArrayList<CharacterInventoryFacade> npcs = new ArrayList<>();
         npcs.add(tim);
         ArrayList<Item> items = new ArrayList<>();

@@ -34,10 +34,9 @@ public class FetchQuest extends Quest{
 
     @Override
     public void update(Object args) {
-        if (this.goalItems.contains(args)){
+        if (this.goalItems.contains((QuestItem) args)){
             this.goalItems.remove(((QuestItem)args));
         }
-        this.checkDone();
     }
 
 }
