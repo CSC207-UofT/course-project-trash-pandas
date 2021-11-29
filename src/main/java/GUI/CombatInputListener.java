@@ -31,8 +31,6 @@ public class CombatInputListener implements ActionListener {
         }
         else if(combat.attack) {
             for (NonPlayerCharacter target: combat.findAliveNpcs()) {
-                System.out.println(target.getName());
-                System.out.println(input);
                 if(target.getName().equalsIgnoreCase(input)){
                     frame.displayCombatText(combat.damage(combat.rollAttack(), target,
                             combat.findPlayer().getCharacter().getCharacter()));
@@ -40,13 +38,11 @@ public class CombatInputListener implements ActionListener {
                     frame.displayCombatText(combat.printBorder());
                     valid = true;
                     combat.attack = false;
-                    //end turn
                     break;
                 }
             }
         }
         else if (secondStage) {
-            System.out.println("We got to second stage");
             for (NonPlayerCharacter npc: combat.findAliveNpcs()) {
                 if (npc.getName().equalsIgnoreCase(input)) {
                     savedAbility.setCombatTextTarget(npc.getName());

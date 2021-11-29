@@ -82,7 +82,6 @@ public class Combat {
                     return "You are dead!";
                 }
             }
-
             return "The attack hits, dealing " + attacker.getWeapon().getDamage() + " damage!";
         }
         else {
@@ -112,6 +111,7 @@ public class Combat {
         if(!secondStage) {
             attack = ability = inventory = false;
             frame.displayCombatText("You enter a defensive stance");
+            frame.displayCombatText(printBorder());
             endTurn = true;
         }
         else {
@@ -166,11 +166,10 @@ public class Combat {
         Random r = new Random();
         GameCharacter target = findPlayer().getCharacter().getCharacter();
         if(r.nextBoolean()) {
-            return npc.getName()+" enters a defensive stance" + printBorder();
+            return npc.getName()+" enters a defensive stance";
         }
         else {
-            return npc.getName()+" makes an attack against you!" + "\n" +
-                    "It deals:" + damage(rollAttack(), target, npc) + printBorder();
+            return npc.getName()+" makes an attack against you!" + "\n" + damage(rollAttack(), target, npc);
         }
     }
 
@@ -205,7 +204,7 @@ public class Combat {
      * Prints a border that makes the console easier to read for the user
      */
     public String printBorder() {
-        return "\n-------------------";
+        return "-------------------";
     }
 
     /**
@@ -219,22 +218,29 @@ public class Combat {
             turnOrder.append("\n").append(turn).append(". ").append(partcipant.getValue().getName());
             turn += 1;
         }
-        turnOrder.append(printBorder());
+        turnOrder.append("\n").append(printBorder());
         return turnOrder.toString();
     }
 
     public void nextTurn(MainFrame frame) {
+        if(foes==0) {
+            frame.getCurrentScene().remove_dead();
+            clearStatus();
+            frame.exitCombatFrame();
+        }
         if(currentTurn == turnorder.size()) {
             endRound();
             currentTurn = 0;
-            System.out.println("Set to 0");
         }
         GameCharacter person = (GameCharacter) turnorder.values().toArray()[currentTurn];
         currentTurn += 1;
-        if(person instanceof NonPlayerCharacter ) {
+        if(person instanceof NonPlayerCharacter) {
             frame.displayCombatText(takeTurn((NonPlayerCharacter) person));
             frame.displayCombatText(printBorder());
             nextTurn(frame);
+        }
+        else if(foes>0) {
+            frame.displayCombatText("It is your turn");
         }
     }
 

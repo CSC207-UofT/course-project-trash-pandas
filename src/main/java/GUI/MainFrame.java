@@ -42,6 +42,10 @@ public class MainFrame {
         this.combatInputListener = new CombatInputListener(this);
     }
 
+    public Scene getCurrentScene() {
+        return currentScene;
+    }
+
     public void titleFrame() {
         //mu.setFile(radioNoise);
         //mu.loop();
@@ -98,6 +102,9 @@ public class MainFrame {
         mainTextArea.setWrapStyleWord(true);
         mainTextArea.setEditable(false);
         scroll = new JScrollPane(mainTextArea);
+        scroll.setBounds(210, 200, 1500, 500);
+        scroll.setAutoscrolls(true);
+        scroll.setPreferredSize(new Dimension(1500, 450));
         mainTextPanel.add(scroll);
 
         choiceButtonPanel = new JPanel();
@@ -247,8 +254,14 @@ public class MainFrame {
         SwingUtilities.updateComponentTreeUI(window);
         currentScene.getCombat(player).startCombat(this);
     }
-    public JFrame getWindow() {
-        return window;
+
+    public void exitCombatFrame() {
+        con.remove(combatPanel);
+        textInputPanel.remove(combatField);
+        con.remove(turnPanel);
+        con.add(choiceButtonPanel);
+        textInputPanel.add(entryField);
+        displayScene(currentScene);
     }
 
     public void displayScene(Scene sc) {
@@ -337,6 +350,7 @@ public class MainFrame {
 
     public void displayCombatText(String text) {
         mainTextArea.append("\n" + text);
+        mainTextArea.setCaretPosition(mainTextArea.getDocument().getLength());
     }
 
     public void displayCombatInput(String text) {
