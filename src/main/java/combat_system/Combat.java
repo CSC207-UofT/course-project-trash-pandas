@@ -1,6 +1,7 @@
 package combat_system;
 import GUI.MainFrame;
 import characters.*;
+import constants.Observer;
 
 import javax.swing.*;
 import java.util.*;
@@ -17,8 +18,9 @@ public class Combat {
     private ArrayList<CharacterInventoryFacade> people;
     private TreeMap<Double, GameCharacter> turnorder = new TreeMap<>();
     public boolean attack, ability, inventory, secondStage, endTurn;
+    private List<Observer> observers;
 
-    public Combat(ArrayList<CharacterInventoryFacade> people) {
+    public Combat(ArrayList<CharacterInventoryFacade> people, List<Observer> observers) {
         this.participants = new ArrayList<GameCharacter>();
         for (CharacterInventoryFacade person: people) {
             this.participants.add(person.getCharacter().getCharacter());
@@ -26,6 +28,7 @@ public class Combat {
         this.people = people;
         this.foes = participants.size()-1;
         this.endTurn = false;
+        this.observers = observers;
     }
     /**
      * Applies a status effect if there is currently no status effect of that name applied or if there is a status
@@ -76,6 +79,9 @@ public class Combat {
             if(health_remaining <= 0) {
                 if(target instanceof NonPlayerCharacter) {
                     this.foes -= 1;
+                    for(Observer observer: observers){
+                        observer.update(target);
+                    }
                     return "You strike the killing blow against " + target.getName();
                 }
                 else {

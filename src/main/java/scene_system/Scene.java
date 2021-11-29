@@ -23,6 +23,7 @@ public class Scene {
     private ArrayList<Scene> connectedAreas;
     private ArrayList<Item> items;
     private Combat combat;
+    private List<Observer> observers;
 
     /**
      * Constructor for the scene_system.Scene class.
@@ -32,12 +33,13 @@ public class Scene {
      * @param items the items located in the scene_system.Scene
      */
     public Scene(String name, ArrayList<CharacterInventoryFacade> npc, String area,
-          ArrayList<Item> items) {
+          ArrayList<Item> items, List<Observer> observers) {
         this.name = name;
         this.npc = npc;
         this.area_description = area;
         this.connectedAreas = new ArrayList<>();
         this.items = items;
+        this.observers = observers;
     }
 
     /**
@@ -113,7 +115,7 @@ public class Scene {
         if(combat == null) {
             ArrayList<CharacterInventoryFacade> participants = new ArrayList<>(getNpc());
             participants.add(player);
-            this.combat = new Combat(participants);
+            this.combat = new Combat(participants, this.observers);
         }
         return this.combat;
     }

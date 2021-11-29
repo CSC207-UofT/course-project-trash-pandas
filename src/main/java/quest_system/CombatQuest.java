@@ -4,14 +4,15 @@ import characters.ItemCheckable;
 import characters.NonPlayerCharacter;
 import items.QuestItem;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class CombatQuest extends Quest{
 
-    private Set<NonPlayerCharacter> npcs;
+    private Set<NonPlayerCharacter> npcs = new HashSet<>();
 
-    CombatQuest(Set<NonPlayerCharacter> npcs){
-        this.npcs = npcs;
+    public CombatQuest(Set<NonPlayerCharacter> npcs){
+        this.npcs.addAll(npcs);
     }
 
     public void checkDone() {

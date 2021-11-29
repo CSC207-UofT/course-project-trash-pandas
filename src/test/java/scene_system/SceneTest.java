@@ -25,7 +25,7 @@ public class SceneTest {
         npcs.add(tim);
         ArrayList<Item> items = new ArrayList<>();
         items.add(new ArmorItem("helmet", "head", 1, 1));
-        scene = new Scene("place", npcs, "test area", items);
+        scene = new Scene("place", npcs, "test area", items, List.of());
     }
 
     @After
@@ -73,7 +73,8 @@ public class SceneTest {
 
     @Test
     public void testAddScene() {
-        Scene place = new Scene("top", new ArrayList<CharacterInventoryFacade>(), "top",new ArrayList<Item>());
+        Scene place = new Scene("top", new ArrayList<CharacterInventoryFacade>(), "top",
+                new ArrayList<Item>(), List.of());
         scene.addScene(place);
         ArrayList<Scene> scenes = new ArrayList<>();
         scenes.add(place);

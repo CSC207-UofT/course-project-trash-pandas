@@ -37,22 +37,31 @@ public class Run {
         Inventory timInventory = new Inventory();
         CharacterInventoryFacade tim = new CharacterInventoryFacade(timInventory, timC, List.of());
 
+        CombatQuest combatQuest = new CombatQuest(Set.of(timC));
+        NonPlayerCharacter target = new NonPlayerCharacter(1, "target", "help",
+                "i believe in you","thank you", combatQuest, "good luck");
+        Inventory targetInventory = new Inventory();
+        CharacterInventoryFacade targetFacade = new CharacterInventoryFacade(targetInventory, target, List.of());
+
+        questManager.addQuest(combatQuest);
         String streetName = "Street";
         ArrayList<CharacterInventoryFacade> streetNPCS = new ArrayList<>();
         streetNPCS.add(tim);
         String streetDescription = "You are in the city.";
         ArrayList<Item> streetItems = new ArrayList<>();
 
-        Scene street = new Scene(streetName, streetNPCS, streetDescription, streetItems);
+        Scene street = new Scene(streetName, streetNPCS, streetDescription, streetItems, List.of(questManager));
 
 
         String pizzaPlaceName = "Pizza Place";
         ArrayList<CharacterInventoryFacade> pizzaNPCS = new ArrayList<>();
+        pizzaNPCS.add(targetFacade);
         String pizzaPlaceDescription = "This pizza joint is squeaky clean aside from a scrunched up disc" +
                 " of aluminum foil dropped on one of the seats.";
         ArrayList<Item> pizzaPlaceItems = new ArrayList<>();
         pizzaPlaceItems.add(Constants.ITEMS.get("coin"));
-        Scene pizzaPlace = new Scene(pizzaPlaceName, pizzaNPCS, pizzaPlaceDescription, pizzaPlaceItems);
+        Scene pizzaPlace = new Scene(pizzaPlaceName, pizzaNPCS, pizzaPlaceDescription, pizzaPlaceItems,
+                List.of(questManager));
 
         street.addScene(pizzaPlace);
         pizzaPlace.addScene(street);
