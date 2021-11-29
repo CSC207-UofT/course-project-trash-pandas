@@ -231,23 +231,26 @@ public class Combat {
             clearStatus();
             frame.exitCombatFrame();
         }
-        if(!player_alive) {
+        else if(!player_alive) {
             frame.gameOver();
         }
-        if(currentTurn == turnorder.size()) {
-            frame.displayCombatText("End of round " + round);
-            frame.displayCombatText(printBorder());
-            endRound();
-            currentTurn = 0;
-        }
-        GameCharacter person = (GameCharacter) turnorder.values().toArray()[currentTurn];
-        currentTurn += 1;
-        if(person instanceof NonPlayerCharacter) {
-            frame.displayCombatText(takeTurn((NonPlayerCharacter) person));
-            nextTurn(frame);
-        }
-        else if(foes>0) {
-            frame.displayCombatText("It is your turn");
+        else {
+            if(currentTurn == turnorder.size()) {
+                frame.displayCombatText("End of round " + round);
+                frame.displayCombatText(printBorder());
+                endRound();
+                currentTurn = 0;
+            }
+            GameCharacter person = (GameCharacter) turnorder.values().toArray()[currentTurn];
+            currentTurn += 1;
+            if(person instanceof NonPlayerCharacter) {
+                frame.displayCombatText(takeTurn((NonPlayerCharacter) person));
+                nextTurn(frame);
+            }
+            else {
+                frame.displayCombatText("It is your turn");
+            }
+
         }
     }
 
@@ -264,12 +267,6 @@ public class Combat {
             this.turnorder.put(rand.nextDouble(), participant);
         }
         frame.displayCombatText(turnOrder());
-        GameCharacter person = (GameCharacter) turnorder.values().toArray()[0];
-        if(person instanceof NonPlayerCharacter) {
-            nextTurn(frame);
-        }
-        else {
-            frame.displayCombatText("It is your turn");
-        }
+        nextTurn(frame);
     }
 }
