@@ -2,6 +2,7 @@ package combat_system;
 import characters.GameCharacter;
 import characters.NonPlayerCharacter;
 import characters.PlayerCharacter;
+import constants.Observer;
 
 import java.util.*;
 import java.util.Scanner;
@@ -15,10 +16,12 @@ public class Combat {
     private boolean player_alive = true;
     private ArrayList<GameCharacter> participants;
     private TreeMap<Double, GameCharacter> turnorder = new TreeMap<>();
+    private List<Observer> observers;
 
-    public Combat(ArrayList<GameCharacter> participants) {
+    public Combat(ArrayList<GameCharacter> participants, List<Observer> observers) {
         this.participants = participants;
         this.foes = participants.size()-1;
+        this.observers = observers;
     }
     /**
      * Applies a status effect if there is currently no status effect of that name applied or if there is a status
@@ -69,6 +72,9 @@ public class Combat {
             if(health_remaining <= 0) {
                 if(target instanceof NonPlayerCharacter) {
                     System.out.println("You strike the killing blow against " + target.getName());
+                    for(Observer observer: observers){
+                        observer.update(target);
+                    }
                     this.foes -= 1;
                 }
                 else {

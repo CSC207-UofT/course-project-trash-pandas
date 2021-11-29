@@ -1,7 +1,12 @@
 package characters;
 
 import constants.Constants;
+import constants.Observer;
 import items.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A facade class that provides a unified interface for Characters and Inventory interactions.
@@ -13,10 +18,12 @@ public class CharacterInventoryFacade implements ItemCheckable {
     private final InventoryManager inventory;
     private CharacterManager character;
     private final ItemList itemList = new ItemList();
+    private List<Observer> observers;
 
-    public CharacterInventoryFacade(Inventory inventory, GameCharacter character){
+    public CharacterInventoryFacade(Inventory inventory, GameCharacter character, List<Observer> observers){
         this.inventory = new InventoryManager(inventory);
         this.character = new CharacterManager(character);
+        this.observers = observers;
     }
 
     /**
@@ -74,6 +81,9 @@ public class CharacterInventoryFacade implements ItemCheckable {
 
     public void addItem(String itemName, int quantity){
         inventory.addItem(itemName, quantity);
+        for(Observer observer: this.observers){
+            observer.update(this.itemList.getItem(itemName));
+        }
     }
 
     @Override

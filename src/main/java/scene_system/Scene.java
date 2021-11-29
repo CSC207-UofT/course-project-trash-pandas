@@ -2,12 +2,14 @@ package scene_system;
 
 import characters.GameCharacter;
 import characters.NonPlayerCharacter;
+import constants.Observer;
 import items.Item;
 
 import characters.PlayerCharacter;
 import combat_system.Combat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a scene in the game.
@@ -107,10 +109,10 @@ public class Scene {
      * This leaves room for expansion if there are non-lethal options in combat (check_alive can be expanded)
      * @param player the player character must be combined with the npcs in an ArrayList to start combat
      */
-    public void start_combat(PlayerCharacter player) {
+    public void start_combat(PlayerCharacter player, List<Observer> observers) {
         ArrayList<GameCharacter> participants = new ArrayList<>(getNpc());
         participants.add(player);
-        Combat scene_combat = new Combat(participants);
+        Combat scene_combat = new Combat(participants, observers);
         scene_combat.combatLoop();
         remove_dead();
     }

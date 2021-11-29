@@ -1,8 +1,10 @@
 package game;
 
 import characters.*;
+import constants.Constants;
 import game.GameLogic;
 import items.Item;
+import items.ItemList;
 import items.QuestItem;
 import quest_system.*;
 import scene_system.Scene;
@@ -17,7 +19,8 @@ public class Run {
     public static void main(String[] args) {
 
         PlayerCharacter bernie = new PlayerCharacter(10, "Bernie");
-
+        QuestManager questManager = new QuestManager();
+        ItemList itemList = new ItemList();
 
         String beginDialogue = "\"Hail, masked traveler! I am the wondering Nomad. Might I interest you in some of" +
                 " my wares? You may purchase any of them for one silver coin.\" Says the Frog. You don't have" +
@@ -25,7 +28,8 @@ public class Run {
         String duringDialogue = "\"You still don't have a coin for me.\" Says the frog.";
         String endingDialogue = "\"Ah! I see you have returned with some coin! Now give it here.\"";
         QuestItem coin = new QuestItem("coin", "a silver coin");
-        FetchQuest coinQuest = new FetchQuest(coin);
+        FetchQuest coinQuest = new FetchQuest(Set.of(((QuestItem)itemList.getItem("coin"))));
+        questManager.addQuest(coinQuest);
 
         NonPlayerCharacter tim = new NonPlayerCharacter(1, "Tim", beginDialogue,
                 duringDialogue, endingDialogue, coinQuest);
@@ -50,9 +54,9 @@ public class Run {
         street.addScene(pizzaPlace);
         pizzaPlace.addScene(street);
 
-        GameLogic logic = new GameLogic();
+        GameLogic logic = new GameLogic(List.of(questManager));
         Inventory inventory = new Inventory();
-        CharacterInventoryFacade bernieFacade = new CharacterInventoryFacade(inventory,bernie);
+        CharacterInventoryFacade bernieFacade = new CharacterInventoryFacade(inventory,bernie,List.of(questManager));
         logic.sceneLogic(street, bernieFacade);
     }
 }
