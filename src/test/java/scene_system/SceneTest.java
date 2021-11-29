@@ -1,5 +1,7 @@
 package scene_system;
 
+import characters.CharacterInventoryFacade;
+import characters.Inventory;
 import characters.NonPlayerCharacter;
 import items.ArmorItem;
 import items.Item;
@@ -16,8 +18,10 @@ public class SceneTest {
     @Before
     public void before() throws Exception {
         NonPlayerCharacter npc = new NonPlayerCharacter(5, "tim");
-        ArrayList<NonPlayerCharacter> npcs = new ArrayList<>();
-        npcs.add(npc);
+        Inventory inventory = new Inventory();
+        CharacterInventoryFacade tim = new CharacterInventoryFacade(inventory, npc);
+        ArrayList<CharacterInventoryFacade> npcs = new ArrayList<>();
+        npcs.add(tim);
         ArrayList<Item> items = new ArrayList<>();
         items.add(new ArmorItem("helmet", "head", 1, 1));
         scene = new Scene("place", npcs, "test area", items);
@@ -68,7 +72,7 @@ public class SceneTest {
 
     @Test
     public void testAddScene() {
-        Scene place = new Scene("top", new ArrayList<NonPlayerCharacter>(), "top",new ArrayList<Item>());
+        Scene place = new Scene("top", new ArrayList<CharacterInventoryFacade>(), "top",new ArrayList<Item>());
         scene.addScene(place);
         ArrayList<Scene> scenes = new ArrayList<>();
         scenes.add(place);

@@ -9,13 +9,15 @@ public class NonPlayerCharacter extends GameCharacter {
     public final int DURING_QUEST = 1;
     private String[] questDialogue = new String[3];
     private Quest quest;
+    private String combatDialogue;
 
-    public NonPlayerCharacter(int hp, String name, String begin, String middle, String end, Quest quest){
+    public NonPlayerCharacter(int hp, String name, String begin, String middle, String end, Quest quest, String combatDialogue){
         super(hp, name);
         this.questDialogue[BEGIN_QUEST] = begin;
         this.questDialogue[DURING_QUEST] = middle;
         this.questDialogue[END_QUEST] = end;
         this.quest = quest;
+        this.combatDialogue = combatDialogue;
 
     }
 
@@ -30,4 +32,6 @@ public class NonPlayerCharacter extends GameCharacter {
     public String getQuestDialogue(int i) {
         return questDialogue[i];
     }
+
+    public String getCombatDialogue() {return combatDialogue;}
 }

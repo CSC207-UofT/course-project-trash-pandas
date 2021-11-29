@@ -1,5 +1,6 @@
 package scene_system;
 
+import characters.CharacterInventoryFacade;
 import characters.GameCharacter;
 import characters.NonPlayerCharacter;
 import constants.Observer;
@@ -17,10 +18,11 @@ import java.util.List;
 public class Scene {
 
     private String name;
-    private ArrayList<NonPlayerCharacter> npc;
+    private ArrayList<CharacterInventoryFacade> npc;
     private String area_description;
     private ArrayList<Scene> connectedAreas;
     private ArrayList<Item> items;
+    private Combat combat;
 
     /**
      * Constructor for the scene_system.Scene class.
@@ -29,7 +31,7 @@ public class Scene {
      * @param area the text description of the location in the scene_system.Scene
      * @param items the items located in the scene_system.Scene
      */
-    public Scene(String name, ArrayList<NonPlayerCharacter> npc, String area,
+    public Scene(String name, ArrayList<CharacterInventoryFacade> npc, String area,
           ArrayList<Item> items) {
         this.name = name;
         this.npc = npc;
@@ -74,9 +76,7 @@ public class Scene {
      * Gets the list of NPCs in the scene_system.Scene.
      * @return the list of NPCs in the scene_system.Scene
      */
-    public ArrayList<NonPlayerCharacter> getNpc() {
-        return npc;
-    }
+    public ArrayList<CharacterInventoryFacade> getNpc() {return npc;}
 
     /**
      * Removes an item from the scene_system.Scene.
@@ -100,7 +100,7 @@ public class Scene {
      * This should update world state as well
      */
     public void remove_dead() {
-        this.npc.removeIf(npc -> npc.getCurrentHealth() <= 0);
+        this.npc.removeIf(npc -> npc.getCharacter().getCharacter().getCurrentHealth() <= 0);
     }
 
     /**
@@ -109,12 +109,13 @@ public class Scene {
      * This leaves room for expansion if there are non-lethal options in combat (check_alive can be expanded)
      * @param player the player character must be combined with the npcs in an ArrayList to start combat
      */
-    public void start_combat(PlayerCharacter player, List<Observer> observers) {
-        ArrayList<GameCharacter> participants = new ArrayList<>(getNpc());
-        participants.add(player);
-        Combat scene_combat = new Combat(participants, observers);
-        scene_combat.combatLoop();
-        remove_dead();
+    public Combat getCombat(CharacterInventoryFacade player) {
+        if(combat == null) {
+            ArrayList<CharacterInventoryFacade> participants = new ArrayList<>(getNpc());
+            participants.add(player);
+            this.combat = new Combat(participants);
+        }
+        return this.combat;
     }
 }
 

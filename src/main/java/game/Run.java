@@ -1,13 +1,11 @@
 package game;
 
 import characters.*;
-import constants.Constants;
-import game.GameLogic;
 import items.Item;
-import items.ItemList;
 import items.QuestItem;
 import quest_system.*;
 import scene_system.Scene;
+import GUI.MainFrame;
 
 import java.util.*;
 
@@ -19,8 +17,7 @@ public class Run {
     public static void main(String[] args) {
 
         PlayerCharacter bernie = new PlayerCharacter(10, "Bernie");
-        QuestManager questManager = new QuestManager();
-        ItemList itemList = new ItemList();
+
 
         String beginDialogue = "\"Hail, masked traveler! I am the wondering Nomad. Might I interest you in some of" +
                 " my wares? You may purchase any of them for one silver coin.\" Says the Frog. You don't have" +
@@ -28,14 +25,16 @@ public class Run {
         String duringDialogue = "\"You still don't have a coin for me.\" Says the frog.";
         String endingDialogue = "\"Ah! I see you have returned with some coin! Now give it here.\"";
         QuestItem coin = new QuestItem("coin", "a silver coin");
-        FetchQuest coinQuest = new FetchQuest(Set.of(((QuestItem)itemList.getItem("coin"))));
-        questManager.addQuest(coinQuest);
+        FetchQuest coinQuest = new FetchQuest(coin);
+        String combatDialogue = "Tim: You wish to fight? So be it.";
 
-        NonPlayerCharacter tim = new NonPlayerCharacter(1, "Tim", beginDialogue,
-                duringDialogue, endingDialogue, coinQuest);
+        NonPlayerCharacter timC = new NonPlayerCharacter(1, "Tim", beginDialogue,
+                duringDialogue, endingDialogue, coinQuest, combatDialogue);
+        Inventory timInventory = new Inventory();
+        CharacterInventoryFacade tim = new CharacterInventoryFacade(timInventory, timC);
 
         String streetName = "Street";
-        ArrayList<NonPlayerCharacter> streetNPCS = new ArrayList<>();
+        ArrayList<CharacterInventoryFacade> streetNPCS = new ArrayList<>();
         streetNPCS.add(tim);
         String streetDescription = "You are in the city.";
         ArrayList<Item> streetItems = new ArrayList<>();
@@ -44,7 +43,7 @@ public class Run {
 
 
         String pizzaPlaceName = "Pizza Place";
-        ArrayList<NonPlayerCharacter> pizzaNPCS = new ArrayList<>();
+        ArrayList<CharacterInventoryFacade> pizzaNPCS = new ArrayList<>();
         String pizzaPlaceDescription = "This pizza joint is squeaky clean aside from a scrunched up disc" +
                 " of aluminum foil dropped on one of the seats.";
         ArrayList<Item> pizzaPlaceItems = new ArrayList<>();
@@ -54,9 +53,10 @@ public class Run {
         street.addScene(pizzaPlace);
         pizzaPlace.addScene(street);
 
-        GameLogic logic = new GameLogic(List.of(questManager));
         Inventory inventory = new Inventory();
-        CharacterInventoryFacade bernieFacade = new CharacterInventoryFacade(inventory,bernie,List.of(questManager));
-        logic.sceneLogic(street, bernieFacade);
+        CharacterInventoryFacade bernieFacade = new CharacterInventoryFacade(inventory,bernie);
+
+        MainFrame frame = new MainFrame(street, bernieFacade);
+        frame.titleFrame();
     }
 }
