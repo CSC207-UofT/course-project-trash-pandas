@@ -111,7 +111,6 @@ public class Combat {
         if(!secondStage) {
             attack = ability = inventory = false;
             frame.displayCombatText("You enter a defensive stance");
-            frame.displayCombatText(printBorder());
             endTurn = true;
         }
         else {
@@ -120,7 +119,10 @@ public class Combat {
     }
 
     public void ability(MainFrame frame) {
-        if(!secondStage) {
+        if(findPlayer().getCharacter().getCharacter().getAbilities().size() == 0) {
+            frame.displayCombatText("You have no abilities");
+        }
+        else if(!secondStage) {
             attack = inventory = false;
             ability = true;
             StringBuilder abilities = new StringBuilder("What ability would you like to use?");
@@ -218,11 +220,11 @@ public class Combat {
             turnOrder.append("\n").append(turn).append(". ").append(partcipant.getValue().getName());
             turn += 1;
         }
-        turnOrder.append("\n").append(printBorder());
         return turnOrder.toString();
     }
 
     public void nextTurn(MainFrame frame) {
+        frame.displayCombatText(printBorder());
         if(foes==0) {
             frame.getCurrentScene().remove_dead();
             clearStatus();
@@ -236,7 +238,6 @@ public class Combat {
         currentTurn += 1;
         if(person instanceof NonPlayerCharacter) {
             frame.displayCombatText(takeTurn((NonPlayerCharacter) person));
-            frame.displayCombatText(printBorder());
             nextTurn(frame);
         }
         else if(foes>0) {
@@ -257,7 +258,6 @@ public class Combat {
             this.turnorder.put(rand.nextDouble(), participant);
         }
         frame.displayCombatText(turnOrder());
-
         GameCharacter person = (GameCharacter) turnorder.values().toArray()[0];
         if(person instanceof NonPlayerCharacter) {
             nextTurn(frame);
