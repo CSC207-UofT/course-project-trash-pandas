@@ -232,6 +232,8 @@ public class Combat {
             frame.exitCombatFrame();
         }
         if(currentTurn == turnorder.size()) {
+            frame.displayCombatText("End of round " + round);
+            frame.displayCombatText(printBorder());
             endRound();
             currentTurn = 0;
         }
