@@ -16,12 +16,12 @@ public class MainFrame {
     JFrame window;
     Container con;
     JPanel titleNamePanel, startButtonPanel,  mainTextPanel, choiceButtonPanel, playerPanel, textInputPanel, combatPanel,
-            turnPanel;
-    JLabel titleNameLabel, hpLabel, hpLabelNumber, areaLabel;
+            turnPanel, gameOverPanel, overButtonPanel;
+    JLabel titleNameLabel, hpLabel, hpLabelNumber, areaLabel, gameOverLabel;
     JTextArea mainTextArea;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 128);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 42);
-    JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability, nextTurn;
+    JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability, nextTurn, overButton;
     ImageIcon imageIcon = new ImageIcon("racoon icon.png");
     JTextField entryField, combatField;
     JScrollPane scroll;
@@ -272,6 +272,34 @@ public class MainFrame {
         con.add(choiceButtonPanel);
         textInputPanel.add(entryField);
         displayScene(currentScene);
+    }
+
+    public void gameOver() {
+        con.removeAll();
+        gameOverPanel = new JPanel(); //title
+        gameOverPanel.setBounds(250, 250, 1450, 375); //Sets size for Title
+        gameOverPanel.setBackground(Color.black);
+        gameOverLabel = new JLabel("You DIED");
+        gameOverLabel.setForeground(Color.red); //text color
+        gameOverLabel.setFont(titleFont);
+
+        overButtonPanel = new JPanel(); //start button
+        overButtonPanel.setBounds(600, 650, 770, 250);
+        overButtonPanel.setBackground(Color.black);
+
+        overButton = new JButton("End Game");
+        overButton.setBackground(Color.black); //Color of button (invisible)
+        overButton.setForeground(Color.white); //Color of text
+        overButton.setFont(normalFont);
+        GameOverActionListener overHandler = new GameOverActionListener(this);
+        overButton.addActionListener(overHandler); //mouse support for button, calls method
+        overButton.setFocusPainted(false);
+
+        gameOverPanel.add(gameOverLabel);
+        overButtonPanel.add(overButton);
+        con.add(gameOverPanel);
+        con.add(overButtonPanel);
+        SwingUtilities.updateComponentTreeUI(window);
     }
 
     public void setHpLabel() {
