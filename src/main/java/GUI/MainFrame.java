@@ -1,7 +1,5 @@
 package GUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
@@ -9,23 +7,22 @@ import javax.swing.*;
 
 import Music.MusicHandler;
 import characters.CharacterInventoryFacade;
-import characters.NonPlayerCharacter;
-import combat_system.Combat;
 import items.Item;
-import scene_system.DisplayDialogue;
 import scene_system.Scene;
 
 public class MainFrame {
     JFrame window;
     Container con;
-    JPanel titleNamePanel, startButtonPanel,  mainTextPanel, choiceButtonPanel, playerPanel, textInputPanel, combatPanel;
+    JPanel titleNamePanel, startButtonPanel,  mainTextPanel, choiceButtonPanel, playerPanel, textInputPanel, combatPanel,
+            turnPanel;
     JLabel titleNameLabel, hpLabel, hpLabelNumber, areaLabel;
     JTextArea mainTextArea;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 128);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 42);
-    JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability;
+    JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability, nextTurn;
     ImageIcon imageIcon = new ImageIcon("racoon icon.png");
     JTextField entryField, combatField;
+    JScrollPane scroll;
 
     boolean travel, search, talk;
 
@@ -100,7 +97,8 @@ public class MainFrame {
         mainTextArea.setLineWrap(true);
         mainTextArea.setWrapStyleWord(true);
         mainTextArea.setEditable(false);
-        mainTextPanel.add(mainTextArea);
+        scroll = new JScrollPane(mainTextArea);
+        mainTextPanel.add(scroll);
 
         choiceButtonPanel = new JPanel();
         choiceButtonPanel.setBounds(560, 700, 750, 290);
@@ -230,7 +228,27 @@ public class MainFrame {
         inventory.addActionListener(combatHandler);
         inventory.setActionCommand("c4");
 
+        turnPanel = new JPanel();
+        turnPanel.setBounds(1310, 700, 300, 290);
+        turnPanel.setBackground(Color.black);
+        turnPanel.setLayout(new GridLayout(1,1)); //Makes the buttons go 4 vertical and 1 horizontal
+        con.add(turnPanel);
+
+        nextTurn = new JButton("Next Turn");
+        nextTurn.setBackground(Color.black);
+        nextTurn.setForeground(Color.blue);
+        nextTurn.setFont(normalFont);
+        turnPanel.add(nextTurn);
+        nextTurn.setFocusPainted(false);
+        nextTurn.addActionListener(combatHandler);
+        nextTurn.setActionCommand("c5");
+
+
         SwingUtilities.updateComponentTreeUI(window);
+        currentScene.getCombat(player).startCombat(this);
+    }
+    public JFrame getWindow() {
+        return window;
     }
 
     public void displayScene(Scene sc) {

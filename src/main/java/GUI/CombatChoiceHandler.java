@@ -10,7 +10,6 @@ public class CombatChoiceHandler implements ActionListener {
     Combat combat;
     public CombatChoiceHandler(MainFrame frame) {
         this.frame = frame;
-        System.out.print(frame.player.getCharacter().getCharacter().getName());
         this.combat=frame.currentScene.getCombat(frame.player);
     }
 
@@ -22,6 +21,7 @@ public class CombatChoiceHandler implements ActionListener {
             case "c2": combat.defend(frame); break;
             case "c3": combat.ability(frame); break;
             case "c4": combat.inventory(frame); break;
+            case "c5": combat.nextTurn(frame); break;
         }
     }
 }
