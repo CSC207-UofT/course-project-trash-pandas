@@ -224,6 +224,7 @@ public class Combat {
     }
 
     public void nextTurn(MainFrame frame) {
+        frame.setHpLabel();
         frame.displayCombatText(printBorder());
         if(foes==0) {
             frame.getCurrentScene().remove_dead();

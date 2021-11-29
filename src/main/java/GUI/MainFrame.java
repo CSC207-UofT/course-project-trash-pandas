@@ -1,6 +1,7 @@
 package GUI;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 import javax.swing.*;
@@ -194,8 +195,12 @@ public class MainFrame {
         textInputPanel.add(combatField);
         mainTextArea.setText("");
         for(CharacterInventoryFacade npc: currentScene.getNpc()) {
-            displayCombatText(((NonPlayerCharacter) npc.getCharacter().getCharacter()).getCombatDialogue());
+            String combatText = ((NonPlayerCharacter) npc.getCharacter().getCharacter()).getCombatDialogue();
+            if(!Objects.equals(combatText, "")){
+                displayCombatText(combatText);
+            }
         }
+        displayCombatText("-------------------");
         displayCombatText("Combat begins");
 
         combatPanel = new JPanel();
@@ -267,6 +272,10 @@ public class MainFrame {
         con.add(choiceButtonPanel);
         textInputPanel.add(entryField);
         displayScene(currentScene);
+    }
+
+    public void setHpLabel() {
+        hpLabel.setText("HP: " + String.valueOf(player.getCharacter().getCharacter().getCurrentHealth()));
     }
 
     public void displayScene(Scene sc) {
