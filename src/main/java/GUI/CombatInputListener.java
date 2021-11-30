@@ -35,7 +35,6 @@ public class CombatInputListener implements ActionListener {
                     frame.displayCombatText(combat.damage(combat.rollAttack(), target,
                             combat.findPlayer().getCharacter().getCharacter()));
                     frame.displayCombatInput("You attack " + target.getName());
-                    frame.displayCombatText(combat.printBorder());
                     valid = true;
                     combat.attack = false;
                     break;

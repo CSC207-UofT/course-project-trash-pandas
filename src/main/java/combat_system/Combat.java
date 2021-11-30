@@ -167,7 +167,10 @@ public class Combat {
     public String takeTurn(NonPlayerCharacter npc) {
         Random r = new Random();
         GameCharacter target = findPlayer().getCharacter().getCharacter();
-        if(r.nextBoolean()) {
+        if (npc.getCurrentHealth() <= 0) {
+            return npc.getName() + " lies bleeding on the floor. They do not take a turn";
+        }
+        else if(r.nextBoolean()) {
             return npc.getName()+" enters a defensive stance";
         }
         else {
