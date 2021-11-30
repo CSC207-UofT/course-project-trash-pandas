@@ -357,10 +357,10 @@ public class MainFrame {
             npcText.append("Who would you like to talk to? \n");
             for(CharacterInventoryFacade npc: characters) {
                 if (!first) {
-                    npcText.append(npc.getCharacter().getCharacter().getName());
+                    npcText.append("\n").append(npc.getCharacter().getCharacter().getName());
                 }
                 else {
-                    npcText.append("\n").append(npc.getCharacter().getCharacter().getName());
+                    npcText.append(npc.getCharacter().getCharacter().getName());
                     first = false;
                 }
             }
