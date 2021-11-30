@@ -25,6 +25,8 @@ public class MainFrame {
     ImageIcon imageIcon = new ImageIcon("racoon icon.png");
     JTextField entryField, combatField;
     JScrollPane scroll;
+    double heightScale, widthScale;
+    Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 
     boolean travel, search, talk;
 
@@ -42,6 +44,8 @@ public class MainFrame {
         this.player = player;
         this.combatHandler = new CombatChoiceHandler(this);
         this.combatInputListener = new CombatInputListener(this);
+        this.heightScale = size.getHeight()/1080;
+        this.widthScale = size.getWidth()/1920;
     }
 
     public Scene getCurrentScene() {
@@ -53,7 +57,7 @@ public class MainFrame {
         //mu.loop();
 
         window = new JFrame();
-        window.setSize(1920,1080); // sets size
+        window.setSize((int) (1920*widthScale),(int)(1080*heightScale)); // sets size
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //closes the program so it doesn't run forever
         window.getContentPane().setBackground(Color.black); //sets color
         window.setLayout(null); //custom layout
@@ -62,14 +66,14 @@ public class MainFrame {
         con = window.getContentPane();
 
         titleNamePanel = new JPanel(); //title
-        titleNamePanel.setBounds(250, 250, 1450, 375); //Sets size for Title
+        titleNamePanel.setBounds((int) (250*widthScale), (int)(heightScale*250), (int)(widthScale*1450), (int)(heightScale*375)); //Sets size for Title
         titleNamePanel.setBackground(Color.black);
         titleNameLabel = new JLabel("Trash Pandas");
         titleNameLabel.setForeground(Color.red); //text color
         titleNameLabel.setFont(titleFont);
 
         startButtonPanel = new JPanel(); //start button
-        startButtonPanel.setBounds(600, 650, 770, 250);
+        startButtonPanel.setBounds((int)(widthScale*600), (int)(heightScale*650), (int)(widthScale*770), (int)(heightScale*250));
         startButtonPanel.setBackground(Color.black);
 
         startButton = new JButton("Start");
@@ -91,12 +95,12 @@ public class MainFrame {
         con.removeAll();
 
         mainTextPanel = new JPanel();
-        mainTextPanel.setBounds(210, 200, 1500, 500);
+        mainTextPanel.setBounds((int)(widthScale*210), (int)(heightScale*200), (int)(widthScale*1500), (int)(heightScale*500));
         mainTextPanel.setBackground(Color.black);
         con.add(mainTextPanel);
 
         mainTextArea = new JTextArea("Testing");
-        mainTextArea.setBounds(210, 200, 1500, 500);
+        mainTextArea.setBounds((int)(widthScale*210), (int)(heightScale*200), (int)(widthScale*1500), (int)(heightScale*500));
         mainTextArea.setBackground(Color.black);
         mainTextArea.setForeground(Color.white);
         mainTextArea.setFont(normalFont);
@@ -104,13 +108,13 @@ public class MainFrame {
         mainTextArea.setWrapStyleWord(true);
         mainTextArea.setEditable(false);
         scroll = new JScrollPane(mainTextArea);
-        scroll.setBounds(210, 200, 1500, 500);
+        scroll.setBounds((int)(widthScale*210), (int)(heightScale*200), (int)(widthScale*1500), (int)(heightScale*500));
         scroll.setAutoscrolls(true);
-        scroll.setPreferredSize(new Dimension(1500, 450));
+        scroll.setPreferredSize(new Dimension((int)(widthScale*1500), (int)(heightScale*450)));
         mainTextPanel.add(scroll);
 
         choiceButtonPanel = new JPanel();
-        choiceButtonPanel.setBounds(560, 700, 750, 290);
+        choiceButtonPanel.setBounds((int)(widthScale*560), (int)(heightScale*700), (int)(widthScale*750), (int)(heightScale*290));
         choiceButtonPanel.setBackground(Color.black);
         choiceButtonPanel.setLayout(new GridLayout(4,1)); //Makes the buttons go 4 vertical and 1 horizontal
         con.add(choiceButtonPanel);
@@ -152,7 +156,7 @@ public class MainFrame {
         choice4.setActionCommand("c4");
 
         playerPanel = new JPanel();
-        playerPanel.setBounds(210, 15, 1500, 160);
+        playerPanel.setBounds((int)(widthScale*210), (int)(heightScale*15), (int)(widthScale*1500), (int)(heightScale*160));
         playerPanel.setBackground(Color.black);
         playerPanel.setLayout(new GridLayout(1,4));
         con.add(playerPanel);
@@ -172,7 +176,7 @@ public class MainFrame {
         playerPanel.add(areaLabel);
 
         textInputPanel = new JPanel();
-        textInputPanel.setBounds(300, 800, 250, 290);
+        textInputPanel.setBounds((int)(widthScale*300), (int)(heightScale*800), (int)(widthScale*250), (int)(heightScale*290));
         textInputPanel.setBackground(Color.black);
         textInputPanel.setLayout(new GridLayout(4,1)); //Makes the buttons go 4 vertical and 1 horizontal
         con.add(textInputPanel);
@@ -204,7 +208,7 @@ public class MainFrame {
         displayCombatText("Combat begins");
 
         combatPanel = new JPanel();
-        combatPanel.setBounds(560, 700, 750, 290);
+        combatPanel.setBounds((int)(widthScale*560), (int)(heightScale*700), (int)(widthScale*750), (int)(heightScale*290));
         combatPanel.setBackground(Color.black);
         combatPanel.setLayout(new GridLayout(4,1)); //Makes the buttons go 4 vertical and 1 horizontal
         con.add(combatPanel);
@@ -246,7 +250,7 @@ public class MainFrame {
         inventory.setActionCommand("c4");
 
         turnPanel = new JPanel();
-        turnPanel.setBounds(1310, 700, 300, 290);
+        turnPanel.setBounds((int)(widthScale*1310), (int)(heightScale*700), (int)(widthScale*300), (int)(heightScale*290));
         turnPanel.setBackground(Color.black);
         turnPanel.setLayout(new GridLayout(1,1)); //Makes the buttons go 4 vertical and 1 horizontal
         con.add(turnPanel);
@@ -277,14 +281,14 @@ public class MainFrame {
     public void gameOver() {
         con.removeAll();
         gameOverPanel = new JPanel(); //title
-        gameOverPanel.setBounds(250, 250, 1450, 375); //Sets size for Title
+        gameOverPanel.setBounds((int)(widthScale*250), (int)(heightScale*250), (int)(widthScale*1450), (int)(heightScale*375)); //Sets size for Title
         gameOverPanel.setBackground(Color.black);
         gameOverLabel = new JLabel("You DIED");
         gameOverLabel.setForeground(Color.red); //text color
         gameOverLabel.setFont(titleFont);
 
         overButtonPanel = new JPanel(); //start button
-        overButtonPanel.setBounds(600, 650, 770, 250);
+        overButtonPanel.setBounds((int)(widthScale*600), (int)(heightScale*650), (int)(widthScale*770), (int)(heightScale*250));
         overButtonPanel.setBackground(Color.black);
 
         overButton = new JButton("End Game");
