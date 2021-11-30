@@ -30,12 +30,16 @@ public class Run {
 
         NonPlayerCharacter timC = new NonPlayerCharacter(1, "Tim", beginDialogue,
                 duringDialogue, endingDialogue, coinQuest, combatDialogue);
+        NonPlayerCharacter evanC = new NonPlayerCharacter(1, "Evan", beginDialogue,
+                duringDialogue, endingDialogue, coinQuest, combatDialogue);
         Inventory timInventory = new Inventory();
+        CharacterInventoryFacade evan = new CharacterInventoryFacade(timInventory, evanC);
         CharacterInventoryFacade tim = new CharacterInventoryFacade(timInventory, timC);
 
         String streetName = "Street";
         ArrayList<CharacterInventoryFacade> streetNPCS = new ArrayList<>();
         streetNPCS.add(tim);
+        streetNPCS.add(evan);
         String streetDescription = "You are in the city.";
         ArrayList<Item> streetItems = new ArrayList<>();
 
