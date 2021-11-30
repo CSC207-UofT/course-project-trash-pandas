@@ -13,11 +13,11 @@ public class NonPlayerCharacter extends GameCharacter {
 
     public NonPlayerCharacter(int hp, String name, String begin, String middle, String end, Quest quest, String combatDialogue){
         super(hp, name);
-        this.questDialogue[BEGIN_QUEST] = begin;
-        this.questDialogue[DURING_QUEST] = middle;
-        this.questDialogue[END_QUEST] = end;
+        this.questDialogue[BEGIN_QUEST] = name + ": " + begin;
+        this.questDialogue[DURING_QUEST] = name + ": " + middle;
+        this.questDialogue[END_QUEST] = name + ": " + end;
         this.quest = quest;
-        this.combatDialogue = combatDialogue;
+        this.combatDialogue = name + ": " + combatDialogue; //This way whenever they talk their name appears
 
     }
 
