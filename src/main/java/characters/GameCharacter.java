@@ -1,12 +1,10 @@
 package characters;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import combat_system.StatusEffect;
 import items.ArmorItem;
-import items.QuestItem;
 import items.WeaponItem;
 
 import constants.Constants;
@@ -24,6 +22,8 @@ public abstract class GameCharacter {
     private WeaponItem weapon;
     private ArmorItem armor;
     private ArrayList<Ability> abilities = new ArrayList<>();
+    private int attackModifier = 0;
+    private int defenseModifier = 0;
 
     public GameCharacter(int hp, String name){
         this.maxHealth = hp;
@@ -61,6 +61,22 @@ public abstract class GameCharacter {
      */
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
+    }
+
+    /**
+     * Changes the health of the GameCharacter by a specified amount.
+     * @param addedHealth the health to be added to the GameCharacter
+     */
+    public void changeCurrentHealth(int addedHealth) {
+        this.currentHealth += addedHealth;
+    }
+
+    public void changeAttackModifier(int damage) {
+        this.attackModifier += damage;
+    }
+
+    public void changeDefenseModifier(int armor) {
+        this.defenseModifier += armor;
     }
 
     /**
@@ -105,6 +121,10 @@ public abstract class GameCharacter {
         this.statusEffects.put(status, duration);
     }
 
+    /**
+     * Removes a currently afflicted status effect.
+     * @param status the status effect to be removed
+     */
     public void removeStatusEffect(StatusEffect status){
         this.statusEffects.remove(status);
     }
@@ -146,7 +166,7 @@ public abstract class GameCharacter {
      * @return the defense value
      */
     public int getArmorDefense(){
-        return this.armor.getDefense();
+        return Math.max(this.armor.getDefense() + this.defenseModifier, 0);
     }
 
     /**
@@ -162,7 +182,7 @@ public abstract class GameCharacter {
      * @return the defense value
      */
     public int getWeaponDamage(){
-        return this.weapon.getDamage();
+        return Math.max(this.weapon.getDamage() + this.attackModifier, 0);
     }
 
     //TODO: make a tostring for gamecharacter
