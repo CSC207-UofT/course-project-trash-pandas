@@ -21,7 +21,7 @@ public class Combat {
     private List<Observer> observers;
 
     public Combat(ArrayList<CharacterInventoryFacade> people, List<Observer> observers) {
-        this.participants = new ArrayList<GameCharacter>();
+        this.participants = new ArrayList<>();
         for (CharacterInventoryFacade person: people) {
             this.participants.add(person.getCharacter().getCharacter());
         }
@@ -30,29 +30,13 @@ public class Combat {
         this.endTurn = false;
         this.observers = observers;
     }
+
     /**
-     * Applies a status effect if there is currently no status effect of that name applied or if there is a status
-     * effect of that name but its duration is lower than the new application's.
-     * @param target a reference to the target of the status effect
-     * @param status the status effect to apply
-     * @param duration the duration of the status effect to apply
-     */
-    public void statusEffect(GameCharacter target, StatusEffect status, int duration) {
-        if(target.getStatusEffects().get(status) == null || target.getStatusEffects().get(status)
-                < duration) {
-            target.setStatusEffect(status, duration);
-        }
-    }
-    /**
-     * Increments the round and goes through each status effect for all participants and decrements their duration
+     * Increments the round and applies status effect to each character
      */
     public void endRound() {
         this.round += 1;
-        for (GameCharacter participant : this.participants) {
-            for(Map.Entry<StatusEffect, Integer> entry : participant.getStatusEffects().entrySet()) {
-                participant.setStatusEffect(entry.getKey(), entry.getValue()-1);
-            }
-        }
+        effectFacade.process(this.participants);
     }
 
     /**
@@ -60,21 +44,17 @@ public class Combat {
      * Duration 0 causes the status to be removed, see GameCharacter.setStatusEffect for more information
      */
     public void clearStatus() {
-        for (GameCharacter participant : this.participants) {
-            for (Map.Entry<StatusEffect, Integer> entry : participant.getStatusEffects().entrySet()) {
-                participant.setStatusEffect(entry.getKey(), 0);
-            }
-        }
-
+        effectFacade.clear(participants);
     }
 
     /**
      * Calculates if an attack hits and the amount of damage it deals
-     * @return the string description of damage being delt
+     * @return the string description of damage being dealt
      */
     public String damage(int toHit, GameCharacter target, GameCharacter attacker) {
-        if(toHit >= target.getArmor().getDefense()) {
-            int health_remaining = target.getCurrentHealth()-attacker.getWeapon().getDamage();
+        if(toHit >= target.getArmorDefense()) {
+            int dealt_damage = attacker.getWeaponDamage();
+            int health_remaining = target.getCurrentHealth()-dealt_damage;
             target.setCurrentHealth(health_remaining);
             if(health_remaining <= 0) {
                 if(target instanceof NonPlayerCharacter) {
@@ -90,7 +70,7 @@ public class Combat {
                 }
             }
 
-            return "The attack hits, dealing " + attacker.getWeapon().getDamage() + " damage!";
+            return "The attack hits, dealing " + dealt_damage + " damage!";
         }
         else {
             return "The attack misses!";
@@ -179,10 +159,10 @@ public class Combat {
             return npc.getName() + " lies bleeding on the floor. They do not take a turn";
         }
         else if(r.nextBoolean()) {
-            return npc.getName()+" enters a defensive stance";
+            return npc.getName() + " enters a defensive stance";
         }
         else {
-            return npc.getName()+" makes an attack against you!" + "\n" + damage(rollAttack(), target, npc);
+            return npc.getName() + " makes an attack against you!" + "\n" + damage(rollAttack(), target, npc);
         }
     }
 
