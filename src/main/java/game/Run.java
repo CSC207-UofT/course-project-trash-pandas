@@ -34,6 +34,8 @@ public class Run {
 
         NonPlayerCharacter timC = new NonPlayerCharacter(1, "Tim", beginDialogue,
                 duringDialogue, endingDialogue, coinQuest, combatDialogue);
+        NonPlayerCharacter evanC = new NonPlayerCharacter(1, "Evan", beginDialogue,
+                duringDialogue, endingDialogue, coinQuest, combatDialogue);
         Inventory timInventory = new Inventory();
         CharacterInventoryFacade tim = new CharacterInventoryFacade(timInventory, timC, List.of());
 
@@ -42,11 +44,13 @@ public class Run {
                 "i believe in you","thank you", combatQuest, "good luck");
         Inventory targetInventory = new Inventory();
         CharacterInventoryFacade targetFacade = new CharacterInventoryFacade(targetInventory, target, List.of());
+        CharacterInventoryFacade evan = new CharacterInventoryFacade(timInventory, evanC);
 
         questManager.addQuest(combatQuest);
         String streetName = "Street";
         ArrayList<CharacterInventoryFacade> streetNPCS = new ArrayList<>();
         streetNPCS.add(tim);
+        streetNPCS.add(evan);
         String streetDescription = "You are in the city.";
         ArrayList<Item> streetItems = new ArrayList<>();
 
