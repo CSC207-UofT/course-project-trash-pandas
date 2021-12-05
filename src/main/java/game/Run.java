@@ -44,7 +44,7 @@ public class Run {
                 "i believe in you","thank you", combatQuest, "good luck");
         Inventory targetInventory = new Inventory();
         CharacterInventoryFacade targetFacade = new CharacterInventoryFacade(targetInventory, target, List.of());
-        CharacterInventoryFacade evan = new CharacterInventoryFacade(timInventory, evanC);
+        CharacterInventoryFacade evan = new CharacterInventoryFacade(timInventory, evanC, List.of());
 
         questManager.addQuest(combatQuest);
         String streetName = "Street";

@@ -32,6 +32,10 @@ public class FetchQuest extends Quest{
         }
     }
 
+    /**
+     * removes args from the set goalItems
+     * @param args QuestItems that would be removed from goalItems if it's in the set
+     */
     @Override
     public void update(Object args) {
         if (this.goalItems.contains((QuestItem) args)){

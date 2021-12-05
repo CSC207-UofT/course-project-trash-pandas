@@ -66,6 +66,10 @@ public class QuestManager implements Observer {
         this.acceptedQuests.put(quest.getName(),quest);
     }
 
+    /**
+     * updates the quests of a certain type depending on the type of arg
+     * @param arg either an NonPlayerCharacter or QuestItem to be removed from quest requirements
+     */
     @Override
     public void update(Object arg) {
         if(arg instanceof QuestItem){

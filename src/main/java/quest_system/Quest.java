@@ -76,6 +76,9 @@ public abstract class Quest implements Observer {
      */
     public abstract void checkDone();
 
+    /**
+     * removes requirements from the quest
+     */
     public abstract void update(Object args);
 
 }
