@@ -47,7 +47,7 @@ public class CombatInputListener implements ActionListener {
                     savedAbility.setCombatTextTarget(npc.getName());
                     frame.displayCombatText(savedAbility.getCombatText());
                     for (StatusEffect effect : savedAbility.getEffects()) {
-                        combat.statusEffect(npc, effect, savedAbility.getDuration());
+                        combat.effectFacade.apply(npc, effect, savedAbility.getDuration()); // TODO: clean up
                     }
                     valid = true;
                     secondStage = false;

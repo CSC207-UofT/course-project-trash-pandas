@@ -5,6 +5,8 @@ package characters;
 //import quest_system.Quest;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import combat_system.*;
 import items.*;
 import constants.*;
