@@ -9,6 +9,7 @@ import items.Item;
 import characters.PlayerCharacter;
 import combat_system.Combat;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +119,30 @@ public class Scene {
             this.combat = new Combat(participants, this.observers);
         }
         return this.combat;
+    }
+
+    /**
+     * Gets a list of the names of all connected areas.
+     * @return the array list containing the string names of all connected scenes to this one.
+     */
+    public ArrayList<String> getConnectedAreaNames() {
+        ArrayList<String> areaNames = new ArrayList<>();
+        for(Scene sc : connectedAreas) {
+            areaNames.add(sc.getName());
+        }
+        return areaNames;
+    }
+
+    /**
+     * Gets a list of the names of all npcs in the scene.
+     * @return an array list containing the names of all npcs in the scene.
+     */
+    public ArrayList<String> getNpcNames() {
+        ArrayList<String> npcNames = new ArrayList<>();
+        for(CharacterInventoryFacade nonPlayer : npc) {
+            npcNames.add(nonPlayer.getName());
+        }
+        return npcNames;
     }
 }
 

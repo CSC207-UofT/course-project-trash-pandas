@@ -110,6 +110,10 @@ public class CharacterManager {
         }
 
     }
+
+    public String getName(){
+        return this.character.getName();
+    }
 }
 //    public Object getNpcs() {
 //        return new JSONObject(this.npcs);

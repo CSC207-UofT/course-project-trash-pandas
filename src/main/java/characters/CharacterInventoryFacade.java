@@ -92,4 +92,11 @@ public class CharacterInventoryFacade implements ItemCheckable {
         return inventory.checkItem(itemName);
     }
 
+    /**
+     * Gets the string of the character's name.
+     * @return a string of the character's name.
+     */
+    public String getName(){
+        return this.character.getName();
+    }
 }
