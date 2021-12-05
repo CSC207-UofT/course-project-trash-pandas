@@ -29,10 +29,8 @@ public class CharacterStatusEffectFacade {
 
             // Handling beginning of persistent subeffects
             for (String subeffect : effect.getSubeffects()) {
-                // Splitting subeffect definition string
-                String[] parts = subeffect.split(" ");
-                String type = parts[0];
-                int argument = Integer.parseInt(parts[1]);
+                String type = getSubeffectType(subeffect);
+                int argument = getSubeffectArgument(subeffect);
 
                 switch (type) {
                     case "damage":
@@ -56,10 +54,8 @@ public class CharacterStatusEffectFacade {
                 character.setStatusEffect(effect, duration-1);
 
                 for (String subeffect : effect.getSubeffects()) {
-                    // Splitting subeffect definition string
-                    String[] parts = subeffect.split(" ");
-                    String type = parts[0];
-                    int argument = Integer.parseInt(parts[1]);
+                    String type = getSubeffectType(subeffect);
+                    int argument = getSubeffectArgument(subeffect);
 
                     if (duration == 0) {
                         // Handling ending of persistent subeffects
@@ -82,6 +78,14 @@ public class CharacterStatusEffectFacade {
                 }
             }
         }
+    }
+
+    public String getSubeffectType(String subeffect) {
+        return subeffect.split(" ")[0];
+    }
+
+    public int getSubeffectArgument(String subeffect) {
+        return Integer.parseInt(subeffect.split(" ")[1]);
     }
 
     public void clear(List<GameCharacter> characters) {
