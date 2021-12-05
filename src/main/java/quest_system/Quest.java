@@ -1,7 +1,7 @@
 package quest_system;
 
 import characters.ItemCheckable;
-import characters.PlayerCharacter;
+import constants.Observer;
 
 import java.util.*;
 
@@ -9,7 +9,7 @@ import java.util.*;
  * Represents a quest in the game.
  * The narrative of the game is driven by quests.
  */
-public abstract class Quest {
+public abstract class Quest implements Observer {
 
     private String name;
     private ArrayList<String> rewardItems = new ArrayList<>();
@@ -73,9 +73,12 @@ public abstract class Quest {
 
     /**
      * Checks if the conditions of the quest have been met by the player.
-     * @param player the player character
-     * @return whether the quest conditions are fulfilled
      */
-    public abstract boolean checkDone(ItemCheckable player);
+    public abstract void checkDone();
+
+    /**
+     * removes requirements from the quest
+     */
+    public abstract void update(Object args);
 
 }

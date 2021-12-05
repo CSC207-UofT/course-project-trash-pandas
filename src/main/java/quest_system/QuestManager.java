@@ -2,6 +2,10 @@ package quest_system;
 
 import characters.CharacterInventoryFacade;
 //import org.json.simple.JSONObject;
+import characters.NonPlayerCharacter;
+import items.QuestItem;
+import constants.Observer;
+import items.ItemList;
 
 
 import java.util.*;
@@ -10,10 +14,12 @@ import java.util.*;
  * Manages and tracks all quests in the game.
  */
 
-public class    QuestManager {
+public class QuestManager implements Observer {
 
 
     private HashMap<String, Quest> quests = new HashMap<>();
+    private HashMap<String, Quest> acceptedQuests = new HashMap<>();
+    private ItemList items = new ItemList();
 
     /**
      * Adds a quest_system.Quest to the list of quests.
@@ -57,6 +63,28 @@ public class    QuestManager {
         assert !quest.isAccepted();
 
         quest.toggleAccepted();
+        this.acceptedQuests.put(quest.getName(),quest);
+    }
+
+    /**
+     * updates the quests of a certain type depending on the type of arg
+     * @param arg either an NonPlayerCharacter or QuestItem to be removed from quest requirements
+     */
+    @Override
+    public void update(Object arg) {
+        if(arg instanceof QuestItem){
+            for(Quest quest: quests.values()){
+                if (quest instanceof FetchQuest){
+                    quest.update(arg);
+                }
+            }
+        } else if (arg instanceof NonPlayerCharacter){
+            for(Quest quest: quests.values()){
+                if (quest instanceof CombatQuest){
+                    quest.update(arg);
+                }
+            }
+        }
     }
 
 //    public Object getQuests() {

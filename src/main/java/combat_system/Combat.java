@@ -1,9 +1,11 @@
 package combat_system;
 import GUI.MainFrame;
 import characters.*;
+import constants.Observer;
 
 import javax.swing.*;
 import java.util.*;
+import java.util.Scanner;
 
 /**
  * Creates an instance of combat that will run until completion. If the player dies, or the foes all die.
@@ -16,10 +18,9 @@ public class Combat {
     private ArrayList<CharacterInventoryFacade> people;
     private TreeMap<Double, GameCharacter> turnorder = new TreeMap<>();
     public boolean attack, ability, inventory, secondStage, endTurn;
+    private List<Observer> observers;
 
-    public CharacterStatusEffectFacade effectFacade = new CharacterStatusEffectFacade();
-
-    public Combat(ArrayList<CharacterInventoryFacade> people) {
+    public Combat(ArrayList<CharacterInventoryFacade> people, List<Observer> observers) {
         this.participants = new ArrayList<>();
         for (CharacterInventoryFacade person: people) {
             this.participants.add(person.getCharacter().getCharacter());
@@ -27,6 +28,7 @@ public class Combat {
         this.people = people;
         this.foes = participants.size()-1;
         this.endTurn = false;
+        this.observers = observers;
     }
 
     /**
@@ -57,6 +59,9 @@ public class Combat {
             if(health_remaining <= 0) {
                 if(target instanceof NonPlayerCharacter) {
                     this.foes -= 1;
+                    for(Observer observer: observers){
+                        observer.update(target);
+                    }
                     return "You strike the killing blow against " + target.getName();
                 }
                 else {
@@ -64,6 +69,7 @@ public class Combat {
                     return "You are dead!";
                 }
             }
+
             return "The attack hits, dealing " + dealt_damage + " damage!";
         }
         else {

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SceneTest {
     private Scene scene;
@@ -19,12 +20,12 @@ public class SceneTest {
     public void before() throws Exception {
         NonPlayerCharacter npc = new NonPlayerCharacter(5, "tim");
         Inventory inventory = new Inventory();
-        CharacterInventoryFacade tim = new CharacterInventoryFacade(inventory, npc);
+        CharacterInventoryFacade tim = new CharacterInventoryFacade(inventory, npc, List.of());
         ArrayList<CharacterInventoryFacade> npcs = new ArrayList<>();
         npcs.add(tim);
         ArrayList<Item> items = new ArrayList<>();
         items.add(new ArmorItem("helmet", "head", 1, 1));
-        scene = new Scene("place", npcs, "test area", items);
+        scene = new Scene("place", npcs, "test area", items, List.of());
     }
 
     @After
@@ -72,7 +73,8 @@ public class SceneTest {
 
     @Test
     public void testAddScene() {
-        Scene place = new Scene("top", new ArrayList<CharacterInventoryFacade>(), "top",new ArrayList<Item>());
+        Scene place = new Scene("top", new ArrayList<CharacterInventoryFacade>(), "top",
+                new ArrayList<Item>(), List.of());
         scene.addScene(place);
         ArrayList<Scene> scenes = new ArrayList<>();
         scenes.add(place);

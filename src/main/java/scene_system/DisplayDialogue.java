@@ -5,6 +5,8 @@ import quest_system.Quest;
 import quest_system.QuestManager;
 import characters.*;
 
+import java.util.Set;
+
 
 public class DisplayDialogue {
 
@@ -18,8 +20,8 @@ public class DisplayDialogue {
                     return chara.getQuestDialogue(chara.BEGIN_QUEST);
 
                 case 1:
-                    if (quest.checkDone(player)) {
-                        manager.completeQuest(player, quest);
+                    quest.checkDone();
+                    if(quest.getCompletion() == 2) {
                         return chara.getQuestDialogue(chara.END_QUEST);
                     }
                     return chara.getQuestDialogue(chara.DURING_QUEST);
