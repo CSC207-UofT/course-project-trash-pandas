@@ -79,5 +79,6 @@ public class CombatInputListener implements ActionListener {
                 combat.inventory = false;
             }
         }
+        if (valid) {combat.nextTurn(frame);}
     }
 }
