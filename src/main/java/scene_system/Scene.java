@@ -101,7 +101,7 @@ public class Scene {
      * Removes dead npcs
      * This should update world state as well
      */
-    public void remove_dead() {
+    public void removeDead() {
         this.npc.removeIf(npc -> npc.getCharacter().getCharacter().getCurrentHealth() <= 0);
     }
 
