@@ -5,8 +5,6 @@ import characters.GameCharacter;
 import java.util.List;
 import java.util.Map;
 
-// TODO: add javadoc besides the ones i stole from george
-
 /**
  * A facade class that provides a unified interface for Characters and StatusEffect interactions.
  * All handling of status effects during combat occurs here.
