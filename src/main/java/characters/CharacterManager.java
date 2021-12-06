@@ -110,7 +110,11 @@ public class CharacterManager {
         }
 
     }
-
+    
+   /**
+    * Returns the name of the character.
+    * @return the string representing the name of the character.
+    */
     public String getName(){
         return this.character.getName();
     }
