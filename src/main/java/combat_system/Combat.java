@@ -20,6 +20,8 @@ public class Combat {
     public boolean attack, ability, inventory, secondStage, endTurn;
     private List<Observer> observers;
 
+    private CharacterStatusEffectFacade effectFacade = new CharacterStatusEffectFacade();
+
     public Combat(ArrayList<CharacterInventoryFacade> people, List<Observer> observers) {
         this.participants = new ArrayList<>();
         for (CharacterInventoryFacade person: people) {
@@ -260,4 +262,9 @@ public class Combat {
         frame.displayCombatText(turnOrder());
         nextTurn(frame);
     }
+
+    public void applyEffect(GameCharacter target, StatusEffect effect, int duration) {
+        this.effectFacade.apply(target, effect, duration);
+    }
+
 }
