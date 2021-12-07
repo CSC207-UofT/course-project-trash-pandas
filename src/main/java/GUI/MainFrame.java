@@ -210,6 +210,7 @@ public class MainFrame {
 
     public void combatFrame() {
         con.remove(choiceButtonPanel);
+        con.remove(savePanel);
         textInputPanel.remove(entryField);
         combatField = new JTextField("Enter here");
         combatField.setVisible(true);
@@ -290,6 +291,7 @@ public class MainFrame {
         con.remove(combatPanel);
         textInputPanel.remove(combatField);
         con.remove(turnPanel);
+        con.add(savePanel);
         con.add(choiceButtonPanel);
         textInputPanel.add(entryField);
         displayScene(currentScene);
