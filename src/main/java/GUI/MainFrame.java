@@ -1,5 +1,7 @@
 package GUI;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -16,13 +18,14 @@ public class MainFrame {
     JFrame window;
     Container con;
     JPanel titleNamePanel, startButtonPanel,  mainTextPanel, choiceButtonPanel, playerPanel, textInputPanel, combatPanel,
-            turnPanel, gameOverPanel, overButtonPanel;
+            turnPanel, gameOverPanel, overButtonPanel, savePanel;
     JLabel titleNameLabel, hpLabel, hpLabelNumber, areaLabel, gameOverLabel;
     JTextArea mainTextArea;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 128);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 42);
-    JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability, nextTurn, overButton;
-    ImageIcon imageIcon = new ImageIcon("racoon icon.png");
+    JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability, nextTurn, overButton,
+            save;
+    ImageIcon imageIcon = new ImageIcon("resources/racoon icon.png");
     JTextField entryField, combatField;
     JScrollPane scroll;
     double heightScale, widthScale;
@@ -186,12 +189,28 @@ public class MainFrame {
         entryField.addActionListener(textActionListener);
         textInputPanel.add(entryField);
 
+        savePanel = new JPanel();
+        savePanel.setBounds((int)(widthScale*1310), (int)(heightScale*700), (int)(widthScale*300), (int)(heightScale*290));
+        savePanel.setBackground(Color.black);
+        savePanel.setLayout(new GridLayout(1,1)); //Makes the buttons go 4 vertical and 1 horizontal
+        con.add(savePanel);
+
+        save = new JButton("save");
+        save.setBackground(Color.black);
+        save.setForeground(Color.blue);
+        save.setFont(normalFont);
+        savePanel.add(save);
+        save.setFocusPainted(false);
+        save.addActionListener(choiceHandler);
+        save.setActionCommand("c5");
+
         displayScene(currentScene);
         SwingUtilities.updateComponentTreeUI(window);
     }
 
     public void combatFrame() {
         con.remove(choiceButtonPanel);
+        con.remove(savePanel);
         textInputPanel.remove(entryField);
         combatField = new JTextField("Enter here");
         combatField.setVisible(true);
@@ -264,18 +283,21 @@ public class MainFrame {
         nextTurn.addActionListener(combatHandler);
         nextTurn.setActionCommand("c5");
 
-
         SwingUtilities.updateComponentTreeUI(window);
         currentScene.getCombat(player).startCombat(this);
     }
 
+
     public void exitCombatFrame() {
+        String combat_text = mainTextArea.getText();
         con.remove(combatPanel);
         textInputPanel.remove(combatField);
         con.remove(turnPanel);
+        con.add(savePanel);
         con.add(choiceButtonPanel);
         textInputPanel.add(entryField);
         displayScene(currentScene);
+        mainTextArea.setText(combat_text);
     }
 
     public void gameOver() {
@@ -307,7 +329,7 @@ public class MainFrame {
     }
 
     public void setHpLabel() {
-        hpLabel.setText("HP: " + String.valueOf(player.getCharacter().getCharacter().getCurrentHealth()));
+        hpLabel.setText("HP: " + player.getCharacter().getCharacter().getCurrentHealth());
     }
 
     public void displayScene(Scene sc) {
@@ -401,6 +423,15 @@ public class MainFrame {
 
     public void displayCombatInput(String text) {
         combatField.setText(text);
+    }
+
+    public void save() {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("save_game.txt"));
+            bw.write(currentScene.getName());
+            bw.close();
+        } catch (Exception e) {
+        }
     }
 }
 

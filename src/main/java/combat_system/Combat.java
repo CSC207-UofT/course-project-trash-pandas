@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class Combat {
     private int round = 1;
-    private int foes, currentTurn;
+    private int currentTurn;
     private boolean playerAlive = true;
     private ArrayList<GameCharacter> participants;
     private ArrayList<CharacterInventoryFacade> people;
@@ -26,17 +26,31 @@ public class Combat {
             this.participants.add(person.getCharacter().getCharacter());
         }
         this.people = people;
-        this.foes = participants.size()-1;
         this.endTurn = false;
         this.observers = observers;
     }
 
     /**
      * Increments the round and applies status effect to each character
+     * @return toReturn returns a string to be displayed of all npcs killed by status effects
      */
-    public void endRound() {
+    public String endRound() {
+        StringBuilder toReturn = new StringBuilder();
         this.round += 1;
-        effectFacade.process(this.participants);
+        boolean first = true;
+        for(GameCharacter npc : effectFacade.process(this.participants)) {
+            if(first) {
+                toReturn.append(npc.getName());
+                first = false;
+            }
+            else {
+                toReturn.append(" and ").append(npc.getName());
+            }
+        }
+        if(!toReturn.toString().equals("")) {
+            toReturn.append(" died of status effects");
+        }
+        return toReturn.toString();
     }
 
     /**
@@ -58,7 +72,6 @@ public class Combat {
             target.setCurrentHealth(healthRemaining);
             if (healthRemaining <= 0) {
                 if (target instanceof NonPlayerCharacter) {
-                    this.foes -= 1;
                     for (Observer observer: observers){
                         observer.update(target);
                     }
@@ -77,16 +90,19 @@ public class Combat {
         }
     }
 
+    /**
+     * Controls the display of an attack
+     * Displays the available targets
+     * @param frame the GUI
+     */
     public void attack(MainFrame frame) {
         if (!secondStage) {
             ability = inventory = false;
             attack = true;
             StringBuilder targets = new StringBuilder("Who would you like to attack?");
             frame.displayCombatInput("Select Target");
-            for (GameCharacter participant: participants) {
-                if (participant instanceof NonPlayerCharacter) {
-                    targets.append("\n").append(participant.getName());
-                }
+            for (NonPlayerCharacter npc: findAliveNpcs()) {
+                targets.append("\n").append(npc.getName());
             }
             frame.displayCombatText(targets.toString());
         }
@@ -95,6 +111,10 @@ public class Combat {
         }
     }
 
+    /**
+     * Controls the display of the defensive stance
+     * @param frame the GUI
+     */
     public void defend(MainFrame frame) {
         if (!secondStage) {
             attack = ability = inventory = false;
@@ -106,6 +126,10 @@ public class Combat {
         }
     }
 
+    /**
+     * Controls the display of abilities
+     * @param frame the GUI
+     */
     public void ability(MainFrame frame) {
         if (findPlayer().getCharacter().getCharacter().getAbilities().size() == 0) {
             frame.displayCombatText("You have no abilities");
@@ -125,6 +149,10 @@ public class Combat {
         }
     }
 
+    /**
+     * Controls the display of inventory items
+     * @param frame the GUI
+     */
     public void inventory(MainFrame frame) {
         if (!secondStage) {
             ability = attack = false;
@@ -143,10 +171,16 @@ public class Combat {
         }
     }
 
-    public int rollAttack() {
+    /**
+     * Rolls an attack to be compared to a defense stat
+     * @param attacker the game character that is making the attack
+     * @return an integer that will be used as the "to hit"
+     */
+    public int rollAttack(GameCharacter attacker) {
         Random r = new Random();
-        return r.nextInt(20);
+        return r.nextInt(20)+attacker.getWeaponDamage();
     }
+
     /**
      * This method takes a turn for a npc
      * want to add percents for character behavior to attack or use abilities or defend
@@ -162,7 +196,7 @@ public class Combat {
             return npc.getName() + " enters a defensive stance";
         }
         else {
-            return npc.getName() + " makes an attack against you!" + "\n" + damage(rollAttack(), target, npc);
+            return npc.getName() + " makes an attack against you!" + "\n" + damage(rollAttack(npc), target, npc);
         }
     }
 
@@ -187,7 +221,9 @@ public class Combat {
         ArrayList<NonPlayerCharacter> npcList = new ArrayList<>();
         for (GameCharacter npc : this.participants) {
             if (npc instanceof NonPlayerCharacter) {
-                npcList.add((NonPlayerCharacter) npc);
+                if (npc.getCurrentHealth() > 0) {
+                    npcList.add((NonPlayerCharacter) npc);
+                }
             }
         }
         return npcList;
@@ -214,13 +250,21 @@ public class Combat {
         return turnOrder.toString();
     }
 
+    /**
+     * This is the main driver of combat
+     * We update health everytime a new turn is started
+     * If there are no foes remaining we end combat
+     * If the player is dead we give the game over screen
+     * Otherwise we find where we are in the turn order and start the next appropriate turn, npc or player
+     */
     public void nextTurn(MainFrame frame) {
         frame.setHpLabel();
         frame.displayCombatText(printBorder());
-        if (foes==0) {
+        if (findAliveNpcs().size() == 0) {
             frame.getCurrentScene().removeDead();
             clearStatus();
             frame.exitCombatFrame();
+
         }
         else if (!playerAlive) {
             frame.gameOver();
@@ -229,7 +273,10 @@ public class Combat {
             if (currentTurn == turnorder.size()) {
                 frame.displayCombatText("End of round " + round);
                 frame.displayCombatText(printBorder());
-                endRound();
+                String deadNpcs = endRound();
+                if(!deadNpcs.equals("")) {
+                    frame.displayCombatText(deadNpcs);
+                }
                 currentTurn = 0;
             }
             GameCharacter person = (GameCharacter) turnorder.values().toArray()[currentTurn];
@@ -246,11 +293,8 @@ public class Combat {
     }
 
     /**
-     * Creates the combat loop, only ends when there is all foes are dead or if the player is dead
+     * Starts combat by calling the first turn
      * Turn order is determined randomly
-     * Each round it calls the turn for each player
-     * At the end of each round (which is determined by one iteration through the while loop) all statuses decrement
-     * At the end of the combat it will clear all statuses
      */
     public void startCombat(MainFrame frame) {
         Random rand = new Random();
@@ -261,6 +305,12 @@ public class Combat {
         nextTurn(frame);
     }
 
+    /**
+     * Applies an effect to a target, from an ability
+     * @param target the target that will suffer the effect
+     * @param effect what the effect does to the target
+     * @param duration the duration of the effect
+     */
     public void applyEffect(GameCharacter target, StatusEffect effect, int duration) {
         this.effectFacade.apply(target, effect, duration);
     }

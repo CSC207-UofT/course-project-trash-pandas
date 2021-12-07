@@ -16,6 +16,7 @@ class ChoiceHandler implements ActionListener {
             case "c2": frame.displayDialogue(frame.currentScene.getNpc()); break;
             case "c3": frame.displayItems(frame.currentScene.getItems()); break;
             case "c4": frame.combatFrame(); break;
+            case "c5": frame.save(); break;
         }
     }
 }
