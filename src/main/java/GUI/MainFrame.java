@@ -25,7 +25,7 @@ public class MainFrame {
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 42);
     JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability, nextTurn, overButton,
             save;
-    ImageIcon imageIcon = new ImageIcon("racoon icon.png");
+    ImageIcon imageIcon = new ImageIcon("resources/racoon icon.png");
     JTextField entryField, combatField;
     JScrollPane scroll;
     double heightScale, widthScale;
@@ -287,7 +287,9 @@ public class MainFrame {
         currentScene.getCombat(player).startCombat(this);
     }
 
+
     public void exitCombatFrame() {
+        String combat_text = mainTextArea.getText();
         con.remove(combatPanel);
         textInputPanel.remove(combatField);
         con.remove(turnPanel);
@@ -295,6 +297,7 @@ public class MainFrame {
         con.add(choiceButtonPanel);
         textInputPanel.add(entryField);
         displayScene(currentScene);
+        mainTextArea.setText(combat_text);
     }
 
     public void gameOver() {
@@ -326,7 +329,7 @@ public class MainFrame {
     }
 
     public void setHpLabel() {
-        hpLabel.setText("HP: " + String.valueOf(player.getCharacter().getCharacter().getCurrentHealth()));
+        hpLabel.setText("HP: " + player.getCharacter().getCharacter().getCurrentHealth());
     }
 
     public void displayScene(Scene sc) {

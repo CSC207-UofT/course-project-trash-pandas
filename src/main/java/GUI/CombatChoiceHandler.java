@@ -17,11 +17,11 @@ public class CombatChoiceHandler implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         String yourChoice = event.getActionCommand();
         switch(yourChoice) {
-            case "c1": combat.attack(frame); break;
-            case "c2": combat.defend(frame); combat.nextTurn(frame); break;
-            case "c3": combat.ability(frame); break;
-            case "c4": combat.inventory(frame); break;
-            case "c5": combat.nextTurn(frame); break;
+            case "c1": combat.attack(frame); System.out.println(combat.secondStage); break;
+            case "c2": combat.defend(frame); System.out.println(combat.secondStage);break;
+            case "c3": combat.ability(frame); System.out.println(combat.secondStage);break;
+            case "c4": combat.inventory(frame); System.out.println(combat.secondStage);break;
+            case "c5": combat.nextTurn(frame); System.out.println(combat.secondStage);break;
         }
     }
 }
