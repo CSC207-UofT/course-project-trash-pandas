@@ -3,12 +3,15 @@ package scene_system;
 import characters.CharacterInventoryFacade;
 import characters.GameCharacter;
 import characters.NonPlayerCharacter;
+import constants.Observer;
 import items.Item;
 
 import characters.PlayerCharacter;
 import combat_system.Combat;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a scene in the game.
@@ -21,6 +24,7 @@ public class Scene {
     private ArrayList<Scene> connectedAreas;
     private ArrayList<Item> items;
     private Combat combat;
+    private List<Observer> observers;
 
     /**
      * Constructor for the scene_system.Scene class.
@@ -30,12 +34,13 @@ public class Scene {
      * @param items the items located in the scene_system.Scene
      */
     public Scene(String name, ArrayList<CharacterInventoryFacade> npc, String area,
-          ArrayList<Item> items) {
+          ArrayList<Item> items, List<Observer> observers) {
         this.name = name;
         this.npc = npc;
         this.area_description = area;
         this.connectedAreas = new ArrayList<>();
         this.items = items;
+        this.observers = observers;
     }
 
     /**
@@ -97,7 +102,7 @@ public class Scene {
      * Removes dead npcs
      * This should update world state as well
      */
-    public void remove_dead() {
+    public void removeDead() {
         this.npc.removeIf(npc -> npc.getCharacter().getCharacter().getCurrentHealth() <= 0);
     }
 
@@ -111,9 +116,33 @@ public class Scene {
         if(combat == null) {
             ArrayList<CharacterInventoryFacade> participants = new ArrayList<>(getNpc());
             participants.add(player);
-            this.combat = new Combat(participants);
+            this.combat = new Combat(participants, this.observers);
         }
         return this.combat;
+    }
+
+    /**
+     * Gets a list of the names of all connected areas.
+     * @return the array list containing the string names of all connected scenes to this one.
+     */
+    public ArrayList<String> getConnectedAreaNames() {
+        ArrayList<String> areaNames = new ArrayList<>();
+        for(Scene sc : connectedAreas) {
+            areaNames.add(sc.getName());
+        }
+        return areaNames;
+    }
+
+    /**
+     * Gets a list of the names of all npcs in the scene.
+     * @return an array list containing the names of all npcs in the scene.
+     */
+    public ArrayList<String> getNpcNames() {
+        ArrayList<String> npcNames = new ArrayList<>();
+        for(CharacterInventoryFacade nonPlayer : npc) {
+            npcNames.add(nonPlayer.getName());
+        }
+        return npcNames;
     }
 }
 

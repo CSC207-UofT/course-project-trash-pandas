@@ -5,6 +5,8 @@ package characters;
 //import quest_system.Quest;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import combat_system.*;
 import items.*;
 import constants.*;
@@ -107,6 +109,14 @@ public class CharacterManager {
             character.removeStatusEffect(statusEffect);
         }
 
+    }
+    
+   /**
+    * Returns the name of the character.
+    * @return the string representing the name of the character.
+    */
+    public String getName(){
+        return this.character.getName();
     }
 }
 //    public Object getNpcs() {

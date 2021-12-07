@@ -1,8 +1,8 @@
 package combat_system;
 import GUI.MainFrame;
 import characters.*;
+import constants.Observer;
 
-import javax.swing.*;
 import java.util.*;
 
 /**
@@ -11,44 +11,32 @@ import java.util.*;
 public class Combat {
     private int round = 1;
     private int foes, currentTurn;
-    private boolean player_alive = true;
+    private boolean playerAlive = true;
     private ArrayList<GameCharacter> participants;
     private ArrayList<CharacterInventoryFacade> people;
     private TreeMap<Double, GameCharacter> turnorder = new TreeMap<>();
     public boolean attack, ability, inventory, secondStage, endTurn;
+    private List<Observer> observers;
 
-    public Combat(ArrayList<CharacterInventoryFacade> people) {
-        this.participants = new ArrayList<GameCharacter>();
+    private CharacterStatusEffectFacade effectFacade = new CharacterStatusEffectFacade();
+
+    public Combat(ArrayList<CharacterInventoryFacade> people, List<Observer> observers) {
+        this.participants = new ArrayList<>();
         for (CharacterInventoryFacade person: people) {
             this.participants.add(person.getCharacter().getCharacter());
         }
         this.people = people;
         this.foes = participants.size()-1;
         this.endTurn = false;
+        this.observers = observers;
     }
+
     /**
-     * Applies a status effect if there is currently no status effect of that name applied or if there is a status
-     * effect of that name but its duration is lower than the new application's.
-     * @param target a reference to the target of the status effect
-     * @param status the status effect to apply
-     * @param duration the duration of the status effect to apply
-     */
-    public void statusEffect(GameCharacter target, StatusEffect status, int duration) {
-        if(target.getStatusEffects().get(status) == null || target.getStatusEffects().get(status)
-                < duration) {
-            target.setStatusEffect(status, duration);
-        }
-    }
-    /**
-     * Increments the round and goes through each status effect for all participants and decrements their duration
+     * Increments the round and applies status effect to each character
      */
     public void endRound() {
         this.round += 1;
-        for (GameCharacter participant : this.participants) {
-            for(Map.Entry<StatusEffect, Integer> entry : participant.getStatusEffects().entrySet()) {
-                participant.setStatusEffect(entry.getKey(), entry.getValue()-1);
-            }
-        }
+        effectFacade.process(this.participants);
     }
 
     /**
@@ -56,33 +44,33 @@ public class Combat {
      * Duration 0 causes the status to be removed, see GameCharacter.setStatusEffect for more information
      */
     public void clearStatus() {
-        for (GameCharacter participant : this.participants) {
-            for (Map.Entry<StatusEffect, Integer> entry : participant.getStatusEffects().entrySet()) {
-                participant.setStatusEffect(entry.getKey(), 0);
-            }
-        }
-
+        effectFacade.clear(participants);
     }
 
     /**
      * Calculates if an attack hits and the amount of damage it deals
-     * @return the string description of damage being delt
+     * @return the string description of damage being dealt
      */
     public String damage(int toHit, GameCharacter target, GameCharacter attacker) {
-        if(toHit >= target.getArmor().getDefense()) {
-            int health_remaining = target.getCurrentHealth()-attacker.getWeapon().getDamage();
-            target.setCurrentHealth(health_remaining);
-            if(health_remaining <= 0) {
-                if(target instanceof NonPlayerCharacter) {
+        if (toHit >= target.getArmorDefense()) {
+            int dealtDamage = attacker.getWeaponDamage();
+            int healthRemaining = target.getCurrentHealth()-dealtDamage;
+            target.setCurrentHealth(healthRemaining);
+            if (healthRemaining <= 0) {
+                if (target instanceof NonPlayerCharacter) {
                     this.foes -= 1;
+                    for (Observer observer: observers){
+                        observer.update(target);
+                    }
                     return "You strike the killing blow against " + target.getName();
                 }
                 else {
-                    this.player_alive = false;
+                    this.playerAlive = false;
                     return "You are dead!";
                 }
             }
-            return "The attack hits, dealing " + attacker.getWeapon().getDamage() + " damage!";
+
+            return "The attack hits, dealing " + dealtDamage + " damage!";
         }
         else {
             return "The attack misses!";
@@ -90,7 +78,7 @@ public class Combat {
     }
 
     public void attack(MainFrame frame) {
-        if(!secondStage) {
+        if (!secondStage) {
             ability = inventory = false;
             attack = true;
             StringBuilder targets = new StringBuilder("Who would you like to attack?");
@@ -108,7 +96,7 @@ public class Combat {
     }
 
     public void defend(MainFrame frame) {
-        if(!secondStage) {
+        if (!secondStage) {
             attack = ability = inventory = false;
             frame.displayCombatText("You enter a defensive stance");
             endTurn = true;
@@ -119,14 +107,14 @@ public class Combat {
     }
 
     public void ability(MainFrame frame) {
-        if(findPlayer().getCharacter().getCharacter().getAbilities().size() == 0) {
+        if (findPlayer().getCharacter().getCharacter().getAbilities().size() == 0) {
             frame.displayCombatText("You have no abilities");
         }
-        else if(!secondStage) {
+        else if (!secondStage) {
             attack = inventory = false;
             ability = true;
             StringBuilder abilities = new StringBuilder("What ability would you like to use?");
-            for(Ability ability: findPlayer().getCharacter().getCharacter().getAbilities()) {
+            for (Ability ability: findPlayer().getCharacter().getCharacter().getAbilities()) {
                 abilities.append("\n").append(ability.getName());
             }
             frame.displayCombatText(abilities.toString());
@@ -138,9 +126,9 @@ public class Combat {
     }
 
     public void inventory(MainFrame frame) {
-        if(!secondStage) {
+        if (!secondStage) {
             ability = attack = false;
-            if(findPlayer().getInventory().equals("")) {
+            if (findPlayer().getInventory().equals("")) {
                 frame.displayCombatText("You have no items");
             }
             else {
@@ -170,11 +158,11 @@ public class Combat {
         if (npc.getCurrentHealth() <= 0) {
             return npc.getName() + " lies bleeding on the floor. They do not take a turn";
         }
-        else if(r.nextBoolean()) {
-            return npc.getName()+" enters a defensive stance";
+        else if (r.nextBoolean()) {
+            return npc.getName() + " enters a defensive stance";
         }
         else {
-            return npc.getName()+" makes an attack against you!" + "\n" + damage(rollAttack(), target, npc);
+            return npc.getName() + " makes an attack against you!" + "\n" + damage(rollAttack(), target, npc);
         }
     }
 
@@ -183,8 +171,8 @@ public class Combat {
      * @return the player character
      */
     public CharacterInventoryFacade findPlayer() {
-        for(CharacterInventoryFacade player : this.people) {
-            if(player.getCharacter().getCharacter() instanceof PlayerCharacter) {
+        for (CharacterInventoryFacade player : this.people) {
+            if (player.getCharacter().getCharacter() instanceof PlayerCharacter) {
                 return player;
             }
         }
@@ -196,13 +184,13 @@ public class Combat {
      * @return an arraylist of all alive npcs.
      */
     public ArrayList<NonPlayerCharacter> findAliveNpcs() {
-        ArrayList<NonPlayerCharacter> npc_list = new ArrayList<>();
-        for(GameCharacter npc : this.participants) {
-            if(npc instanceof NonPlayerCharacter) {
-                npc_list.add((NonPlayerCharacter) npc);
+        ArrayList<NonPlayerCharacter> npcList = new ArrayList<>();
+        for (GameCharacter npc : this.participants) {
+            if (npc instanceof NonPlayerCharacter) {
+                npcList.add((NonPlayerCharacter) npc);
             }
         }
-        return npc_list;
+        return npcList;
     }
 
     /**
@@ -219,8 +207,8 @@ public class Combat {
     public String turnOrder() {
         int turn = 1;
         StringBuilder turnOrder = new StringBuilder("Current Turn Order:");
-        for(Map.Entry<Double, GameCharacter> partcipant : this.turnorder.entrySet()) {
-            turnOrder.append("\n").append(turn).append(". ").append(partcipant.getValue().getName());
+        for (Map.Entry<Double, GameCharacter> participant : this.turnorder.entrySet()) {
+            turnOrder.append("\n").append(turn).append(". ").append(participant.getValue().getName());
             turn += 1;
         }
         return turnOrder.toString();
@@ -229,16 +217,16 @@ public class Combat {
     public void nextTurn(MainFrame frame) {
         frame.setHpLabel();
         frame.displayCombatText(printBorder());
-        if(foes==0) {
-            frame.getCurrentScene().remove_dead();
+        if (foes==0) {
+            frame.getCurrentScene().removeDead();
             clearStatus();
             frame.exitCombatFrame();
         }
-        else if(!player_alive) {
+        else if (!playerAlive) {
             frame.gameOver();
         }
         else {
-            if(currentTurn == turnorder.size()) {
+            if (currentTurn == turnorder.size()) {
                 frame.displayCombatText("End of round " + round);
                 frame.displayCombatText(printBorder());
                 endRound();
@@ -246,7 +234,7 @@ public class Combat {
             }
             GameCharacter person = (GameCharacter) turnorder.values().toArray()[currentTurn];
             currentTurn += 1;
-            if(person instanceof NonPlayerCharacter) {
+            if (person instanceof NonPlayerCharacter) {
                 frame.displayCombatText(takeTurn((NonPlayerCharacter) person));
                 nextTurn(frame);
             }
@@ -272,4 +260,9 @@ public class Combat {
         frame.displayCombatText(turnOrder());
         nextTurn(frame);
     }
+
+    public void applyEffect(GameCharacter target, StatusEffect effect, int duration) {
+        this.effectFacade.apply(target, effect, duration);
+    }
+
 }

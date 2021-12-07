@@ -1,53 +1,68 @@
 package quest_system;
 
+import constants.Constants;
 import items.QuestItem;
-import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Set;
 
-public class FetchQuestTest extends TestCase {
-    FetchQuest quest;
+public class FetchQuestTest{
+    private FetchQuest quest;
 
     @Before
     public void before() throws Exception {
-        QuestItem coin = new QuestItem("coin", "shiny");
-        this.quest = new FetchQuest(coin);
+        this.quest = new FetchQuest("coin",Set.of((QuestItem)Constants.ITEM_LIST.get("coin")));
     }
 
     @After
     public void after() throws Exception {
     }
 
+    @Test
     public void testGetName() {
-        assertEquals("coin",quest.getName());
+        Assert.assertEquals("coin",quest.getName());
     }
 
+    @Test
     public void testGetRewards() {
-        assertEquals(new ArrayList<String>(), quest.getRewards());
+        Assert.assertEquals(new ArrayList<String>(), quest.getRewards());
     }
 
+    @Test
     public void testIsComplete() {
-        assertFalse(quest.isComplete());
+        Assert.assertFalse(quest.isComplete());
     }
 
+    @Test
     public void testToggleComplete() {
         quest.toggleComplete();
-        assertTrue(quest.isComplete());
+        Assert.assertTrue(quest.isComplete());
     }
 
+    @Test
     public void testIsAccepted() {
-        assertFalse(quest.isAccepted());
+        Assert.assertFalse(quest.isAccepted());
     }
 
+    @Test
     public void testToggleAccepted() {
         quest.toggleAccepted();
-        assertTrue(quest.isAccepted());
+        Assert.assertTrue(quest.isAccepted());
     }
 
+    @Test
     public void testGetCompletion() {
-        assertEquals(1, quest.getCompletion());
+        Assert.assertEquals(0, quest.getCompletion());
+    }
+
+    @Test
+    public void testCheckDoneAndUpdate(){
+        quest.update(Constants.ITEM_LIST.get("coin"));
+        quest.checkDone();
+        Assert.assertEquals(0,quest.getCompletion());
     }
 }

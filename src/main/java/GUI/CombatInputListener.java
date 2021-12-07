@@ -47,7 +47,7 @@ public class CombatInputListener implements ActionListener {
                     savedAbility.setCombatTextTarget(npc.getName());
                     frame.displayCombatText(savedAbility.getCombatText());
                     for (StatusEffect effect : savedAbility.getEffects()) {
-                        combat.statusEffect(npc, effect, savedAbility.getDuration());
+                        combat.applyEffect(npc, effect, savedAbility.getDuration());
                     }
                     valid = true;
                     secondStage = false;
@@ -63,6 +63,7 @@ public class CombatInputListener implements ActionListener {
                         targets.append("\n").append(npc.getName());
                     }
                     frame.displayCombatText(targets.toString());
+                    valid = true;
                     combat.ability = false;
                     frame.combatField.setText("Write Target");
                     secondStage = true;
@@ -78,8 +79,6 @@ public class CombatInputListener implements ActionListener {
                 combat.inventory = false;
             }
         }
-        if(valid) {
-            combat.nextTurn(frame);
-        }
+        if (valid) {combat.nextTurn(frame);}
     }
 }
