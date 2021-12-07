@@ -3,6 +3,7 @@ package scene_system;
 import characters.CharacterInventoryFacade;
 import characters.Inventory;
 import characters.NonPlayerCharacter;
+import constants.Constants;
 import items.ArmorItem;
 import items.Item;
 import org.junit.After;
@@ -15,16 +16,18 @@ import java.util.List;
 
 public class SceneTest {
     private Scene scene;
+    private CharacterInventoryFacade npc;
 
     @Before
     public void before() throws Exception {
         NonPlayerCharacter npc = new NonPlayerCharacter(5, "tim");
         Inventory inventory = new Inventory();
         CharacterInventoryFacade tim = new CharacterInventoryFacade(inventory, npc, List.of());
+        this.npc = tim;
         ArrayList<CharacterInventoryFacade> npcs = new ArrayList<>();
         npcs.add(tim);
         ArrayList<Item> items = new ArrayList<>();
-        items.add(new ArmorItem("helmet", "head", 1, 1));
+        items.add(Constants.ITEM_LIST.get("dirty claw"));
         scene = new Scene("place", npcs, "test area", items, List.of());
     }
 
@@ -52,21 +55,20 @@ public class SceneTest {
     @Test
     public void testGetItems() {
         ArrayList<Item> items = new ArrayList<>();
-        items.add(new ArmorItem("helmet", "head", 1, 1));
+        items.add(Constants.ITEM_LIST.get("dirty claw"));
         Assert.assertEquals(items, scene.getItems());
     }
 
     @Test
     public void testGetNpc() {
-        ArrayList<NonPlayerCharacter> npcs = new ArrayList<>();
-        npcs.add( new NonPlayerCharacter(5, "tim"));
+        ArrayList<CharacterInventoryFacade> npcs = new ArrayList<>();
+        npcs.add(this.npc);
         Assert.assertEquals(npcs, scene.getNpc());
     }
 
     @Test
     public void testRemoveItem() {
-        Item item = new ArmorItem("helmet", "head", 1, 1);
-        scene.removeItem(item);
+        scene.removeItem(Constants.ITEM_LIST.get("dirty claw"));
         ArrayList<Item> empty = new ArrayList<>();
         Assert.assertEquals(empty, scene.getItems());
     }
