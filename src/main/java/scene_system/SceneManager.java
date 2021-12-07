@@ -66,8 +66,4 @@ public class SceneManager {
         return this.sceneList.get(sceneName).getNpc();
     }
 
-
-    public Scene getScene(String sceneName){
-        return sceneList.get(sceneName);
-    }
 }
