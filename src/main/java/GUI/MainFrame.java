@@ -1,5 +1,7 @@
 package GUI;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -16,12 +18,13 @@ public class MainFrame {
     JFrame window;
     Container con;
     JPanel titleNamePanel, startButtonPanel,  mainTextPanel, choiceButtonPanel, playerPanel, textInputPanel, combatPanel,
-            turnPanel, gameOverPanel, overButtonPanel;
+            turnPanel, gameOverPanel, overButtonPanel, savePanel;
     JLabel titleNameLabel, hpLabel, hpLabelNumber, areaLabel, gameOverLabel;
     JTextArea mainTextArea;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 128);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 42);
-    JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability, nextTurn, overButton;
+    JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability, nextTurn, overButton,
+    save;
     ImageIcon imageIcon = new ImageIcon("racoon icon.png");
     JTextField entryField, combatField;
     JScrollPane scroll;
@@ -185,6 +188,21 @@ public class MainFrame {
         entryField.setVisible(true);
         entryField.addActionListener(textActionListener);
         textInputPanel.add(entryField);
+
+        savePanel = new JPanel();
+        savePanel.setBounds((int)(widthScale*1310), (int)(heightScale*700), (int)(widthScale*300), (int)(heightScale*290));
+        savePanel.setBackground(Color.black);
+        savePanel.setLayout(new GridLayout(1,1)); //Makes the buttons go 4 vertical and 1 horizontal
+        con.add(savePanel);
+
+        save = new JButton("save");
+        save.setBackground(Color.black);
+        save.setForeground(Color.blue);
+        save.setFont(normalFont);
+        savePanel.add(save);
+        save.setFocusPainted(false);
+        save.addActionListener(choiceHandler);
+        save.setActionCommand("c5");
 
         displayScene(currentScene);
         SwingUtilities.updateComponentTreeUI(window);
@@ -402,5 +420,15 @@ public class MainFrame {
     public void displayCombatInput(String text) {
         combatField.setText(text);
     }
+
+    public void save() {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("save_game.txt"));
+            bw.write(currentScene.getName());
+            bw.close();
+        } catch (Exception e) {
+        }
+    }
 }
+
 

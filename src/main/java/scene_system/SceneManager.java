@@ -1,6 +1,7 @@
 package scene_system;
 
 import characters.CharacterInventoryFacade;
+import items.Item;
 import scene_system.Scene;
 
 import java.util.ArrayList;
@@ -63,5 +64,10 @@ public class SceneManager {
      */
     public ArrayList<CharacterInventoryFacade> getNPC(String sceneName){
         return this.sceneList.get(sceneName).getNpc();
+    }
+
+
+    public Scene getScene(String sceneName){
+        return sceneList.get(sceneName);
     }
 }
