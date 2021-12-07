@@ -7,6 +7,8 @@ import quest_system.*;
 import scene_system.Scene;
 import GUI.MainFrame;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.*;
 
 /**
@@ -60,7 +62,20 @@ public class Run {
         Inventory inventory = new Inventory();
         CharacterInventoryFacade bernieFacade = new CharacterInventoryFacade(inventory,bernie);
 
-        MainFrame frame = new MainFrame(street, bernieFacade);
+        Scene startScene = street;
+        String startSceneName = "";
+        try{
+            BufferedReader br = new BufferedReader(new FileReader("save_game.txt"));
+            startSceneName = br.readLine();
+            br.close();
+        }
+        catch (Exception e){
+
+        }
+        if (startSceneName.equals("Pizza Place")){
+            startScene = pizzaPlace;
+        }
+        MainFrame frame = new MainFrame(startScene, bernieFacade);
         frame.titleFrame();
     }
 }

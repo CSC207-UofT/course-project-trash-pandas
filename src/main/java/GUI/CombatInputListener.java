@@ -63,7 +63,6 @@ public class CombatInputListener implements ActionListener {
                         targets.append("\n").append(npc.getName());
                     }
                     frame.displayCombatText(targets.toString());
-                    valid = true;
                     combat.ability = false;
                     frame.combatField.setText("Write Target");
                     secondStage = true;
@@ -78,6 +77,9 @@ public class CombatInputListener implements ActionListener {
                 valid = true;
                 combat.inventory = false;
             }
+        }
+        if(valid) {
+            combat.nextTurn(frame);
         }
     }
 }
