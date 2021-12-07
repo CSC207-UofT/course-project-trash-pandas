@@ -15,7 +15,8 @@ public class CombatQuest extends Quest{
      * creates an instance of a CombatQuest
      * @param npcs the NonPlayerCharacters that must be killed to complete the quest
      */
-    public CombatQuest(Set<NonPlayerCharacter> npcs){
+    public CombatQuest(String name, Set<NonPlayerCharacter> npcs){
+        super(name, 0);
         this.npcs.addAll(npcs);
     }
 

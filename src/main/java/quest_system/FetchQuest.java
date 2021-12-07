@@ -17,7 +17,8 @@ public class FetchQuest extends Quest{
      * Constructor for the quest_system.FetchQuest class.
      * @param goalItems the items to be fetched
      */
-    public FetchQuest(Set<QuestItem> goalItems) {
+    public FetchQuest(String name, Set<QuestItem> goalItems) {
+        super(name, 0);
         this.goalItems.addAll(goalItems);
     }
 
