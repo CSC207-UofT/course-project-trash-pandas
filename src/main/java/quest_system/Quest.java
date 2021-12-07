@@ -17,6 +17,16 @@ public abstract class Quest implements Observer {
     private int completion;
 
     /**
+     * creates an instance of Quest
+     * @param name the name of the quest
+     * @param completion an int representing the completion progress of the quest
+     */
+    public Quest (String name, int completion){
+        this.name = name;
+        this.completion = 0;
+    }
+
+    /**
      * Gets the name of the quest_system.Quest.
      * @return the name of the quest_system.Quest
      */
