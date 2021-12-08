@@ -335,7 +335,7 @@ public class MainFrame {
      */
     public void gameOver() {
         mu.stop();
-        mu.setFile("resources/gameOver.wav"); // plays game ove music
+        mu.setFile("resources/gameOver.wav"); // plays game over music
         mu.loop();
         con.removeAll();
         gameOverPanel = new JPanel(); //title
