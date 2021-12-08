@@ -9,7 +9,7 @@ public class Ability {
     private final String name;
     private final List<StatusEffect> effects;
     private final int duration;
-    private String combatText;
+    private String combatText, reset;
 
     public Ability(String name, List<StatusEffect> effects, int duration, String combatText) {
         this.name = name;
@@ -29,6 +29,14 @@ public class Ability {
      */
     public void setCombatTextTarget(String name) {
         combatText = combatText.replaceAll("NAME", name);
+        reset = name;
+    }
+
+    /**
+     * This resets the combat text after an ability is used so the same name is not stuck with the ability forever
+     */
+    public void resetCombatText() {
+        combatText = combatText.replaceAll(reset, "NAME");
     }
 
     public String getCombatText() {return this.combatText;}
