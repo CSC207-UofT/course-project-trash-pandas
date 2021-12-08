@@ -68,8 +68,8 @@ public class MainFrame {
      * The title frame is a simple button that transitions to the main game frame
      */
     public void titleFrame() {
-        //mu.setFile(radioNoise);
-        //mu.loop();
+        mu.setFile("resources/city.wav");
+        mu.loop();
 
         window = new JFrame();
         window.setSize((int) (1920*widthScale),(int)(1080*heightScale)); // sets size
@@ -229,6 +229,9 @@ public class MainFrame {
      * Also starts a combat object
      */
     public void combatFrame() {
+        mu.stop();
+        mu.setFile("resources/combat.wav"); //Music: “Smash Bros”, from PlayOnLoop.com
+        mu.loop();
         con.remove(choiceButtonPanel);
         con.remove(savePanel);
         textInputPanel.remove(entryField);
@@ -312,6 +315,9 @@ public class MainFrame {
      * to out of combat in a jarring way
      */
     public void exitCombatFrame() {
+        mu.stop();
+        mu.setFile("resources/city.wav");
+        mu.loop();
         String combat_text = mainTextArea.getText();
         con.remove(combatPanel);
         textInputPanel.remove(combatField);
@@ -327,24 +333,27 @@ public class MainFrame {
      * Displays a game over scene
      */
     public void gameOver() {
+        mu.stop();
+        mu.setFile("resources/gameOver.wav"); // plays game ove music
+        mu.loop();
         con.removeAll();
         gameOverPanel = new JPanel(); //title
-        gameOverPanel.setBounds((int)(widthScale*250), (int)(heightScale*250), (int)(widthScale*1450), (int)(heightScale*375)); //Sets size for Title
+        gameOverPanel.setBounds((int)(widthScale*250), (int)(heightScale*250), (int)(widthScale*1450), (int)(heightScale*375));
         gameOverPanel.setBackground(Color.black);
         gameOverLabel = new JLabel("You DIED");
-        gameOverLabel.setForeground(Color.red); //text color
+        gameOverLabel.setForeground(Color.red);
         gameOverLabel.setFont(titleFont);
 
-        overButtonPanel = new JPanel(); //start button
+        overButtonPanel = new JPanel();
         overButtonPanel.setBounds((int)(widthScale*600), (int)(heightScale*650), (int)(widthScale*770), (int)(heightScale*250));
         overButtonPanel.setBackground(Color.black);
 
         overButton = new JButton("End Game");
-        overButton.setBackground(Color.black); //Color of button (invisible)
-        overButton.setForeground(Color.white); //Color of text
+        overButton.setBackground(Color.black);
+        overButton.setForeground(Color.white);
         overButton.setFont(normalFont);
         GameOverActionListener overHandler = new GameOverActionListener(this);
-        overButton.addActionListener(overHandler); //mouse support for button, calls method
+        overButton.addActionListener(overHandler);
         overButton.setFocusPainted(false);
 
         gameOverPanel.add(gameOverLabel);
