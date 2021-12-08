@@ -426,6 +426,10 @@ public class MainFrame {
             BufferedWriter bw = new BufferedWriter(new FileWriter("save_game.txt"));
             bw.write(currentScene.getName());
             bw.close();
+            BufferedWriter bw1 = new BufferedWriter(new FileWriter("street_scene.txt"));
+            bw.write("Street");
+            bw.newLine();
+            bw.write()
         } catch (Exception e) {
         }
     }

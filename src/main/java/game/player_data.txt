@@ -1,0 +1,5 @@
+Name: Bernie
+hp: 10
+Inventory: item, item
+Armor
+Weapon
