@@ -68,7 +68,8 @@ public class MainFrame {
      * The title frame is a simple button that transitions to the main game frame
      */
     public void titleFrame() {
-        mu.setFile("resources/city.wav");
+        mu.setFile("resources/city.wav"); //https://www.zapsplat.com/sound-effect-category/city-and-urban/page/2/
+        //Vancouver, night, roaring traffic, cars, buses, pedestrians walking and talking
         mu.loop();
 
         window = new JFrame();
