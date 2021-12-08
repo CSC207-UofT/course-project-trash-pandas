@@ -2,6 +2,7 @@ package combat_system;
 
 import characters.GameCharacter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,41 +47,54 @@ public class CharacterStatusEffectFacade {
      * Processes application of status effects over a single combat turn.
      * Decrements duration for each active effect.
      * @param characters list of characters to be processed
+     * @return bleedOutNpcs is a list of npcs that died due to status effects.
      */
-    public void process(List<GameCharacter> characters) {
+    public ArrayList<GameCharacter> process(List<GameCharacter> characters) {
+        ArrayList<GameCharacter> bleedOutNpcs = new ArrayList<GameCharacter>(); // we want to return a list of all npcs
+        // that die due to their wounds
         for (GameCharacter character : characters) {
-            for (Map.Entry<StatusEffect, Integer> entry : character.getStatusEffects().entrySet()) {
-                StatusEffect effect = entry.getKey();
-                Integer duration = entry.getValue();
+            if (character.getCurrentHealth() > 0) {
+                for (Map.Entry<StatusEffect, Integer> entry : character.getStatusEffects().entrySet()) {
+                    StatusEffect effect = entry.getKey();
+                    Integer duration = entry.getValue();
 
-                // Decrement status effects
-                character.setStatusEffect(effect, duration-1);
+                    // Decrement status effects
+                    character.setStatusEffect(effect, duration-1);
 
-                for (String subeffect : effect.getSubeffects()) {
-                    String type = getSubeffectType(subeffect);
-                    int argument = getSubeffectArgument(subeffect);
+                    for (String subeffect : effect.getSubeffects()) {
+                        String type = getSubeffectType(subeffect);
+                        int argument = getSubeffectArgument(subeffect);
 
-                    if (duration == 0) {
-                        // Handling ending of persistent subeffects
-                        switch (type) {
-                            case "damage":
-                                changeAttack(character, -argument);
-                                break;
-                            case "armor":
-                                changeDefense(character, -argument);
-                                break;
+                        if (duration == 0) {
+                            // Handling ending of persistent subeffects
+                            switch (type) {
+                                case "damage":
+                                    changeAttack(character, -argument);
+                                    if(character.getCurrentHealth()<=0) {
+                                        bleedOutNpcs.add(character);
+                                    }
+                                    break;
+                                case "armor":
+                                    changeDefense(character, -argument);
+                                    break;
+                            }
                         }
-                    } else {
-                        // Handling recurring subeffects
-                        switch (type) {
-                            case "health":
-                                changeHealth(character, argument);
-                                break;
+                        else {
+                            // Handling recurring subeffects
+                            switch (type) {
+                                case "health":
+                                    changeHealth(character, argument);
+                                    if (character.getCurrentHealth() <= 0) {
+                                        bleedOutNpcs.add(character);
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }
             }
         }
+        return bleedOutNpcs;
     }
 
     /**

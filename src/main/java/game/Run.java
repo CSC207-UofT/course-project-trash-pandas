@@ -32,7 +32,8 @@ public class Run {
                 " anything else to do, so you decide to buy from the frog. But where will you find a silver coin?";
         String duringDialogue = "\"You still don't have a coin for me.\" Says the frog.";
         String endingDialogue = "\"Ah! I see you have returned with some coin! Now give it here.\"";
-        FetchQuest coinQuest = new FetchQuest(Set.of((QuestItem)Constants.ITEM_LIST.get("coin")));
+        FetchQuest coinQuest = new FetchQuest("Find the coin",
+                Set.of((QuestItem)Constants.ITEM_LIST.get("coin")));
         QuestManager questManager = new QuestManager();
         questManager.addQuest(coinQuest);
         String combatDialogue = "Tim: You wish to fight? So be it.";
@@ -44,7 +45,7 @@ public class Run {
         Inventory timInventory = new Inventory();
         CharacterInventoryFacade tim = new CharacterInventoryFacade(timInventory, timC, List.of());
 
-        CombatQuest combatQuest = new CombatQuest(Set.of(timC));
+        CombatQuest combatQuest = new CombatQuest("kill tim",Set.of(timC));
         NonPlayerCharacter target = new NonPlayerCharacter(1, "target", "help",
                 "i believe in you","thank you", combatQuest, "good luck");
         Inventory targetInventory = new Inventory();

@@ -24,8 +24,8 @@ public class MainFrame {
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 128);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 42);
     JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability, nextTurn, overButton,
-    save;
-    ImageIcon imageIcon = new ImageIcon("racoon icon.png");
+            save;
+    ImageIcon imageIcon = new ImageIcon("resources/racoon icon.png");
     JTextField entryField, combatField;
     JScrollPane scroll;
     double heightScale, widthScale;
@@ -38,10 +38,15 @@ public class MainFrame {
     CombatChoiceHandler combatHandler;
     InputActionListener textActionListener = new InputActionListener(this);
     CombatInputListener combatInputListener;
-
+    guiLogic logicHandler = new guiLogic();
     Scene currentScene;
     CharacterInventoryFacade player;
 
+    /**
+     * Initializes all of the variables needed to create a new window
+     * @param firstScene the starting scene that the game will be in
+     * @param player the player character
+     */
     public MainFrame(Scene firstScene, CharacterInventoryFacade player) {
         this.currentScene = firstScene;
         this.player = player;
@@ -51,13 +56,21 @@ public class MainFrame {
         this.widthScale = size.getWidth()/1920;
     }
 
+    /**
+     * Simple getter method for getting the current scene displayed
+     * @return the current displayed scene
+     */
     public Scene getCurrentScene() {
         return currentScene;
     }
 
+    /**
+     * The title frame is a simple button that transitions to the main game frame
+     */
     public void titleFrame() {
-        //mu.setFile(radioNoise);
-        //mu.loop();
+        mu.setFile("resources/city.wav"); //https://www.zapsplat.com/sound-effect-category/city-and-urban/page/2/
+        //Vancouver, night, roaring traffic, cars, buses, pedestrians walking and talking
+        mu.loop();
 
         window = new JFrame();
         window.setSize((int) (1920*widthScale),(int)(1080*heightScale)); // sets size
@@ -94,6 +107,10 @@ public class MainFrame {
         SwingUtilities.updateComponentTreeUI(window);
     }
 
+    /**
+     * This is the main frame that the game will take place in. It has all the buttons required for the game and all
+     * the action listeners.
+     */
     public void gameFrame() {
         con.removeAll();
 
@@ -208,8 +225,16 @@ public class MainFrame {
         SwingUtilities.updateComponentTreeUI(window);
     }
 
+    /**
+     * Creates a combat frame with all the new buttons and action listeners required
+     * Also starts a combat object
+     */
     public void combatFrame() {
+        mu.stop();
+        mu.setFile("resources/combat.wav"); //Music: “Smash Bros”, from PlayOnLoop.com
+        mu.loop();
         con.remove(choiceButtonPanel);
+        con.remove(savePanel);
         textInputPanel.remove(entryField);
         combatField = new JTextField("Enter here");
         combatField.setVisible(true);
@@ -287,34 +312,50 @@ public class MainFrame {
         currentScene.getCombat(player).startCombat(this);
     }
 
+    /**
+     * Transitions back to the normal frame, maintains the text from combat so that it does not jump from combat
+     * to out of combat in a jarring way
+     */
     public void exitCombatFrame() {
+        mu.stop();
+        mu.setFile("resources/city.wav");
+        mu.loop();
+        String combat_text = mainTextArea.getText();
         con.remove(combatPanel);
         textInputPanel.remove(combatField);
         con.remove(turnPanel);
+        con.add(savePanel);
         con.add(choiceButtonPanel);
         textInputPanel.add(entryField);
         displayScene(currentScene);
+        mainTextArea.setText(combat_text);
     }
 
+    /**
+     * Displays a game over scene
+     */
     public void gameOver() {
+        mu.stop();
+        mu.setFile("resources/gameOver.wav"); // plays game over music
+        mu.loop();
         con.removeAll();
         gameOverPanel = new JPanel(); //title
-        gameOverPanel.setBounds((int)(widthScale*250), (int)(heightScale*250), (int)(widthScale*1450), (int)(heightScale*375)); //Sets size for Title
+        gameOverPanel.setBounds((int)(widthScale*250), (int)(heightScale*250), (int)(widthScale*1450), (int)(heightScale*375));
         gameOverPanel.setBackground(Color.black);
         gameOverLabel = new JLabel("You DIED");
-        gameOverLabel.setForeground(Color.red); //text color
+        gameOverLabel.setForeground(Color.red);
         gameOverLabel.setFont(titleFont);
 
-        overButtonPanel = new JPanel(); //start button
+        overButtonPanel = new JPanel();
         overButtonPanel.setBounds((int)(widthScale*600), (int)(heightScale*650), (int)(widthScale*770), (int)(heightScale*250));
         overButtonPanel.setBackground(Color.black);
 
         overButton = new JButton("End Game");
-        overButton.setBackground(Color.black); //Color of button (invisible)
-        overButton.setForeground(Color.white); //Color of text
+        overButton.setBackground(Color.black);
+        overButton.setForeground(Color.white);
         overButton.setFont(normalFont);
         GameOverActionListener overHandler = new GameOverActionListener(this);
-        overButton.addActionListener(overHandler); //mouse support for button, calls method
+        overButton.addActionListener(overHandler);
         overButton.setFocusPainted(false);
 
         gameOverPanel.add(gameOverLabel);
@@ -324,10 +365,17 @@ public class MainFrame {
         SwingUtilities.updateComponentTreeUI(window);
     }
 
+    /**
+     * Sets the HP for the player
+     */
     public void setHpLabel() {
-        hpLabel.setText("HP: " + String.valueOf(player.getCharacter().getCharacter().getCurrentHealth()));
+        hpLabel.setText("HP: " + player.getCharacter().getCharacter().getCurrentHealth());
     }
 
+    /**
+     * Displays the scene on the gui
+     * @param sc the scene to be displayed
+     */
     public void displayScene(Scene sc) {
         search = false;
         talk = false;
@@ -339,100 +387,62 @@ public class MainFrame {
         SwingUtilities.updateComponentTreeUI(window);
     }
 
+    /**
+     * Displays all the options for travel
+     * @param travelOptions an arraylist of scenes
+     */
     public void displayTravelOptions(ArrayList<Scene> travelOptions) {
         travel = true;
         search = false;
         talk = false;
-        StringBuilder travelText = new StringBuilder();
-        boolean first = true;
-        entryField.setText("Write Destination Here");
-        travelText.append("Where would you like to travel? \n");
-        for(Scene sc: travelOptions) {
-            if (!first) {
-                travelText.append(", ").append(sc.getName());
-            }
-            else {
-                travelText.append(sc.getName());
-                first = false;
-            }
-        }
-        mainTextArea.setText(travelText.toString());
-
+        ArrayList<String> text = logicHandler.displayTravelOptions(travelOptions);
+        mainTextArea.setText(text.get(1));
+        entryField.setText(text.get(0));
     }
 
-    public void displayDialogue(ArrayList<CharacterInventoryFacade> characters) {
+    /**
+     * Displays the choices of characters to talk to
+     * @param characters a list of all the characters in the current scene so that user can target the character
+     */
+    public void displayNpcs(ArrayList<CharacterInventoryFacade> characters) {
         talk = true;
         search = false;
         travel = false;
-        StringBuilder npcText = new StringBuilder();
-        if(characters.isEmpty()) {
-            npcText.append("There is no one here to talk to");
-            entryField.setText("There is no one here");
-        }
-        else {
-            boolean first = true;
-            entryField.setText("Write NPC Here");
-            npcText.append("Who would you like to talk to? \n");
-            for(CharacterInventoryFacade npc: characters) {
-                if (!first) {
-                    npcText.append("\n").append(npc.getCharacter().getCharacter().getName());
-                }
-                else {
-                    npcText.append(npc.getCharacter().getCharacter().getName());
-                    first = false;
-                }
-            }
-        }
-        mainTextArea.setText(npcText.toString());
+        ArrayList<String> text = logicHandler.displayNpcs(characters);
+        mainTextArea.setText(text.get(1));
+        entryField.setText(text.get(0));
     }
 
+    /**
+     * Displays the items in the list in a way that is understandable
+     * Also displays entry field text
+     * @param items a list of all the items the player has
+     */
     public void displayItems(ArrayList<Item> items) {
         search = true;
         talk = false;
         travel = false;
-        StringBuilder itemText = new StringBuilder();
-        if(items.isEmpty()) {
-            itemText.append("There are no items around that you can see");
-            entryField.setText("There are no items");
-        }
-        else {
-            boolean first = true;
-            entryField.setText("Write Item Here");
-            itemText.append("Which item would you like to pick up? \n");
-            for(Item item: items) {
-                if (!first) {
-                    itemText.append(", ").append(item.getName());
-                }
-                else {
-                    itemText.append(item.getName());
-                    first = false;
-                }
-            }
-        }
-        mainTextArea.setText(itemText.toString());
+        ArrayList<String> text = logicHandler.displayItems(items);
+        mainTextArea.setText(text.get(1));
+        entryField.setText(text.get(0));
     }
 
+    /**
+     * Displays text during a combat encounter by adding it on to the end of a scrollable screen, also auto scrolls
+     * to the bottom of the text
+     * @param text the String to display
+     */
     public void displayCombatText(String text) {
         mainTextArea.append("\n" + text);
         mainTextArea.setCaretPosition(mainTextArea.getDocument().getLength());
     }
 
+    /**
+     * Displays text in the input area (place where user types targets) during a combat encounter
+     * @param text the text to display
+     */
     public void displayCombatInput(String text) {
         combatField.setText(text);
     }
-
-    public void save() {
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("save_game.txt"));
-            bw.write(currentScene.getName());
-            bw.close();
-            BufferedWriter bw1 = new BufferedWriter(new FileWriter("street_scene.txt"));
-            bw.write("Street");
-            bw.newLine();
-            bw.write()
-        } catch (Exception e) {
-        }
-    }
 }
-
 
