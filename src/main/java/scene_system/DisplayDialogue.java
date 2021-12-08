@@ -12,6 +12,7 @@ public class DisplayDialogue {
 
     public String dialogue(NonPlayerCharacter chara){
         Quest quest = chara.getQuest();
+
         QuestManager manager = new QuestManager();
         if(quest != null) {
             switch (quest.getCompletion()) {
@@ -27,8 +28,6 @@ public class DisplayDialogue {
                     return chara.getQuestDialogue(chara.DURING_QUEST);
             }
         }
-
         return "ew stinky";
-
     }
 }
