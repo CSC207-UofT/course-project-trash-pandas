@@ -1,31 +1,33 @@
 package scene_system;
 
 import characters.PlayerCharacter;
-import quest_system.QuestManager;
 import quest_system.Quest;
+import quest_system.QuestManager;
 import characters.*;
+
+import java.util.Set;
 
 
 public class DisplayDialogue {
 
-    public String dialogue(NonPlayerCharacter chara, PlayerCharacter player){
+    public String dialogue(NonPlayerCharacter chara, CharacterInventoryFacade player){
         Quest quest = chara.getQuest();
-        if(quest == null){
-            return "ew stinky";
-        }
-        switch (quest.getCompletion()) {
-            case 0:
-                player.accept(quest);
-                return chara.getQuestDialogue(chara.BEGIN_QUEST);
 
-            case 1:
-                if (quest.checkDone(player)) {
-                    player.complete(player, quest);
-                    return chara.getQuestDialogue(chara.END_QUEST);
-                }
-                return chara.getQuestDialogue(chara.DURING_QUEST);
-        }
-        return "how";
+        QuestManager manager = new QuestManager();
+        if(quest != null) {
+            switch (quest.getCompletion()) {
+                case 0:
+                    manager.acceptQuest(quest);
+                    return chara.getQuestDialogue(chara.BEGIN_QUEST);
 
+                case 1:
+                    quest.checkDone();
+                    if(quest.getCompletion() == 2) {
+                        return chara.getQuestDialogue(chara.END_QUEST);
+                    }
+                    return chara.getQuestDialogue(chara.DURING_QUEST);
+            }
+        }
+        return "ew stinky";
     }
 }
