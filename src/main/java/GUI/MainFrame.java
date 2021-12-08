@@ -38,10 +38,15 @@ public class MainFrame {
     CombatChoiceHandler combatHandler;
     InputActionListener textActionListener = new InputActionListener(this);
     CombatInputListener combatInputListener;
-
+    guiLogic logicHandler = new guiLogic();
     Scene currentScene;
     CharacterInventoryFacade player;
 
+    /**
+     * Initializes all of the variables needed to create a new window
+     * @param firstScene the starting scene that the game will be in
+     * @param player the player character
+     */
     public MainFrame(Scene firstScene, CharacterInventoryFacade player) {
         this.currentScene = firstScene;
         this.player = player;
@@ -51,10 +56,17 @@ public class MainFrame {
         this.widthScale = size.getWidth()/1920;
     }
 
+    /**
+     * Simple getter method for getting the current scene displayed
+     * @return the current displayed scene
+     */
     public Scene getCurrentScene() {
         return currentScene;
     }
 
+    /**
+     * The title frame is a simple button that transitions to the main game frame
+     */
     public void titleFrame() {
         //mu.setFile(radioNoise);
         //mu.loop();
@@ -94,6 +106,10 @@ public class MainFrame {
         SwingUtilities.updateComponentTreeUI(window);
     }
 
+    /**
+     * This is the main frame that the game will take place in. It has all the buttons required for the game and all
+     * the action listeners.
+     */
     public void gameFrame() {
         con.removeAll();
 
@@ -208,6 +224,10 @@ public class MainFrame {
         SwingUtilities.updateComponentTreeUI(window);
     }
 
+    /**
+     * Creates a combat frame with all the new buttons and action listeners required
+     * Also starts a combat object
+     */
     public void combatFrame() {
         con.remove(choiceButtonPanel);
         con.remove(savePanel);
@@ -287,7 +307,10 @@ public class MainFrame {
         currentScene.getCombat(player).startCombat(this);
     }
 
-
+    /**
+     * Transitions back to the normal frame, maintains the text from combat so that it does not jump from combat
+     * to out of combat in a jarring way
+     */
     public void exitCombatFrame() {
         String combat_text = mainTextArea.getText();
         con.remove(combatPanel);
@@ -300,6 +323,9 @@ public class MainFrame {
         mainTextArea.setText(combat_text);
     }
 
+    /**
+     * Displays a game over scene
+     */
     public void gameOver() {
         con.removeAll();
         gameOverPanel = new JPanel(); //title
@@ -328,10 +354,17 @@ public class MainFrame {
         SwingUtilities.updateComponentTreeUI(window);
     }
 
+    /**
+     * Sets the HP for the player
+     */
     public void setHpLabel() {
         hpLabel.setText("HP: " + player.getCharacter().getCharacter().getCurrentHealth());
     }
 
+    /**
+     * Displays the scene on the gui
+     * @param sc the scene to be displayed
+     */
     public void displayScene(Scene sc) {
         search = false;
         talk = false;
@@ -343,84 +376,60 @@ public class MainFrame {
         SwingUtilities.updateComponentTreeUI(window);
     }
 
+    /**
+     * Displays all the options for travel
+     * @param travelOptions an arraylist of scenes
+     */
     public void displayTravelOptions(ArrayList<Scene> travelOptions) {
         travel = true;
         search = false;
         talk = false;
-        StringBuilder travelText = new StringBuilder();
-        boolean first = true;
-        entryField.setText("Write Destination Here");
-        travelText.append("Where would you like to travel? \n");
-        for(Scene sc: travelOptions) {
-            if (!first) {
-                travelText.append(", ").append(sc.getName());
-            }
-            else {
-                travelText.append(sc.getName());
-                first = false;
-            }
-        }
-        mainTextArea.setText(travelText.toString());
-
+        ArrayList<String> text = logicHandler.displayTravelOptions(travelOptions);
+        mainTextArea.setText(text.get(1));
+        entryField.setText(text.get(0));
     }
 
-    public void displayDialogue(ArrayList<CharacterInventoryFacade> characters) {
+    /**
+     * Displays the choices of characters to talk to
+     * @param characters a list of all the characters in the current scene so that user can target the character
+     */
+    public void displayNpcs(ArrayList<CharacterInventoryFacade> characters) {
         talk = true;
         search = false;
         travel = false;
-        StringBuilder npcText = new StringBuilder();
-        if(characters.isEmpty()) {
-            npcText.append("There is no one here to talk to");
-            entryField.setText("There is no one here");
-        }
-        else {
-            boolean first = true;
-            entryField.setText("Write NPC Here");
-            npcText.append("Who would you like to talk to? \n");
-            for(CharacterInventoryFacade npc: characters) {
-                if (!first) {
-                    npcText.append("\n").append(npc.getCharacter().getCharacter().getName());
-                }
-                else {
-                    npcText.append(npc.getCharacter().getCharacter().getName());
-                    first = false;
-                }
-            }
-        }
-        mainTextArea.setText(npcText.toString());
+        ArrayList<String> text = logicHandler.displayNpcs(characters);
+        mainTextArea.setText(text.get(1));
+        entryField.setText(text.get(0));
     }
 
+    /**
+     * Displays the items in the list in a way that is understandable
+     * Also displays entry field text
+     * @param items a list of all the items the player has
+     */
     public void displayItems(ArrayList<Item> items) {
         search = true;
         talk = false;
         travel = false;
-        StringBuilder itemText = new StringBuilder();
-        if(items.isEmpty()) {
-            itemText.append("There are no items around that you can see");
-            entryField.setText("There are no items");
-        }
-        else {
-            boolean first = true;
-            entryField.setText("Write Item Here");
-            itemText.append("Which item would you like to pick up? \n");
-            for(Item item: items) {
-                if (!first) {
-                    itemText.append(", ").append(item.getName());
-                }
-                else {
-                    itemText.append(item.getName());
-                    first = false;
-                }
-            }
-        }
-        mainTextArea.setText(itemText.toString());
+        ArrayList<String> text = logicHandler.displayItems(items);
+        mainTextArea.setText(text.get(1));
+        entryField.setText(text.get(0));
     }
 
+    /**
+     * Displays text during a combat encounter by adding it on to the end of a scrollable screen, also auto scrolls
+     * to the bottom of the text
+     * @param text the String to display
+     */
     public void displayCombatText(String text) {
         mainTextArea.append("\n" + text);
         mainTextArea.setCaretPosition(mainTextArea.getDocument().getLength());
     }
 
+    /**
+     * Displays text in the input area (place where user types targets) during a combat encounter
+     * @param text the text to display
+     */
     public void displayCombatInput(String text) {
         combatField.setText(text);
     }

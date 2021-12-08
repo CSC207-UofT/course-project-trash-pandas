@@ -19,6 +19,11 @@ public class CombatInputListener implements ActionListener {
         this.combat = frame.currentScene.getCombat(frame.player);
     }
 
+    /**
+     * The text entered is evaluated based on what action we are expecting. If we are expecting an attack it will
+     * evaluate it as in attack, an ability as an ability, etc.
+     * @param event when enter is clicked on the input listener
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         String input = frame.combatField.getText();
