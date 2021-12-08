@@ -102,10 +102,10 @@ public class Constants {
 
     public static final Map<String, Ability> ABILITY_LIST = Map.ofEntries(
         Map.entry("trash", new Ability("Throw trash",
-                List.of(STATUS_LIST.get("poison"), STATUS_LIST.get("blindness")), 2, "You threw trash at NAME!")),
+                List.of(STATUS_LIST.get("poison"), STATUS_LIST.get("blindness")), 2, "USER threw trash at NAME!")),
         Map.entry("box", new Ability("Hide in a box",
-                List.of(STATUS_LIST.get("turtle")), 3, "You hid NAME in a box!")),
+                List.of(STATUS_LIST.get("turtle")), 3, "USER hid NAME in a box!")),
         Map.entry("sand", new Ability("Kick up some sand",
-                List.of(STATUS_LIST.get("blindness"), STATUS_LIST.get("adrenaline")), 5, "You kicked sand into NAME's eyes!"))
+                List.of(STATUS_LIST.get("blindness"), STATUS_LIST.get("adrenaline")), 5, "USER kicked sand into NAME's eyes!"))
     );
 }
