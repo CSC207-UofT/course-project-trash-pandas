@@ -6,6 +6,10 @@ import java.awt.event.ActionListener;
 class GameOverActionListener implements ActionListener {
     MainFrame frame;
 
+    /**
+     * Very simple button that closes the game
+     * @param frame the window that is currently open
+     */
     public GameOverActionListener(MainFrame frame) {
         this.frame = frame;
     }

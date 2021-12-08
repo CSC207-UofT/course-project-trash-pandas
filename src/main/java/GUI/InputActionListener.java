@@ -14,6 +14,11 @@ class InputActionListener implements ActionListener {
     public InputActionListener(MainFrame frame) {
         this.frame = frame;
     }
+
+    /**
+     *
+     * @param event when enter is pressed
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         String input = frame.entryField.getText();
