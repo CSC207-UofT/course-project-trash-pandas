@@ -68,12 +68,16 @@ public class Inventory {
      * Return a String representation of the Inventory.
      * @return A string containing each Item in the inventory and its quantity.
      */
-    // TODO: fix this stringbuilder style error which i am too lazy to do right now
     @Override
     public String toString(){
         StringBuilder toReturn = new StringBuilder();
         for (Item i: this.inventory.keySet()){
-            toReturn.append(i).append(". ").append(i.getName()).append("\t").append(this.inventory.get(i)).append("\n");
+            toReturn.append("Item Name: ");
+            toReturn.append(i.getName());
+            toReturn.append("\t");
+            toReturn.append("Quantity: ");
+            toReturn.append(this.inventory.get(i));
+            toReturn.append("\n");
         }
         return toReturn.toString();
     }
