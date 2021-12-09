@@ -17,4 +17,11 @@ public class WeaponItem extends Item {
     }
 
 
+    @Override
+    public String toString(){
+
+        return super.toString() +
+                " Damage: " +
+                damage;
+    }
 }
