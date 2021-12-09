@@ -1,6 +1,7 @@
 package combat_system;
 import GUI.MainFrame;
 import characters.*;
+import constants.Constants;
 import constants.Observer;
 
 import java.util.*;
@@ -193,7 +194,12 @@ public class Combat {
             return npc.getName() + " lies bleeding on the floor. They do not take a turn";
         }
         else if (r.nextBoolean()) {
-            return npc.getName() + " enters a defensive stance";
+            Object[] abilities = Constants.ABILITY_LIST.values().toArray();
+            Ability ability = (Ability) abilities[r.nextInt(abilities.length)];
+            for (StatusEffect effect : ability.getEffects()) {
+                this.applyEffect(target, effect, ability.getDuration());
+            }
+            return ability.getCombatText(npc.getName(), target.getName());
         }
         else {
             return npc.getName() + " makes an attack against you!" + "\n" + damage(rollAttack(npc), target, npc);

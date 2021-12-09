@@ -48,13 +48,11 @@ public class CombatInputListener implements ActionListener {
         else if (secondStage) {
             for (NonPlayerCharacter npc: combat.findAliveNpcs()) {
                 if (npc.getName().equalsIgnoreCase(input)) {
-                    savedAbility.setCombatTextTarget(npc.getName());
-                    frame.displayCombatText(savedAbility.getCombatText());
+                    frame.displayCombatText(savedAbility.getCombatText("You", npc.getName()));
                     for (StatusEffect effect : savedAbility.getEffects()) {
                         combat.applyEffect(npc, effect, savedAbility.getDuration());
                     }
                     valid = true;
-                    savedAbility.resetCombatText();
                     secondStage = false;
                     combat.secondStage = false;
                     savedAbility = null;

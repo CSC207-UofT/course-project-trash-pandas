@@ -43,8 +43,8 @@ public class Run {
         CharacterInventoryFacade tim = new CharacterInventoryFacade(timInventory, timC, List.of());
 
         CombatQuest combatQuest = new CombatQuest("kill tim",Set.of(timC));
-        NonPlayerCharacter target = new NonPlayerCharacter(1, "target", "help",
-                "i believe in you","thank you", combatQuest, "good luck");
+        NonPlayerCharacter target = new NonPlayerCharacter(1, "target", "help, tim punched me, kill him",
+                "i believe in you","thank you for killing tim", combatQuest, "good luck");
         Inventory targetInventory = new Inventory();
         CharacterInventoryFacade targetFacade = new CharacterInventoryFacade(targetInventory, target, List.of());
         CharacterInventoryFacade evan = new CharacterInventoryFacade(timInventory, evanC, List.of());
