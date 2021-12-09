@@ -27,7 +27,7 @@ public class MainFrame {
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 128);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 42);
     JButton startButton, choice1, choice2, choice3, choice4, inventory, defend, attack, ability, nextTurn, overButton,
-            save;
+            save, invButton;
     ImageIcon imageIcon = new ImageIcon("resources/racoon icon.png");
     JTextField entryField, combatField;
     JScrollPane scroll;
@@ -227,7 +227,7 @@ public class MainFrame {
         savePanel = new JPanel();
         savePanel.setBounds((int)(widthScale*1310), (int)(heightScale*700), (int)(widthScale*300), (int)(heightScale*290));
         savePanel.setBackground(Color.black);
-        savePanel.setLayout(new GridLayout(1,1)); //Makes the buttons go 4 vertical and 1 horizontal
+        savePanel.setLayout(new GridLayout(2,1)); //Makes the buttons go 2 vertical and 1 horizontal
         con.add(savePanel);
 
         save = new JButton("save");
@@ -238,6 +238,15 @@ public class MainFrame {
         save.setFocusPainted(false);
         save.addActionListener(choiceHandler);
         save.setActionCommand("c5");
+
+        invButton = new JButton("inventory");
+        invButton.setBackground(Color.black);
+        invButton.setForeground(Color.blue);
+        invButton.setFont(normalFont);
+        savePanel.add(invButton);
+        invButton.setFocusPainted(false);
+        invButton.addActionListener(choiceHandler);
+        invButton.setActionCommand("c6");
 
         displayScene(currentScene);
         SwingUtilities.updateComponentTreeUI(window);
@@ -480,6 +489,10 @@ public class MainFrame {
             bw.close();
         } catch (Exception e) {
         }
+    }
+
+    public void displayInventory() {
+        mainTextArea.append("\n" + player.getInventory());
     }
 }
 
