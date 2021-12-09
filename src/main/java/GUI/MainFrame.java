@@ -2,6 +2,7 @@ package GUI;
 import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -490,10 +491,16 @@ public class MainFrame {
     }
 
     public void save() {
-        Save saveData = new Save();
-        saveData.saveFile(currentScene, sceneManager);
-    }
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("save_game.txt"));
+            bw.write(currentScene);
+            bw.close();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     public void displayInventory() {
         mainTextArea.append("\n" + player.getInventory());
     }
