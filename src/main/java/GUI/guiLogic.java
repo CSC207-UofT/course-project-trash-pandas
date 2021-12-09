@@ -10,21 +10,21 @@ public class guiLogic {
 
     /**
      * Returns a list of all the valid options to travel to
-     * @param travelOptions an array list of scenes that can be traveled to
+     * @param travelOptions an array list of names of scenes you can travel to
      * @return text is an array list that has maintext at element 1 and entryField text at element 0
      */
-    public ArrayList<String> displayTravelOptions (ArrayList<Scene> travelOptions) {
+    public ArrayList<String> displayTravelOptions (ArrayList<String> travelOptions) {
         ArrayList<String> text = new ArrayList<>();
         StringBuilder travelText = new StringBuilder();
         boolean first = true;
         text.add("Write Destination Here");
         travelText.append("Where would you like to travel? \n");
-        for(Scene sc: travelOptions) {
+        for(String sc: travelOptions) {
             if (!first) {
-                travelText.append(", ").append(sc.getName());
+                travelText.append(", ").append(sc);
             }
             else {
-                travelText.append(sc.getName());
+                travelText.append(sc);
                 first = false;
             }
         }
@@ -33,10 +33,10 @@ public class guiLogic {
     }
     /**
      * Displays all the options of npcs to talk to
-     * @param characters a list of all the npcs in the current scene
+     * @param characters a list of all the names of npcs in the current scene
      * @return an array list that has maintext at element 1 and entryField text at element 0
      */
-    public ArrayList<String> displayNpcs (ArrayList<CharacterInventoryFacade> characters) {
+    public ArrayList<String> displayNpcs (ArrayList<String> characters) {
         ArrayList<String> text = new ArrayList<>();
         StringBuilder npcText = new StringBuilder();
         if(characters.isEmpty()) {
@@ -47,12 +47,12 @@ public class guiLogic {
             boolean first = true;
             text.add("Write NPC Here");
             npcText.append("Who would you like to talk to? \n");
-            for(CharacterInventoryFacade npc: characters) {
+            for(String npc: characters) {
                 if (!first) {
-                    npcText.append("\n").append(npc.getCharacter().getCharacter().getName());
+                    npcText.append("\n").append(npc);
                 }
                 else {
-                    npcText.append(npc.getCharacter().getCharacter().getName());
+                    npcText.append(npc);
                     first = false;
                 }
             }
@@ -63,10 +63,10 @@ public class guiLogic {
 
     /**
      * Returns an ArrayList that contains maintext at element 1 and entryField text at element 0
-     * @param items an array list of all the items a player has
+     * @param items an array list of all the names of items a player has
      * @return text is an array list of objects
      */
-    public ArrayList<String> displayItems(ArrayList<Item> items) {
+    public ArrayList<String> displayItems(ArrayList<String> items) {
         ArrayList<String> text = new ArrayList<>();
         StringBuilder itemText = new StringBuilder();
         if(items.isEmpty()) {
@@ -77,12 +77,12 @@ public class guiLogic {
             boolean first = true;
             text.add("Write Item Here");
             itemText.append("Which item would you like to pick up? \n");
-            for(Item item: items) {
+            for(String item: items) {
                 if (!first) {
-                    itemText.append(", ").append(item.getName());
+                    itemText.append(", ").append(item);
                 }
                 else {
-                    itemText.append(item.getName());
+                    itemText.append(item);
                     first = false;
                 }
             }
