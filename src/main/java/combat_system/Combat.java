@@ -267,10 +267,10 @@ public class Combat {
         frame.setHpLabel();
         frame.displayCombatText(printBorder());
         if (findAliveNpcs().size() == 0) {
-            frame.getCurrentScene().removeDead();
+            frame.getSceneManager().removeDead(frame.getCurrentScene());
             clearStatus();
+            this.participants = new ArrayList<>();
             frame.exitCombatFrame();
-
         }
         else if (!playerAlive) {
             frame.gameOver();

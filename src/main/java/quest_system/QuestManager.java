@@ -38,6 +38,9 @@ public class QuestManager implements Observer {
         return quests.get(name);
     }
 
+    public void addReward(String item, String quest){
+        quests.get(quest).addReward(item);
+    }
 
 
     /**

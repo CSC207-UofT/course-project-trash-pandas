@@ -1,6 +1,7 @@
 package scene_system;
 
 import characters.CharacterInventoryFacade;
+import combat_system.Combat;
 import items.Item;
 import scene_system.Scene;
 
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO: Write tests for SceneManager and Scene
 /**
  * Handles modifications and accessing of information from scene classes, and stores a hashmap
  * of the scenes in the game, that can be referenced by their names in string form.
@@ -67,7 +67,9 @@ public class SceneManager {
      * @return an ArrayList containing the names of the npcs in the scene.
      */
     public ArrayList<String> getNPC(String sceneName){
-        return this.sceneList.get(sceneName).getNpc();
+        Scene scene = this.sceneList.get(sceneName);
+
+        return scene.getNpc();
     }
 
     /**
@@ -96,5 +98,17 @@ public class SceneManager {
         }
     }
 
+    /**
+     * Gets the combat instance from the given scene.
+     * @param sceneName the name of the scene the combat takes place in
+     * @param participants the characters that take part in combat
+     * @return the instance of combat in the given scene.
+     */
+    public Combat getCombat(String sceneName, ArrayList<CharacterInventoryFacade> participants){
+        return this.sceneList.get(sceneName).getCombat(participants);
+    }
 
+    public void removeDead(String sceneName){
+        sceneList.get(sceneName).removeDead();
+    }
 }

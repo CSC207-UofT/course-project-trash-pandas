@@ -12,6 +12,7 @@ import Music.MusicHandler;
 import characters.CharacterInventoryFacade;
 import characters.CharacterInventoryFacadeManager;
 import characters.NonPlayerCharacter;
+import combat_system.Combat;
 import game.Save;
 import items.Item;
 import scene_system.Scene;
@@ -250,8 +251,8 @@ public class MainFrame {
         combatField.addActionListener(combatInputListener);
         textInputPanel.add(combatField);
         mainTextArea.setText("");
-        for(CharacterInventoryFacade npc: currentScene.getNpc()) {
-            String combatText = ((NonPlayerCharacter) npc.getCharacter().getCharacter()).getCombatDialogue();
+        for(String npc: sceneManager.getNPC(currentScene)) {
+            String combatText = cifManager.getDialogue(npc);
             if(!Objects.equals(combatText, "")){
                 displayCombatText(combatText);
             }
@@ -316,9 +317,18 @@ public class MainFrame {
         nextTurn.addActionListener(combatHandler);
         nextTurn.setActionCommand("c5");
 
-
         SwingUtilities.updateComponentTreeUI(window);
-        currentScene.getCombat(player).startCombat(this);
+        this.createCombat().startCombat(this);
+    }
+
+    /**
+     * Helper method, creates or returns the instance of combat in the current scene.
+     * @return the combat class in the current scene.
+     */
+    public Combat createCombat(){
+        ArrayList<CharacterInventoryFacade> combatants = cifManager.getCombatParticipants
+                (this.sceneManager.getNPC(this.currentScene));
+        return this.sceneManager.getCombat(this.currentScene, combatants);
     }
 
     /**
