@@ -100,20 +100,20 @@ public class Scene {
      */
     //TODO Figure out if we need this at all
     public void removeDead() {
-        this.npc.removeIf(npc -> npc.getCharacter().getCharacter().getCurrentHealth() <= 0);
+        while(!npc.isEmpty()){
+            this.npc = new ArrayList<>();
+        }
+
     }
 
     /**
      * This method is called when combat begins
      * After combat is resolved, it checks the npcs that are alive since many probably died.
      * This leaves room for expansion if there are non-lethal options in combat (check_alive can be expanded)
-     * @param player the player character must be combined with the npcs in an ArrayList to start combat
+     * @param participants a list containing the player character and npcs partaking in combat.
      */
-    //TODO Figure out if we need this at all
-    public Combat getCombat(CharacterInventoryFacade player) {
+    public Combat getCombat(ArrayList<CharacterInventoryFacade> participants) {
         if(combat == null) {
-            ArrayList<CharacterInventoryFacade> participants = new ArrayList<>(getNpc());
-            participants.add(player);
             this.combat = new Combat(participants, this.observers);
         }
         return this.combat;

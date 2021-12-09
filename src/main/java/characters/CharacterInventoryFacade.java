@@ -99,4 +99,5 @@ public class CharacterInventoryFacade implements ItemCheckable {
     public String getName(){
         return this.character.getName();
     }
+
 }
