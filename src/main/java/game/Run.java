@@ -50,8 +50,34 @@ public class Run {
         CharacterInventoryFacade evan = new CharacterInventoryFacade(timInventory, evanC, List.of());
 
         questManager.addQuest(combatQuest);
+        String streetName = "Street";
+        ArrayList<String> streetNPCS = new ArrayList<>();
+        streetNPCS.add(tim.getName());
+        streetNPCS.add(evanC.getName());
+        String streetDescription = "You are in the city.";
+        ArrayList<Item> streetItems = new ArrayList<>();
 
-        LoadScene loadScene = new LoadScene();
+        Scene street = new Scene(streetName, streetNPCS, streetDescription, streetItems, List.of(questManager));
+
+
+        String pizzaPlaceName = "Pizza Place";
+        ArrayList<String> pizzaNPCS = new ArrayList<>();
+        pizzaNPCS.add(target.getName());
+        String pizzaPlaceDescription = "This pizza joint is squeaky clean aside from a scrunched up disc" +
+                " of aluminum foil dropped on one of the seats.";
+        ArrayList<Item> pizzaPlaceItems = new ArrayList<>();
+        pizzaPlaceItems.add(Constants.ITEM_LIST.get("coin"));
+        Scene pizzaPlace = new Scene(pizzaPlaceName, pizzaNPCS, pizzaPlaceDescription, pizzaPlaceItems,
+                List.of(questManager));
+
+        street.addScene(pizzaPlace);
+        pizzaPlace.addScene(street);
+
+        HashMap<String, Scene> scenes = new HashMap<>();
+        scenes.put(street.getName(), street);
+        scenes.put(pizzaPlace.getName(), pizzaPlace);
+
+        SceneManager sceneManager = new SceneManager(scenes);
 
         Inventory inventory = new Inventory();
         CharacterInventoryFacade bernieFacade = new CharacterInventoryFacade(inventory,bernie, List.of(questManager));
@@ -64,7 +90,7 @@ public class Run {
 
         CharacterInventoryFacadeManager cifManager = new CharacterInventoryFacadeManager(characters);
 
-        MainFrame frame = new MainFrame("Street", bernieFacade, loadScene.LoadScenes(questManager), cifManager);
+        MainFrame frame = new MainFrame("Street", bernieFacade, sceneManager, cifManager);
         frame.titleFrame();
     }
 }
