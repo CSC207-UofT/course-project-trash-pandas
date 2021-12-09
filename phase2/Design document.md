@@ -54,10 +54,8 @@ This class implemented abilities and status effects for use in combat, as well a
 
 + [Save/load](https://github.com/CSC207-UofT/course-project-trash-pandas/pull/66): Implemented save/load feature for the entire program.
 
-**George** (glyon3 and georgewesley, had issues accessing georgewesley account on different computer): Before phase one: Handled writing code for facilitating combat. Since Phase 1: Implemented GUI and Music.
+**George** (glyon3 and georgewesley; had issues accessing georgewesley account on different computer): Handled writing code for facilitating combat. Implemented GUI and Music.
 
-+ [Wesley GUI](https://github.com/CSC207-UofT/course-project-trash-pandas/pull/39):
-This is where I converted the whole game to a GUI instead of a console. I also did combat implementation in GUI.
++ [Wesley GUI](https://github.com/CSC207-UofT/course-project-trash-pandas/pull/39): This is where I converted the whole game to a GUI instead of a console. I also did combat implementation in GUI.
 
-+ [Updated GUI so that the logic is separated…](https://github.com/CSC207-UofT/course-project-trash-pandas/pull/55):
-I improved the GUI here, improving its adherence to the Universal Design Principles.
++ [Updated GUI so that the logic is separated…](https://github.com/CSC207-UofT/course-project-trash-pandas/pull/55): I improved the GUI here, improving its adherence to the Universal Design Principles.
