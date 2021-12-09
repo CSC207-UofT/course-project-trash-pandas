@@ -87,16 +87,15 @@ public class Constants {
                     25))
     );
 
-    // list of all the status effects
+    // List of all the status effects
 
-    // TODO: write descriptions
     public static final Map<String, StatusEffect> STATUS_LIST = Map.ofEntries(
-            Map.entry("poison", new StatusEffect("poison", "TEST DESC", List.of("health -1"))),
-            Map.entry("blindness", new StatusEffect("blindness", "TEST DESC", List.of("attack -2"))),
-            Map.entry("adrenaline", new StatusEffect("adrenaline", "TEST DESC", List.of("attack 1"))),
-            Map.entry("turtle", new StatusEffect("turtle", "TEST DESC", List.of("attack -1", "defense 2"))),
-            Map.entry("binding", new StatusEffect("binding", "TEST DESC", List.of("attack -10", "defense -1"))),
-            Map.entry("berzerk", new StatusEffect("berzerk", "TEST DESC", List.of("health -1", "attack 5", "defense -2")))
+            Map.entry("poison", new StatusEffect("poison", List.of("health -1"))),
+            Map.entry("blindness", new StatusEffect("blindness", List.of("attack -2"))),
+            Map.entry("adrenaline", new StatusEffect("adrenaline", List.of("attack 1"))),
+            Map.entry("turtle", new StatusEffect("turtle", List.of("attack -1", "defense 2"))),
+            Map.entry("binding", new StatusEffect("binding", List.of("attack -10", "defense -1"))),
+            Map.entry("berzerk", new StatusEffect("berzerk", List.of("health -1", "attack 5", "defense -2")))
     );
 
     public static final Map<String, Ability> ABILITY_LIST = Map.ofEntries(

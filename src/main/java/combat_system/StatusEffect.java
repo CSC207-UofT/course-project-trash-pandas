@@ -4,12 +4,10 @@ import java.util.List;
 
 public class StatusEffect {
     private String ID;
-    private String description;
     private List<String> subeffects;
 
-    public StatusEffect(String id, String description, List<String> subeffects){
+    public StatusEffect(String id, List<String> subeffects){
         this.ID = id;
-        this.description = description;
         this.subeffects = subeffects;
     }
 
