@@ -96,13 +96,10 @@ public class Constants {
     // list of all the status effects
 
     // TODO: write descriptions
-    public static final Map<String, StatusEffect> BUFF_LIST = Map.ofEntries(
+    public static final Map<String, StatusEffect> STATUS_LIST = Map.ofEntries(
             Map.entry("adrenaline", new StatusEffect("adrenaline", "TEST DESC", List.of("attack 1"))),
             Map.entry("turtle", new StatusEffect("turtle", "TEST DESC", List.of("attack -1", "defense 2"))),
-            Map.entry("berzerk", new StatusEffect("berzerk", "TEST DESC", List.of("health -1", "attack 5", "defense -2")))
-    );
-
-    public static final Map<String, StatusEffect> DEBUFF_LIST = Map.ofEntries(
+            Map.entry("berzerk", new StatusEffect("berzerk", "TEST DESC", List.of("health -1", "attack 5", "defense -2"))),
             Map.entry("poison", new StatusEffect("poison", "TEST DESC", List.of("health -1"))),
             Map.entry("blindness", new StatusEffect("blindness", "TEST DESC", List.of("attack -2"))),
             Map.entry("binding", new StatusEffect("binding", "TEST DESC", List.of("attack -10", "defense -1")))
@@ -110,10 +107,10 @@ public class Constants {
 
     public static final Map<String, Ability> ABILITY_LIST = Map.ofEntries(
         Map.entry("trash", new Ability("Throw trash",
-                List.of(DEBUFF_LIST.get("poison"), DEBUFF_LIST.get("blindness")), 2, "You threw trash at NAME!")),
+                List.of(STATUS_LIST.get("poison"), STATUS_LIST.get("blindness")), 2, "You threw trash at NAME!")),
         Map.entry("box", new Ability("Hide in a box",
-                List.of(BUFF_LIST.get("turtle")), 3, "You hid NAME in a box!")),
+                List.of(STATUS_LIST.get("turtle")), 3, "You hid NAME in a box!")),
         Map.entry("sand", new Ability("Kick up some sand",
-                List.of(BUFF_LIST.get("blindness"), BUFF_LIST.get("adrenaline")), 5, "You kicked sand into NAME's eyes!"))
+                List.of(STATUS_LIST.get("blindness"), STATUS_LIST.get("adrenaline")), 5, "You kicked sand into NAME's eyes!"))
     );
 }
