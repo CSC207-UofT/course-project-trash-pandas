@@ -10,6 +10,8 @@ import GUI.MainFrame;
 import scene_system.SceneManager;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.*;
 import java.util.Set;
 
@@ -90,7 +92,16 @@ public class Run {
 
         CharacterInventoryFacadeManager cifManager = new CharacterInventoryFacadeManager(characters);
 
-        MainFrame frame = new MainFrame("Street", bernieFacade, sceneManager, cifManager);
+        String startSceneName = "Street";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("save_game.txt"));
+            startSceneName = br.readLine();
+            br.close();}
+        catch(Exception e){}
+
+        MainFrame frame = new MainFrame(startSceneName, bernieFacade, sceneManager, cifManager);
         frame.titleFrame();
+
+
     }
 }
