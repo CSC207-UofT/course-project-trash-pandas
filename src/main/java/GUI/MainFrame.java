@@ -12,6 +12,7 @@ import Music.MusicHandler;
 import characters.CharacterInventoryFacade;
 import characters.CharacterInventoryFacadeManager;
 import characters.NonPlayerCharacter;
+import game.Save;
 import items.Item;
 import scene_system.Scene;
 import scene_system.SceneManager;
@@ -455,7 +456,8 @@ public class MainFrame {
     }
 
     public void save() {
-
+        Save saveData = new Save();
+        saveData.saveFile(currentScene, sceneManager);
     }
 }
 
