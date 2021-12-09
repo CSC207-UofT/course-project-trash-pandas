@@ -10,7 +10,7 @@ public class CombatChoiceHandler implements ActionListener {
     Combat combat;
     public CombatChoiceHandler(MainFrame frame) {
         this.frame = frame;
-        this.combat=frame.currentScene.getCombat(frame.player);
+        this.combat=frame.createCombat();
     }
 
     /**

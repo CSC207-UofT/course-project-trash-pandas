@@ -42,6 +42,9 @@ public abstract class Quest implements Observer {
         return this.rewardItems;
     }
 
+    public void addReward(String item){
+        this.rewardItems.add(item);
+    }
     /**
      * Checks whether the quest_system.Quest has been completed by the player.
      * @return whether the quest_system.Quest has been completed

@@ -1,15 +1,11 @@
 package scene_system;
 
 import characters.CharacterInventoryFacade;
-import characters.GameCharacter;
-import characters.NonPlayerCharacter;
 import constants.Observer;
 import items.Item;
 
-import characters.PlayerCharacter;
 import combat_system.Combat;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +14,10 @@ import java.util.List;
  */
 public class Scene {
 
-    private String name;
-    private ArrayList<CharacterInventoryFacade> npc;
-    private String area_description;
-    private ArrayList<Scene> connectedAreas;
+    private final String name;
+    private ArrayList<String> npc;
+    private final String area_description;
+    private final ArrayList<Scene> connectedAreas;
     private ArrayList<Item> items;
     private Combat combat;
     private List<Observer> observers;
@@ -29,11 +25,11 @@ public class Scene {
     /**
      * Constructor for the scene_system.Scene class.
      * @param name the name of the scene_system.Scene
-     * @param npc the list of NPCs in the scene_system.Scene
+     * @param npc the list of names of NPCs in the scene_system.Scene
      * @param area the text description of the location in the scene_system.Scene
      * @param items the items located in the scene_system.Scene
      */
-    public Scene(String name, ArrayList<CharacterInventoryFacade> npc, String area,
+    public Scene(String name, ArrayList<String> npc, String area,
           ArrayList<Item> items, List<Observer> observers) {
         this.name = name;
         this.npc = npc;
@@ -79,7 +75,7 @@ public class Scene {
      * Gets the list of NPCs in the scene_system.Scene.
      * @return the list of NPCs in the scene_system.Scene
      */
-    public ArrayList<CharacterInventoryFacade> getNpc() {return npc;}
+    public ArrayList<String> getNpc() {return npc;}
 
     /**
      * Removes an item from the scene_system.Scene.
@@ -102,20 +98,22 @@ public class Scene {
      * Removes dead npcs
      * This should update world state as well
      */
+    //TODO Figure out if we need this at all
     public void removeDead() {
-        this.npc.removeIf(npc -> npc.getCharacter().getCharacter().getCurrentHealth() <= 0);
+        while(!npc.isEmpty()){
+            this.npc = new ArrayList<>();
+        }
+
     }
 
     /**
      * This method is called when combat begins
      * After combat is resolved, it checks the npcs that are alive since many probably died.
      * This leaves room for expansion if there are non-lethal options in combat (check_alive can be expanded)
-     * @param player the player character must be combined with the npcs in an ArrayList to start combat
+     * @param participants a list containing the player character and npcs partaking in combat.
      */
-    public Combat getCombat(CharacterInventoryFacade player) {
+    public Combat getCombat(ArrayList<CharacterInventoryFacade> participants) {
         if(combat == null) {
-            ArrayList<CharacterInventoryFacade> participants = new ArrayList<>(getNpc());
-            participants.add(player);
             this.combat = new Combat(participants, this.observers);
         }
         return this.combat;
@@ -131,18 +129,6 @@ public class Scene {
             areaNames.add(sc.getName());
         }
         return areaNames;
-    }
-
-    /**
-     * Gets a list of the names of all npcs in the scene.
-     * @return an array list containing the names of all npcs in the scene.
-     */
-    public ArrayList<String> getNpcNames() {
-        ArrayList<String> npcNames = new ArrayList<>();
-        for(CharacterInventoryFacade nonPlayer : npc) {
-            npcNames.add(nonPlayer.getName());
-        }
-        return npcNames;
     }
 }
 

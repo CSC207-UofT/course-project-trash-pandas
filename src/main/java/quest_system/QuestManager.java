@@ -38,6 +38,11 @@ public class QuestManager implements Observer {
         return quests.get(name);
     }
 
+    public void addReward(String item, String quest){
+        quests.get(quest).addReward(item);
+    }
+
+
     /**
      * Mark a quest_system.Quest as completed and issue rewards.
      * @param player the player Character completing the quest_system.Quest

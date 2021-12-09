@@ -17,27 +17,37 @@ public class Ability {
         this.duration = duration;
         this.combatText = combatText;
     }
-    public String getName() {return this.name;}
 
-    public List<StatusEffect> getEffects() {return this.effects;}
+    /**
+     * Returns the name of the ability.
+     * @return the name of the ability
+     */
+    public String getName() {
+        return this.name;
+    }
 
+    /**
+     * Returns the list of status effects.
+     * @return the list of status effects
+     */
+    public List<StatusEffect> getEffects() {
+        return this.effects;}
+
+    /**
+     * Returns the duration of the ability's effects.
+     * @return the duration of the ability's effects
+     */
     public int getDuration() {return this.duration;}
 
     /**
-     * Assumes that the combat text contains NAME anywhere that the user would like the name of the target to be
-     * @param name name of the target
+     * Returns a string description of the ability with the target.
+     *
+     * @param target a string representing the name of the target
+     * @return the combat text with name as a target
      */
-    public void setCombatTextTarget(String name) {
-        combatText = combatText.replaceAll("NAME", name);
-        reset = name;
-    }
+    public String getCombatText(String user, String target) {
+        String text = combatText.replaceAll("NAME", target);
+        return text.replaceAll("USER",user);
 
-    /**
-     * This resets the combat text after an ability is used so the same name is not stuck with the ability forever
-     */
-    public void resetCombatText() {
-        combatText = combatText.replaceAll(reset, "NAME");
     }
-
-    public String getCombatText() {return this.combatText;}
 }

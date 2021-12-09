@@ -1,11 +1,6 @@
 package characters;
-//
-//import characters.GameCharacter;
-//import org.json.simple.JSONObject;
-//import quest_system.Quest;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import combat_system.*;
 import items.*;
@@ -115,7 +110,4 @@ public class CharacterManager {
         return this.character.getName();
     }
 }
-//    public Object getNpcs() {
-//        return new JSONObject(this.npcs);
-//
-//}
+
