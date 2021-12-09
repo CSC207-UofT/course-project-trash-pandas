@@ -17,14 +17,30 @@ public class Ability {
         this.duration = duration;
         this.combatText = combatText;
     }
-    public String getName() {return this.name;}
 
-    public List<StatusEffect> getEffects() {return this.effects;}
+    /**
+     * Returns the name of the ability.
+     * @return the name of the ability
+     */
+    public String getName() {
+        return this.name;
+    }
 
+    /**
+     * Returns the list of status effects.
+     * @return the list of status effects
+     */
+    public List<StatusEffect> getEffects() {
+        return this.effects;}
+
+    /**
+     * Returns the duration of the ability's effects.
+     * @return the duration of the ability's effects
+     */
     public int getDuration() {return this.duration;}
 
-
-    /** returns a string description of the ability with the target
+    /**
+     * Returns a string description of the ability with the target.
      *
      * @param target a string representing the name of the target
      * @return the combat text with name as a target

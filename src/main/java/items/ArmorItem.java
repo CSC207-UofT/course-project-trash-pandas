@@ -21,4 +21,14 @@ public class ArmorItem extends Item{
     public int getBonusHealth() {
         return bonusHealth;
     }
+
+    @Override
+    public String toString(){
+
+        return super.toString() +
+                " Defense: " +
+                defense +
+                " Bonus HP: " +
+                bonusHealth;
+    }
 }

@@ -20,4 +20,14 @@ public abstract class Item {
         return this.description;
     }
 
+
+
+    @Override
+    public String toString() {
+
+        return name +
+                " " +
+                description;
+
+    }
 }
