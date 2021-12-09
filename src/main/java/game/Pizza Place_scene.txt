@@ -1,4 +1,4 @@
 Pizza Place
-TargetFacade, a, 2, 3
+Target
 This pizza joint is squeaky clean aside from a scrunched up disc of aluminum foil dropped on one of the seats.
-Coin
+coin

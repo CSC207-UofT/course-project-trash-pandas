@@ -29,8 +29,8 @@ public class Save {
                 for (String item : sceneManager.getItems(sceneName)) {
                     bw1.write(item + ',');
                 }
+                bw1.close();
                 }
-            bw1.close();
             }
         catch(Exception e){
         }

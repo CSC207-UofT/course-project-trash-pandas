@@ -73,7 +73,14 @@ public class MainFrame {
     public String getCurrentScene() {
         return currentScene;
     }
-
+    /**
+     * Returns the scene manager.
+     *
+     * @return the scene manager.
+     */
+    public SceneManager getSceneManager(){
+        return sceneManager;
+    }
     /**
      * The title frame is a simple button that transitions to the main game frame
      */

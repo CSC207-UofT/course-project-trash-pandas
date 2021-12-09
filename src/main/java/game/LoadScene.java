@@ -3,6 +3,7 @@ package game;
 import GUI.MainFrame;
 import characters.CharacterInventoryFacade;
 import items.Item;
+import items.ItemList;
 import quest_system.QuestManager;
 import scene_system.Scene;
 import scene_system.SceneManager;
@@ -11,27 +12,28 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class LoadScene {
-    ArrayList<String> scenes = new ArrayList<>();
+    private ItemList itemList;
 
     public void LoadCurrentScene() {
-        scenes.add("street");
-        scenes.add("pizzaPlace");
-
-        String startSceneName = "street";
+        String startSceneName = "Street";
         try {
             BufferedReader br = new BufferedReader(new FileReader("save_game.txt"));
             startSceneName = br.readLine();
             br.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
     public SceneManager LoadScenes(QuestManager questManager) {
+        ArrayList<String> scenes = new ArrayList<>();
         HashMap<String, Scene> sceneMap = new HashMap<String, Scene>();
+        scenes.add("Street");
+        scenes.add("Pizza Place");
         for (String sceneName : scenes) {
             String line = "";
             String splitBy = ",";
@@ -40,24 +42,29 @@ public class LoadScene {
                 String name = "";
                 name = br.readLine();
                 line = br.readLine();
-                String[] parts1 = line.split(splitBy);
+                String[] parts1 = null;
+                if (line != null){
+                    parts1 = line.split(splitBy);}
                 ArrayList<String> NPCS = new ArrayList<>();
-                for(String npc: parts1) {
-                    NPCS.add(npc);}
+                assert parts1 != null;
+                Collections.addAll(NPCS, parts1);
                 String description = br.readLine();
                 line = br.readLine();
-                String[] parts2 = line.split(splitBy);
+                String[] parts2 = null;
+                if (line != null){
+                    parts2 = line.split(splitBy);}
                 ArrayList<Item> items = new ArrayList<>();
+                assert parts2 != null;
                 for(String item: parts2) {
-                    NPCS.add(item);}
+                    Item item1 = itemList.getItem(item);
+                    items.add(item1);}
                 Scene scene = new Scene(name, NPCS, description, items, List.of(questManager));
                 sceneMap.put(sceneName, scene);
                 } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        SceneManager sceneManager = new SceneManager(sceneMap);
-        return sceneManager;
+        return new SceneManager(sceneMap);
     }
 }
 
