@@ -22,6 +22,10 @@ public class CharacterManager {
         this.character = character;
     }
 
+    public NonPlayerCharacter getNpcs(String npcName){
+        return npcs.get(npcName);
+    }
+
     /**
      * Heal the character for the amount specified in the healing item multiplied by the amount of potions consumed,
      * or to the character's maxHP, depending on which one is lower.

@@ -55,7 +55,7 @@ public class CharacterInventoryFacade implements ItemCheckable {
         inventory.removeItem(itemName,quantity);
     }
 
-     * Returns the character for this facade.
+     /** Returns the character for this facade.
      *
      * @return the character for this facade
      */

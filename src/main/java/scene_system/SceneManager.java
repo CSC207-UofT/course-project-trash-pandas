@@ -3,6 +3,7 @@ package scene_system;
 import characters.CharacterInventoryFacade;
 import combat_system.Combat;
 import items.Item;
+import scene_system.Scene;
 
 import java.util.ArrayList;
 import java.util.HashMap;

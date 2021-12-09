@@ -13,6 +13,7 @@ import characters.CharacterInventoryFacade;
 import characters.CharacterInventoryFacadeManager;
 import characters.NonPlayerCharacter;
 import combat_system.Combat;
+import game.Save;
 import items.Item;
 import scene_system.Scene;
 import scene_system.SceneManager;
@@ -73,7 +74,6 @@ public class MainFrame {
     public String getCurrentScene() {
         return currentScene;
     }
-
     /**
      * Returns the scene manager.
      *
@@ -82,7 +82,6 @@ public class MainFrame {
     public SceneManager getSceneManager(){
         return sceneManager;
     }
-
     /**
      * The title frame is a simple button that transitions to the main game frame.
      */
@@ -491,12 +490,8 @@ public class MainFrame {
     }
 
     public void save() {
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("save_game.txt"));
-            bw.write(currentScene);
-            bw.close();
-        } catch (Exception e) {
-        }
+        Save saveData = new Save();
+        saveData.saveFile(currentScene, sceneManager);
     }
 
     public void displayInventory() {

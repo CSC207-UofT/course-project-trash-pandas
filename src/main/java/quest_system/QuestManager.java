@@ -92,8 +92,4 @@ public class QuestManager implements Observer {
         }
     }
 
-//    public Object getQuests() {
-//        return new JSONObject(this.quests);
-//    }
-
 }
