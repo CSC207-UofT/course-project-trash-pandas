@@ -35,12 +35,17 @@ public class InventoryManager {
     }
 
     /**
-     * Use the given item, removing it from the inventory.
+     * Remove the specified amount of an item from the inventory. IF the
      * @param itemName the item to be used
      */
-    public void removeItem(String itemName){
+    public void removeItem(String itemName, int quantity){
         Item item = itemList.getItem(itemName);
-        inventory.removeItem(item);
+        int currentQuantity = inventory.getQuantity(item);
+        if (currentQuantity <= quantity){
+            inventory.removeItem(item);
+        } else {
+            inventory.changeQuantity(item, currentQuantity - quantity);
+        }
 
     }
 

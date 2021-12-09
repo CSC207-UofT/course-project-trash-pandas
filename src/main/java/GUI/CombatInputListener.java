@@ -82,7 +82,7 @@ public class CombatInputListener implements ActionListener {
         else if (combat.inventory) {
             if(combat.findPlayer().getInventory().contains(input)) {
                 frame.displayCombatText("You use " + input);
-                combat.findPlayer().consumeItem(input);
+                combat.findPlayer().consumeItem(input,1);
                 valid = true;
                 combat.inventory = false;
             }
