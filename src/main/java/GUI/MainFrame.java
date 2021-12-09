@@ -444,5 +444,9 @@ public class MainFrame {
     public void displayCombatInput(String text) {
         combatField.setText(text);
     }
+
+    public void save() {
+
+    }
 }
 
