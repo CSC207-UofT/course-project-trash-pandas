@@ -23,21 +23,15 @@ public class Ability {
 
     public int getDuration() {return this.duration;}
 
-    /**
-     * Assumes that the combat text contains NAME anywhere that the user would like the name of the target to be
-     * @param name name of the target
-     */
-    public void setCombatTextTarget(String name) {
-        combatText = combatText.replaceAll("NAME", name);
-        reset = name;
-    }
 
-    /**
-     * This resets the combat text after an ability is used so the same name is not stuck with the ability forever
+    /** returns a string description of the ability with the target
+     *
+     * @param target a string representing the name of the target
+     * @return the combat text with name as a target
      */
-    public void resetCombatText() {
-        combatText = combatText.replaceAll(reset, "NAME");
-    }
+    public String getCombatText(String user, String target) {
+        String text = combatText.replaceAll("NAME", target);
+        return text.replaceAll("USER",user);
 
-    public String getCombatText() {return this.combatText;}
+    }
 }

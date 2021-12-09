@@ -10,9 +10,11 @@ import javax.swing.*;
 
 import Music.MusicHandler;
 import characters.CharacterInventoryFacade;
+import characters.CharacterInventoryFacadeManager;
 import characters.NonPlayerCharacter;
 import items.Item;
 import scene_system.Scene;
+import scene_system.SceneManager;
 
 public class MainFrame {
     JFrame window;
@@ -39,17 +41,22 @@ public class MainFrame {
     InputActionListener textActionListener = new InputActionListener(this);
     CombatInputListener combatInputListener;
     guiLogic logicHandler = new guiLogic();
-    Scene currentScene;
+    SceneManager sceneManager;
+    String currentScene;
     CharacterInventoryFacade player;
+    CharacterInventoryFacadeManager cifManager;
 
     /**
      * Initializes all of the variables needed to create a new window
      * @param firstScene the starting scene that the game will be in
      * @param player the player character
      */
-    public MainFrame(Scene firstScene, CharacterInventoryFacade player) {
+    public MainFrame(String firstScene, CharacterInventoryFacade player, SceneManager scManager,
+                     CharacterInventoryFacadeManager cifManager) {
         this.currentScene = firstScene;
         this.player = player;
+        this.cifManager = cifManager;
+        this.sceneManager = scManager;
         this.combatHandler = new CombatChoiceHandler(this);
         this.combatInputListener = new CombatInputListener(this);
         this.heightScale = size.getHeight()/1080;
@@ -58,9 +65,10 @@ public class MainFrame {
 
     /**
      * Simple getter method for getting the current scene displayed
-     * @return the current displayed scene
+     *
+     * @return the name of the current displayed scene
      */
-    public Scene getCurrentScene() {
+    public String getCurrentScene() {
         return currentScene;
     }
 
@@ -374,16 +382,16 @@ public class MainFrame {
 
     /**
      * Displays the scene on the gui
-     * @param sc the scene to be displayed
+     * @param sc the name of the scene to be displayed
      */
-    public void displayScene(Scene sc) {
+    public void displayScene(String sc) {
         search = false;
         talk = false;
         travel = false;
         entryField.setText("");
-        areaLabel.setText("Area: " + sc.getName());
+        areaLabel.setText("Area: " + sc);
         this.currentScene = sc;
-        mainTextArea.setText(sc.getDescription());
+        mainTextArea.setText(sceneManager.displayScene(sc));
         SwingUtilities.updateComponentTreeUI(window);
     }
 
@@ -391,7 +399,7 @@ public class MainFrame {
      * Displays all the options for travel
      * @param travelOptions an arraylist of scenes
      */
-    public void displayTravelOptions(ArrayList<Scene> travelOptions) {
+    public void displayTravelOptions(ArrayList<String> travelOptions) {
         travel = true;
         search = false;
         talk = false;
@@ -402,9 +410,10 @@ public class MainFrame {
 
     /**
      * Displays the choices of characters to talk to
-     * @param characters a list of all the characters in the current scene so that user can target the character
+     * @param characters a list of all the names of characters in the current scene so that
+     *                   the user can target the character
      */
-    public void displayNpcs(ArrayList<CharacterInventoryFacade> characters) {
+    public void displayNpcs(ArrayList<String> characters) {
         talk = true;
         search = false;
         travel = false;
@@ -416,9 +425,9 @@ public class MainFrame {
     /**
      * Displays the items in the list in a way that is understandable
      * Also displays entry field text
-     * @param items a list of all the items the player has
+     * @param items a list of all the names of items the player has
      */
-    public void displayItems(ArrayList<Item> items) {
+    public void displayItems(ArrayList<String> items) {
         search = true;
         talk = false;
         travel = false;

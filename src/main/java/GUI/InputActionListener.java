@@ -1,11 +1,5 @@
 package GUI;
 
-import characters.CharacterInventoryFacade;
-import characters.NonPlayerCharacter;
-import items.Item;
-import scene_system.DisplayDialogue;
-import scene_system.Scene;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,7 +10,7 @@ class InputActionListener implements ActionListener {
     }
 
     /**
-     *
+     * Handles what to do when an action is performed.
      * @param event when enter is pressed
      */
     @Override
@@ -29,38 +23,37 @@ class InputActionListener implements ActionListener {
             frame.displayScene(frame.currentScene);
         }
         else if(frame.search) {
-            Item i = null;
-            for (Item item : frame.currentScene.getItems()) {
-                if (input.equalsIgnoreCase(item.getName())) {
+            String i = null;
+            for (String item : frame.sceneManager.getItems(frame.currentScene)) {
+                if (input.equalsIgnoreCase(item)) {
                     valid = true;
-                    frame.entryField.setText("You pick up " + item.getName());
-                    frame.mainTextArea.setText("You pick up " + item.getName());
-                    frame.player.addItem(item.getName(), 1);
+                    frame.entryField.setText("You pick up " + item);
+                    frame.mainTextArea.setText("You pick up " + item);
+                    frame.player.addItem(item, 1);
                     i = item;
                     frame.search = false;
                 }
             }
             if(i != null) {
-                frame.currentScene.removeItem(i);
+                frame.sceneManager.removeItem(frame.currentScene, i);
             }
         }
         else if(frame.travel) {
-            for(Scene sc: frame.currentScene.getConnectedAreas()) {
-                if(input.equalsIgnoreCase(sc.getName())) {
+            for(String sc: frame.sceneManager.getTravelOptions(frame.currentScene)) {
+                if(input.equalsIgnoreCase(sc)) {
                     valid = true;
-                    frame.entryField.setText("You traveled to " + sc.getName());
+                    frame.entryField.setText("You traveled to " + sc);
                     frame.displayScene(sc);
                     frame.travel = false;
                 }
             }
         }
         else if(frame.talk) {
-            for(CharacterInventoryFacade npc: frame.currentScene.getNpc()) {
-                if(input.equalsIgnoreCase(npc.getCharacter().getCharacter().getName())) {
+            for(String npc: frame.sceneManager.getNPC(frame.currentScene)) {
+                if(input.equalsIgnoreCase(npc)) {
                     valid = true;
-                    DisplayDialogue disp = new DisplayDialogue();
-                    frame.mainTextArea.setText(disp.dialogue((NonPlayerCharacter) npc.getCharacter().getCharacter(), frame.player));
-                    frame.entryField.setText("You talked to " + npc.getCharacter().getCharacter().getName());
+                    frame.mainTextArea.setText(frame.cifManager.getDialogue(npc));
+                    frame.entryField.setText("You talked to " + npc);
                     frame.talk = false;
                 }
             }
