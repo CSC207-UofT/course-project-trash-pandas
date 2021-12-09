@@ -12,6 +12,7 @@ import Music.MusicHandler;
 import characters.CharacterInventoryFacade;
 import characters.CharacterInventoryFacadeManager;
 import characters.NonPlayerCharacter;
+import combat_system.Combat;
 import items.Item;
 import scene_system.Scene;
 import scene_system.SceneManager;
@@ -70,6 +71,15 @@ public class MainFrame {
      */
     public String getCurrentScene() {
         return currentScene;
+    }
+
+    /**
+     * Returns the scene manager.
+     *
+     * @return the scene manager.
+     */
+    public SceneManager getSceneManager(){
+        return sceneManager;
     }
 
     /**
@@ -249,8 +259,8 @@ public class MainFrame {
         combatField.addActionListener(combatInputListener);
         textInputPanel.add(combatField);
         mainTextArea.setText("");
-        for(CharacterInventoryFacade npc: currentScene.getNpc()) {
-            String combatText = ((NonPlayerCharacter) npc.getCharacter().getCharacter()).getCombatDialogue();
+        for(String npc: sceneManager.getNPC(currentScene)) {
+            String combatText = cifManager.getDialogue(npc);
             if(!Objects.equals(combatText, "")){
                 displayCombatText(combatText);
             }
@@ -316,7 +326,17 @@ public class MainFrame {
         nextTurn.setActionCommand("c5");
 
         SwingUtilities.updateComponentTreeUI(window);
-        currentScene.getCombat(player).startCombat(this);
+        this.createCombat().startCombat(this);
+    }
+
+    /**
+     * Helper method, creates or returns the instance of combat in the current scene.
+     * @return the combat class in the current scene.
+     */
+    public Combat createCombat(){
+        ArrayList<CharacterInventoryFacade> combatants = cifManager.getCombatParticipants
+                (this.sceneManager.getNPC(this.currentScene));
+        return this.sceneManager.getCombat(this.currentScene, combatants);
     }
 
     /**
@@ -456,7 +476,7 @@ public class MainFrame {
     public void save() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("save_game.txt"));
-            bw.write(currentScene.getName());
+            bw.write(currentScene);
             bw.close();
         } catch (Exception e) {
         }

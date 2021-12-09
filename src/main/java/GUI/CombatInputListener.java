@@ -16,7 +16,7 @@ public class CombatInputListener implements ActionListener {
 
     public CombatInputListener(MainFrame frame) {
         this.frame = frame;
-        this.combat = frame.currentScene.getCombat(frame.player);
+        this.combat = frame.createCombat();
     }
 
     /**

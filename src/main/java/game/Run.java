@@ -90,7 +90,7 @@ public class Run {
 
         CharacterInventoryFacadeManager cifManager = new CharacterInventoryFacadeManager(characters);
 
-        MainFrame frame = new MainFrame("street", bernieFacade, sceneManager, cifManager);
+        MainFrame frame = new MainFrame("Street", bernieFacade, sceneManager, cifManager);
         frame.titleFrame();
     }
 }
