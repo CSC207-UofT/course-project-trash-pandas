@@ -336,6 +336,7 @@ public class MainFrame {
     public Combat createCombat(){
         ArrayList<CharacterInventoryFacade> combatants = cifManager.getCombatParticipants
                 (this.sceneManager.getNPC(this.currentScene));
+        combatants.add(player);
         return this.sceneManager.getCombat(this.currentScene, combatants);
     }
 
