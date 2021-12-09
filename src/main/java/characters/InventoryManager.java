@@ -15,8 +15,9 @@ public class InventoryManager {
 
     /**
      * Add the specified amount of item to the inventory provided it is neither of the default items.
-     * If the inventory already contains this item, increase the quantity of the item by the specified amount.
-     * Otherwise, add the item to the inventory normally. Return adding the item is successful.
+     * If the inventory already contains this item, increases the quantity of the item by the specified amount.
+     * Otherwise, adds the item to the inventory normally. Returns if adding the item is successful.
+     *
      * @param itemName the name of the item to be added
      * @param quantity the amount of the item to be added
      */
@@ -35,7 +36,8 @@ public class InventoryManager {
     }
 
     /**
-     * Use the given item, removing it from the inventory.
+     * Uses the given item, removing it from the inventory.
+     *
      * @param itemName the item to be used
      */
     public void removeItem(String itemName){
@@ -45,7 +47,8 @@ public class InventoryManager {
     }
 
     /**
-     * Return if the item is in the inventory
+     * Returns if the item is in the inventory.
+     *
      * @param itemName the item we are checking for
      * @return if the item is in the inventory
      */
@@ -54,7 +57,17 @@ public class InventoryManager {
         return inventory.contains(item);
     }
 
+    /**
+     * Returns the text representation of the inventory.
+     * If the inventory is empty, returns a string describing this.
+     *
+     * @return the text representation of the inventory
+     */
     public String getInventory(){
-        return inventory.toString();
+        String result = inventory.toString();
+        if (result.length() == 0) {
+            return "Your inventory is empty.";
+        }
+        return result;
     }
 }

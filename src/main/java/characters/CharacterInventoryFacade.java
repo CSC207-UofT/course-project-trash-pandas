@@ -52,6 +52,11 @@ public class CharacterInventoryFacade implements ItemCheckable {
         return character;
     }
 
+    /**
+     * Returns the text representation of the inventory for this facade's character.
+     *
+     * @return the inventory for this facade's character
+     */
     public String getInventory() {
         return this.inventory.getInventory();
     }
@@ -98,7 +103,7 @@ public class CharacterInventoryFacade implements ItemCheckable {
      */
     public void addItem(String itemName, int quantity){
         inventory.addItem(itemName, quantity);
-        for(Observer observer: this.observers){
+        for (Observer observer: this.observers){
             observer.update(this.itemList.getItem(itemName));
         }
     }
