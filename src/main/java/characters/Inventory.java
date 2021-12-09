@@ -75,6 +75,9 @@ public class Inventory {
             toReturn.append("Item Name: ");
             toReturn.append(i.getName());
             toReturn.append("\t");
+            toReturn.append("Description: ");
+            toReturn.append(i.getDescription());
+            toReturn.append("\t");
             toReturn.append("Quantity: ");
             toReturn.append(this.inventory.get(i));
             toReturn.append("\n");

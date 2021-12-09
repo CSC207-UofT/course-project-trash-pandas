@@ -4,15 +4,13 @@ import items.Item;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import items.WeaponItem;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Set;
 
 
 public class InventoryTest {
@@ -24,9 +22,9 @@ public class InventoryTest {
     private HashMap<Item, Integer> inventoryParam = new HashMap<>();
 
     @Before
-    public void before() {
-        this.knife = (WeaponItem) Constants.ITEM_LIST.get("sharp knife");
-        this.claws =  (WeaponItem) Constants.ITEM_LIST.get("dirty claws");
+    public void before() throws Exception{
+        this.knife = (WeaponItem) Constants.ITEM_LIST.get("sharp knife") ;
+        this.claws = (WeaponItem) Constants.ITEM_LIST.get("dirty claws");
         testMap.put(knife, 2);
         testMap.put(claws, 1);
         inventoryParam.put(knife, 2);
@@ -35,7 +33,7 @@ public class InventoryTest {
     }
 
     @After
-    public void after() {
+    public void after() throws Exception {
         inventory = null;
         knife = null;
         claws = null;

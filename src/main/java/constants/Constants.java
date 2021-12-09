@@ -2,13 +2,8 @@ package constants;
 
 import characters.Ability;
 import combat_system.StatusEffect;
-import items.Item;
-import items.ArmorItem;
-import items.QuestItem;
-import items.WeaponItem;
-import combat_system.StatusEffect;
+import items.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -85,27 +80,40 @@ public class Constants {
             Map.entry("ancient dweller armor II", new ArmorItem("Ancient Dweller Armor II",
                     "armor worn by the raccoon ancestors 200 years ago. The perfect armor.",
                     32,
-                    25))
+                    25)),
+
+            Map.entry("potion", new HealingItem("Potion",
+                    "A consumable object that can be used to restore 5HP",
+                    5)),
+            Map.entry("super potion", new HealingItem("Super Potion",
+                    "A consumable object that can be used to restore 10HP",
+                    10)),
+            Map.entry("hyper potion", new HealingItem("Hyper Potion",
+                    "A consumable object that can be used to restore 15HP",
+                    15))
     );
 
     // list of all the status effects
 
     // TODO: write descriptions
-    public static final Map<String, StatusEffect> STATUS_LIST = Map.ofEntries(
-            Map.entry("poison", new StatusEffect("poison", "TEST DESC", List.of("health -1"))),
-            Map.entry("blindness", new StatusEffect("blindness", "TEST DESC", List.of("attack -2"))),
+    public static final Map<String, StatusEffect> BUFF_LIST = Map.ofEntries(
             Map.entry("adrenaline", new StatusEffect("adrenaline", "TEST DESC", List.of("attack 1"))),
             Map.entry("turtle", new StatusEffect("turtle", "TEST DESC", List.of("attack -1", "defense 2"))),
-            Map.entry("binding", new StatusEffect("binding", "TEST DESC", List.of("attack -10", "defense -1"))),
             Map.entry("berzerk", new StatusEffect("berzerk", "TEST DESC", List.of("health -1", "attack 5", "defense -2")))
+    );
+
+    public static final Map<String, StatusEffect> DEBUFF_LIST = Map.ofEntries(
+            Map.entry("poison", new StatusEffect("poison", "TEST DESC", List.of("health -1"))),
+            Map.entry("blindness", new StatusEffect("blindness", "TEST DESC", List.of("attack -2"))),
+            Map.entry("binding", new StatusEffect("binding", "TEST DESC", List.of("attack -10", "defense -1")))
     );
 
     public static final Map<String, Ability> ABILITY_LIST = Map.ofEntries(
         Map.entry("trash", new Ability("Throw trash",
-                List.of(STATUS_LIST.get("poison"), STATUS_LIST.get("blindness")), 2, "You threw trash at NAME!")),
+                List.of(DEBUFF_LIST.get("poison"), DEBUFF_LIST.get("blindness")), 2, "You threw trash at NAME!")),
         Map.entry("box", new Ability("Hide in a box",
-                List.of(STATUS_LIST.get("turtle")), 3, "You hid NAME in a box!")),
+                List.of(BUFF_LIST.get("turtle")), 3, "You hid NAME in a box!")),
         Map.entry("sand", new Ability("Kick up some sand",
-                List.of(STATUS_LIST.get("blindness"), STATUS_LIST.get("adrenaline")), 5, "You kicked sand into NAME's eyes!"))
+                List.of(BUFF_LIST.get("blindness"), BUFF_LIST.get("adrenaline")), 5, "You kicked sand into NAME's eyes!"))
     );
 }
