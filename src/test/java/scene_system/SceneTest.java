@@ -24,8 +24,8 @@ public class SceneTest {
         Inventory inventory = new Inventory();
         CharacterInventoryFacade tim = new CharacterInventoryFacade(inventory, npc, List.of());
         this.npc = tim;
-        ArrayList<CharacterInventoryFacade> npcs = new ArrayList<>();
-        npcs.add(tim);
+        ArrayList<String> npcs = new ArrayList<>();
+        npcs.add("tim");
         ArrayList<Item> items = new ArrayList<>();
         items.add(Constants.ITEM_LIST.get("dirty claw"));
         scene = new Scene("place", npcs, "test area", items, List.of());
@@ -61,8 +61,8 @@ public class SceneTest {
 
     @Test
     public void testGetNpc() {
-        ArrayList<CharacterInventoryFacade> npcs = new ArrayList<>();
-        npcs.add(this.npc);
+        ArrayList<String> npcs = new ArrayList<>();
+        npcs.add(this.npc.getName());
         Assert.assertEquals(npcs, scene.getNpc());
     }
 
@@ -75,7 +75,7 @@ public class SceneTest {
 
     @Test
     public void testAddScene() {
-        Scene place = new Scene("top", new ArrayList<CharacterInventoryFacade>(), "top",
+        Scene place = new Scene("top", new ArrayList<String>(), "top",
                 new ArrayList<Item>(), List.of());
         scene.addScene(place);
         ArrayList<Scene> scenes = new ArrayList<>();
