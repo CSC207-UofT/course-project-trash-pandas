@@ -32,11 +32,12 @@ public class CharacterInventoryFacade implements ItemCheckable {
      *
      * @param itemName the item being consumed
      */
-    public void consumeItem(String itemName){
-        inventory.removeItem(itemName);
+    public void consumeItem(String itemName, int quantity){
         Item item = itemList.getItem(itemName);
         if (item instanceof HealingItem){
-            character.consumeHeal(itemName);
+            character.consumeHeal(itemName, quantity);
+            inventory.removeItem(itemName, quantity);
+
         }
         else if (item instanceof StatusItem) {
             character.consumeStatus(itemName);
@@ -44,6 +45,16 @@ public class CharacterInventoryFacade implements ItemCheckable {
     }
 
     /**
+     * Remove the specified amount of healing items from the inventory and apply the healing that many times
+     * @param itemName the name of the item
+     * @param quantity the amount of potions to consume
+     */
+    public void consumeHeal(String itemName, int quantity){
+        Item item = itemList.getItem(itemName);
+        character.consumeHeal(itemName, quantity);
+        inventory.removeItem(itemName,quantity);
+    }
+
      * Returns the character for this facade.
      *
      * @return the character for this facade
@@ -87,7 +98,7 @@ public class CharacterInventoryFacade implements ItemCheckable {
      */
     public void equipItem(String itemName){
         Item item = itemList.getItem(itemName);
-        inventory.removeItem(itemName);
+        inventory.removeItem(itemName, 1);
         if (item instanceof ArmorItem){
             character.equipArmor(itemName);
         } else if (item instanceof WeaponItem){

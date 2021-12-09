@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import combat_system.StatusEffect;
 import items.ArmorItem;
+import items.Item;
 import items.WeaponItem;
 
 import constants.Constants;
@@ -185,5 +186,18 @@ public abstract class GameCharacter {
         return Math.max(this.weapon.getDamage() + this.attackModifier, 0);
     }
 
-    //TODO: make a tostring for gamecharacter
+    @Override
+    public String toString(){
+
+        return "Name: " +
+                name +
+                "\tHP: " +
+                currentHealth +
+                "/" +
+                maxHealth +
+                "\tWeapon: " +
+                weapon.toString() +
+                "\tArmor: " +
+                armor.toString();
+    }
 }

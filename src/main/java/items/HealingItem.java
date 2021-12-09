@@ -21,5 +21,4 @@ public class HealingItem extends Item {
         return healingAmount;
     }
 
-
 }

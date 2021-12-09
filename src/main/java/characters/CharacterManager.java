@@ -23,23 +23,19 @@ public class CharacterManager {
     }
 
     /**
-     * Heal the character for the amount specified in the healing item, or to the character's maxHP, depending on which
-     * one is lower.
+     * Heal the character for the amount specified in the healing item multiplied by the amount of potions consumed,
+     * or to the character's maxHP, depending on which one is lower.
      *
      * @param itemName the name of the healing item
+     * @param quantity the amount of healing items consumed
      */
-    public void consumeHeal(String itemName) {
+    public void consumeHeal(String itemName, int quantity) {
         HealingItem item = (HealingItem) itemList.getItem(itemName);
         character.setCurrentHealth(
-                Math.min(character.getCurrentHealth() + item.getHealingAmount(),
+                Math.min(character.getCurrentHealth() + item.getHealingAmount() * quantity,
                         character.getMaxHealth()));
     }
 
-    /**
-     * Remove the statusEffect specified by the item from the character instance.
-     *
-     * @param itemName the name of the StatusItem
-     */
     public void consumeStatus(String itemName) {
         StatusItem item = (StatusItem) itemList.getItem(itemName);
         StatusEffect statusEffect = statusList.getStatus(item.getStatusType());
