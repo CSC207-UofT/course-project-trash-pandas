@@ -61,8 +61,9 @@ public class FetchQuestTest{
 
     @Test
     public void testCheckDoneAndUpdate(){
+        quest.toggleAccepted();
         quest.update(Constants.ITEM_LIST.get("coin"));
         quest.checkDone();
-        Assert.assertEquals(0,quest.getCompletion());
+        Assert.assertEquals(2,quest.getCompletion());
     }
 }

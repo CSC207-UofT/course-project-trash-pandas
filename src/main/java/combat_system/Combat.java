@@ -269,6 +269,7 @@ public class Combat {
         if (findAliveNpcs().size() == 0) {
             frame.getSceneManager().removeDead(frame.getCurrentScene());
             clearStatus();
+            this.participants = new ArrayList<>();
             frame.exitCombatFrame();
         }
         else if (!playerAlive) {
