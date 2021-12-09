@@ -27,7 +27,9 @@ public class CharacterInventoryFacade implements ItemCheckable {
     }
 
     /**
-     * Remove the specified item from the inventory and call the corresponding method in CharacterManager.
+     * Consumes the specified item from the inventory.
+     * Applies its effects to the consuming character.
+     *
      * @param itemName the item being consumed
      */
     public void consumeItem(String itemName){
@@ -36,11 +38,16 @@ public class CharacterInventoryFacade implements ItemCheckable {
         if (item instanceof HealingItem){
             character.consumeHeal(itemName);
         }
-        else if(item instanceof StatusItem) {
+        else if (item instanceof StatusItem) {
             character.consumeStatus(itemName);
         }
     }
 
+    /**
+     * Returns the character for this facade.
+     *
+     * @return the character for this facade
+     */
     public CharacterManager getCharacter() {
         return character;
     }
@@ -50,13 +57,14 @@ public class CharacterInventoryFacade implements ItemCheckable {
     }
 
     /**
-     * Add an WeaponItem or ArmorItem back to the inventory and modify character accordingly.
+     * Adds an WeaponItem or ArmorItem back to the inventory and modify character accordingly.
+     *
      * @param itemName the item being unequipped
      */
     public void unequipItem(String itemName){
         Item item = itemList.getItem(itemName);
 
-        if(item != Constants.DEFAULT_ARMOR && item != Constants.DEFAULT_WEAPON) {
+        if (item != Constants.DEFAULT_ARMOR && item != Constants.DEFAULT_WEAPON) {
             inventory.addItem(itemName, 1);
             if (item instanceof ArmorItem) {
                 character.unequipArmor();
@@ -67,7 +75,9 @@ public class CharacterInventoryFacade implements ItemCheckable {
     }
 
     /**
-     * Remove the specified item from the inventory and call an equip method.
+     * Equips the specified item from the inventory.
+     * Also removes the item from the inventory.
+     *
      * @param itemName the name of the item
      */
     public void equipItem(String itemName){
@@ -75,11 +85,17 @@ public class CharacterInventoryFacade implements ItemCheckable {
         inventory.removeItem(itemName);
         if (item instanceof ArmorItem){
             character.equipArmor(itemName);
-        } else if(item instanceof WeaponItem){
+        } else if (item instanceof WeaponItem){
             character.equipWeapon(itemName);
         }
     }
 
+    /**
+     * Adds the item to the inventory in the given quantity.
+     *
+     * @param itemName the name of the item
+     * @param quantity the quantity of the item
+     */
     public void addItem(String itemName, int quantity){
         inventory.addItem(itemName, quantity);
         for(Observer observer: this.observers){
@@ -87,14 +103,19 @@ public class CharacterInventoryFacade implements ItemCheckable {
         }
     }
 
+    /**
+     * Checks if the item is in the inventory.
+     * @param itemName the name of the item
+     * @return whether the item is in the inventory
+     */
     @Override
     public boolean checkItem(String itemName){
         return inventory.checkItem(itemName);
     }
 
     /**
-     * Gets the string of the character's name.
-     * @return a string of the character's name.
+     * Returns the name of the character.
+     * @return the name of the character
      */
     public String getName(){
         return this.character.getName();
